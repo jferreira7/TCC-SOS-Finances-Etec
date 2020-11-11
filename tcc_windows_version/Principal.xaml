@@ -1,0 +1,539 @@
+﻿<Window x:Name="windowPrincipal" x:Class="tcc_windows_version.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:tcc_windows_version"
+        mc:Ignorable="d"
+        Title="Save Your Money" Height="636" Width="1191" WindowStyle="None" BorderThickness="0" Margin="0" BorderBrush="#FF3F3F46" Padding="0" SnapsToDevicePixels="True" AllowsTransparency="True" Background="#FF3F3F46" WindowStartupLocation="CenterScreen">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome CaptionHeight="35"/>
+    </WindowChrome.WindowChrome>
+    <Grid Background="#FFF1EFF1" Margin="5,36,5,5">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="831*"/>
+            <ColumnDefinition Width="350*"/>
+            <ColumnDefinition Width="0*"/>
+            <ColumnDefinition Width="0*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="gdReceitas" HorizontalAlignment="Left" Height="353" VerticalAlignment="Top" Width="332" Background="#FFF1EFF1" Margin="172,47,0,0">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="239*"/>
+                <ColumnDefinition Width="93*"/>
+            </Grid.ColumnDefinitions>
+            <Label Content="Descrição:" HorizontalAlignment="Left" Margin="19,48,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold"/>
+            <TextBox x:Name="txtDescricaoReceita" HorizontalAlignment="Left" Height="23" Margin="91,51,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="222" Background="{x:Null}" Grid.ColumnSpan="2"/>
+            <Label Content="Valor:" HorizontalAlignment="Left" Margin="193,97,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold"/>
+            <TextBox x:Name="txtValorReceita" HorizontalAlignment="Left" Height="23" Margin="0,97,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="74" Background="{x:Null}" Grid.Column="1"/>
+            <Button x:Name="btnAdicionarReceita" Content="Adicionar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="100,168,0,0" VerticalAlignment="Top" Width="133" Height="58" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnAdicionarReceitas_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}" >
+                        <ContentControl x:Name="btnPersonalizado">
+                            <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+                        </ContentControl>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="Borda" Value="#FF1684CD"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button x:Name="btnDeletarReceita" Content="Deletar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="2,168,0,0" VerticalAlignment="Top" Width="81" Height="58" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnDeletarReceita_Click" Grid.Column="1">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}" >
+                        <ContentControl x:Name="btnPersonalizado">
+                            <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+                        </ContentControl>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="Borda" Value="#FF1684CD"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Label Content="Categoria:" HorizontalAlignment="Left" Margin="19,97,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold"/>
+            <ComboBox x:Name="cbCategoriaReceita" HorizontalAlignment="Left" Margin="91,98,0,0" VerticalAlignment="Top" Width="96" RenderTransformOrigin="0.021,1.455">
+                <ListBoxItem Content="Salário"/>
+            </ComboBox>
+            <Button x:Name="btnAlterarReceita" Content="Alterar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="10,168,0,0" VerticalAlignment="Top" Width="81" Height="58" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnAlterarReceita_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}" >
+                        <ContentControl x:Name="btnPersonalizado">
+                            <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+                        </ContentControl>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="Borda" Value="#FF1684CD"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button x:Name="btnLimparReceita" Content="Limpar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="11,243,0,0" VerticalAlignment="Top" Width="309" Height="39" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnLimparReceita_Click" Grid.ColumnSpan="2">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}" >
+                        <ContentControl x:Name="btnPersonalizado">
+                            <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+                        </ContentControl>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="Borda" Value="#FF1684CD"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+        </Grid>
+
+        <Grid x:Name="gdDespesas" HorizontalAlignment="Left" Height="348" Margin="173,48,0,0" VerticalAlignment="Top" Width="332" Background="#FFF1EFF1">
+            <Label Content="Status" HorizontalAlignment="Left" Margin="8,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold"/>
+            <Label Content="Nome:" HorizontalAlignment="Left" Margin="100,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Width="44"/>
+            <TextBox x:Name="txtNome" HorizontalAlignment="Left" Height="23" Margin="105,34,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="217" Background="{x:Null}"/>
+            <Label Content="Empresa&#xA;" HorizontalAlignment="Left" Margin="8,73,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Height="26"/>
+            <TextBox x:Name="txtEmpresa" HorizontalAlignment="Left" Height="23" Margin="13,97,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="201" Background="{x:Null}"/>
+            <Label Content="Valor" HorizontalAlignment="Left" Margin="226,73,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold"/>
+            <TextBox x:Name="txtValorDespesas" HorizontalAlignment="Left" Height="23" Margin="229,97,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="93" Background="{x:Null}"/>
+            <Label Content="Categoria:" HorizontalAlignment="Left" Margin="8,137,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Height="29"/>
+            <DatePicker x:Name="dpDespesa" HorizontalAlignment="Left" Margin="183,161,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.529,1.958"/>
+            <Label Content="Data vencimento:" HorizontalAlignment="Left" Margin="178,137,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Height="24"/>
+            <Button x:Name="btnAlterarDespesas" Content="Alterar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="11,204,0,0" VerticalAlignment="Top" Width="81" Height="58" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnAlterarDespesas_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}" >
+                        <ContentControl x:Name="btnPersonalizado">
+                            <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+                        </ContentControl>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="Borda" Value="#FF1684CD"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button x:Name="btnDeletarDespesas" Content="Deletar" HorizontalAlignment="Left" Margin="239,204,0,0" VerticalAlignment="Top" Width="81" Height="58" BorderBrush="{x:Null}" Background="#FF1275B6" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnDeletarDespesas_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}" >
+                        <ContentControl x:Name="btnPersonalizado">
+                            <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+                        </ContentControl>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="Borda" Value="#FF1684CD"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button x:Name="btnCadastrarDespesas" Content="Cadastrar" HorizontalAlignment="Left" Margin="100,204,0,0" VerticalAlignment="Top" Width="133" Height="58" BorderBrush="{x:Null}" Background="#FF1275B6" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnCadastrarDespesas_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}" >
+                        <ContentControl x:Name="btnPersonalizado">
+                            <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+                        </ContentControl>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="Borda" Value="#FF1684CD"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button x:Name="btnLimparDespesas" Content="Limpar" HorizontalAlignment="Left" Margin="11,281,0,0" VerticalAlignment="Top" Width="309" Height="39" BorderBrush="{x:Null}" Background="#FF1275B6" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnLimparDespesas_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}" >
+                        <ContentControl x:Name="btnPersonalizado">
+                            <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+                        </ContentControl>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="Borda" Value="#FF1684CD"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <ComboBox x:Name="cbEstadoDespesas" HorizontalAlignment="Left" Margin="13,34,0,0" VerticalAlignment="Top" Width="79">
+                <ComboBoxItem Content="Pago"/>
+                <ComboBoxItem Content="Pendente"/>
+            </ComboBox>
+            <ComboBox x:Name="cbCategoriaDespesas" HorizontalAlignment="Left" Margin="13,161,0,0" VerticalAlignment="Top" Width="160">
+                <ComboBoxItem Content="Alimentação"/>
+                <ComboBoxItem Content="Animais"/>
+                <ComboBoxItem Content="Fixos"/>
+                <ComboBoxItem Content="Impostos e Taxas"/>
+                <ComboBoxItem Content="Lazer"/>
+                <ComboBoxItem Content="Manutenção"/>
+                <ComboBoxItem Content="Moradia"/>
+                <ComboBoxItem Content="Saúde"/>
+            </ComboBox>
+        </Grid>
+
+        <Grid x:Name="gdFiltrar" HorizontalAlignment="Left" Height="335" Margin="175,61,0,0" VerticalAlignment="Top" Width="327" Background="#FFF1EFF1">
+            <Label Content="Empresa:" HorizontalAlignment="Left" Margin="178,30,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Height="30" Width="68"/>
+            <TextBox x:Name="txtEmpresaDespesaFiltrar" HorizontalAlignment="Left" Height="23" Margin="183,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="122"/>
+            <Label Content="Mês:" HorizontalAlignment="Left" Margin="163,82,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Height="24"/>
+            <ComboBox x:Name="cbMesDespesaFiltrar" HorizontalAlignment="Left" Margin="169,106,0,0" VerticalAlignment="Top" Width="63">
+                <ComboBoxItem Content=""/>
+                <ComboBoxItem Content="1"/>
+                <ComboBoxItem Content="2"/>
+                <ComboBoxItem Content="3"/>
+                <ComboBoxItem Content="4"/>
+                <ComboBoxItem Content="5"/>
+                <ComboBoxItem Content="6"/>
+                <ComboBoxItem Content="7"/>
+                <ComboBoxItem Content="8"/>
+                <ComboBoxItem Content="9"/>
+                <ComboBoxItem Content="10"/>
+                <ComboBoxItem Content="11"/>
+                <ComboBoxItem Content="12"/>
+            </ComboBox>
+            <Label Content="Categoria:" HorizontalAlignment="Left" Margin="4,81,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Height="31"/>
+            <Label Content="Ano:" HorizontalAlignment="Left" Margin="234,81,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Height="24"/>
+            <ComboBox x:Name="cbAnoDespesaFiltrar" HorizontalAlignment="Left" Margin="240,105,0,0" VerticalAlignment="Top" Width="63">
+                <ComboBoxItem Content=""/>
+                <ComboBoxItem Content="2020"/>
+                <ComboBoxItem Content="2021"/>
+                <ComboBoxItem Content="2022"/>
+                <ComboBoxItem Content="2023"/>
+                <ComboBoxItem Content="2024"/>
+            </ComboBox>
+            <Button x:Name="btnDespesaBuscar" Content="Buscar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="41,209,0,0" VerticalAlignment="Top" Width="132" Height="66" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnBuscar_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}" >
+                        <ContentControl x:Name="btnPersonalizado">
+                            <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+                        </ContentControl>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="Borda" Value="#FF1684CD"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button x:Name="btnLimparFiltrar" Content="Limpar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="194,209,0,0" VerticalAlignment="Top" Width="76" Height="66" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnLimparFiltrar_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}" >
+                        <ContentControl x:Name="btnPersonalizado">
+                            <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+                        </ContentControl>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="Borda" Value="#FF1684CD"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Label Content="Nome Despesa:" HorizontalAlignment="Left" Margin="5,30,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Height="30" Width="105"/>
+            <TextBox x:Name="txtNomeDespesaFiltrar" HorizontalAlignment="Left" Height="23" Margin="10,54,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="163"/>
+            <ComboBox x:Name="cbCategoriaDespesaFiltrar" HorizontalAlignment="Left" Margin="10,105,0,0" VerticalAlignment="Top" Width="148">
+                <ComboBoxItem Content=""/>
+                <ComboBoxItem Content="Alimentação"/>
+                <ComboBoxItem Content="Animais"/>
+                <ComboBoxItem Content="Fixos"/>
+                <ComboBoxItem Content="Impostos e Taxas"/>
+                <ComboBoxItem Content="Lazer"/>
+                <ComboBoxItem Content="Manutenção"/>
+                <ComboBoxItem Content="Moradia"/>
+                <ComboBoxItem Content="Saúde"/>
+            </ComboBox>
+            <Label Content="Estado:" HorizontalAlignment="Left" Margin="4,132,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Height="31"/>
+            <ComboBox x:Name="cbEstadoDespesaFiltrar" HorizontalAlignment="Left" Margin="10,156,0,0" VerticalAlignment="Top" Width="78">
+                <ComboBoxItem Content=""/>
+                <ComboBoxItem Content="Pago"/>
+                <ComboBoxItem Content="Pendente"/>
+            </ComboBox>
+        </Grid>
+
+        <DataGrid x:Name="dgDespesas" HeadersVisibility="Column" Margin="505,60,3,10" RenderTransformOrigin="0.5,0.5" ScrollViewer.CanContentScroll="True" UseLayoutRounding="False" AutoGenerateColumns="False" CanUserResizeColumns="False" GridLinesVisibility="None" CanUserResizeRows="False" Grid.ColumnSpan="2" SelectionChanged="dgDespesas_SelectionChanged" Background="#FFF1EFF1">
+            <DataGrid.Resources>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Background" Value="#292C33" />
+                    <Setter Property="Foreground" Value="#FFDAD7DA" />
+                    <Setter Property="Height" Value="25" />
+                </Style>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                <Grid Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center" />
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Setter Property="Background" Value="#FFF1EFF1" />
+                    <Setter Property="Height" Value="30" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding id}" Header="Código" Visibility="Hidden"/>
+                <DataGridTextColumn Binding="{Binding data_vencimento, StringFormat=d}" Header="Data Venc." Width="100" />
+                <DataGridTextColumn Binding="{Binding estado}" Header="Status" Width="80"/>
+                <DataGridTextColumn Binding="{Binding nome}" Header="Nome" Width="200"/>
+                <DataGridTextColumn Binding="{Binding empresa}"  Header="Empresa" Width="100"/>
+                <DataGridTextColumn Binding="{Binding categoria}" Header="Categoria" Width="100"/>
+                <DataGridTextColumn Binding="{Binding valor}" Header="Valor" Width="Auto"/>
+            </DataGrid.Columns>
+        </DataGrid>
+
+        <Grid Height="35" Margin="-1,-35,1,0" Background="#FF3F3F46" VerticalAlignment="Top" FlowDirection="RightToLeft" HorizontalAlignment="Right" Width="1181" Grid.ColumnSpan="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="501*"/>
+                <ColumnDefinition Width="680*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel Height="34" WindowChrome.IsHitTestVisibleInChrome="True" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Width="1175" Grid.ColumnSpan="2" Margin="0,-1">
+                <Button Width="35" Height="30" Margin="2,0" x:Name="btnFechar" Click="btnFechar_Click">
+                    <Button.Background>
+                        <ImageBrush ImageSource="Resources/iconeFechar.png" Stretch="None"/>
+                    </Button.Background>
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}" >
+                            <ContentControl x:Name="btnPersonalizado">
+                                <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </Border>
+                            </ContentControl>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <Setter Property="Background" TargetName="Borda">
+                                        <Setter.Value>
+                                            <ImageBrush ImageSource="Resources/iconeFechar_Over.png"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button Width="35" Height="30" Margin="2,0" x:Name="btnMaximizar" Click="btnMaximizar_Click" FlowDirection="LeftToRight">
+                    <Button.Background>
+                        <ImageBrush ImageSource="Resources/iconeMaximizar.png" Stretch="None"/>
+                    </Button.Background>
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}" >
+                            <ContentControl x:Name="btnPersonalizado">
+                                <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </Border>
+                            </ContentControl>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <Setter Property="Background" TargetName="Borda">
+                                        <Setter.Value>
+                                            <ImageBrush ImageSource="Resources/iconeMaximizar_Over.png"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+                <Button Width="35" Height="30" x:Name="btnMinimizar" Click="btnMinimizar_Click" Margin="2,0" Padding="1" Grid.IsSharedSizeScope="True">
+                    <Button.Background>
+                        <ImageBrush ImageSource="Resources/iconeMinimizar.png" Stretch="None"/>
+                    </Button.Background>
+                    <Button.Template>
+                        <ControlTemplate TargetType="{x:Type Button}" >
+                            <ContentControl x:Name="btnPersonalizado">
+                                <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                </Border>
+                            </ContentControl>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="true">
+                                    <Setter Property="Background" TargetName="Borda">
+                                        <Setter.Value>
+                                            <ImageBrush ImageSource="Resources/iconeMinimizar_Over.png"/>
+                                        </Setter.Value>
+                                    </Setter>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+                </Button>
+            </StackPanel>
+        </Grid>
+
+        <Grid Background="#FF083A5B" HorizontalAlignment="Left" Grid.IsSharedSizeScope="True" Width="172" Margin="-1,0,0,0" />
+        <Button x:Name="btnDespesas" Background="#FF083A5B" Content="Despesas" Margin="-1,125,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="172" Height="65" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFDAD7DA" Click="btnDespesas_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}" >
+                    <ContentControl x:Name="btnPersonalizado">
+                        <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                    </ContentControl>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" TargetName="Borda" Value="#FF0B4D78"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="btnReceitas" Content="Receitas" HorizontalAlignment="Left" Margin="-1,190,0,0" VerticalAlignment="Top" Width="172" Height="65" BorderBrush="{x:Null}" Background="#FF083A5B" FontFamily="Century Gothic" FontSize="18" Foreground="#FFDAD7DA" Click="btnReceitas_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <ContentControl x:Name="btnPersonalizado">
+                        <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                    </ContentControl>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" TargetName="Borda" Value="#FF0B4D78"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="btnFiltrar" Content="Filtrar" HorizontalAlignment="Left" Margin="-1,255,0,0" VerticalAlignment="Top" Width="172" Height="65" BorderBrush="{x:Null}" Background="#FF083A5B" FontFamily="Century Gothic" FontSize="18" Foreground="#FFDAD7DA" Click="btnFiltrar_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <ContentControl x:Name="btnPersonalizado">
+                        <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                    </ContentControl>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" TargetName="Borda" Value="#FF0B4D78"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Button x:Name="btnConfig" Content="Configurações" HorizontalAlignment="Left" Margin="-1,488,0,0" VerticalAlignment="Top" Width="172" Height="65" BorderBrush="{x:Null}" Background="#FF083A5B" FontFamily="Century Gothic" FontSize="18" Foreground="#FFDAD7DA" Click="btnConfig_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}">
+                    <ContentControl x:Name="btnPersonalizado">
+                        <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                    </ContentControl>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" TargetName="Borda" Value="#FF0B4D78"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+        <Grid x:Name="gdDuplicar" HorizontalAlignment="Left" Height="123" Margin="173,472,0,0" VerticalAlignment="Top" Width="332">
+            <Button x:Name="btnDuplicar" Content="Duplicar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="10,26,0,0" VerticalAlignment="Top" Width="103" Height="88" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnDespesas_Click">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}" >
+                        <ContentControl x:Name="btnPersonalizado">
+                            <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+                        </ContentControl>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="Borda" Value="#FF1684CD"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Label Content="Mês:" HorizontalAlignment="Left" Margin="123,26,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Height="24"/>
+            <ComboBox x:Name="cbDuplicarMes" HorizontalAlignment="Left" Margin="159,28,0,0" VerticalAlignment="Top" Width="46" RenderTransformOrigin="1.435,-0.727"/>
+            <Label Content="Ano:" HorizontalAlignment="Left" Margin="214,26,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Height="24"/>
+            <ComboBox x:Name="cbDuplicarAno" HorizontalAlignment="Left" Margin="250,28,0,0" VerticalAlignment="Top" Width="63"/>
+            <Label Content="Manter dias?" HorizontalAlignment="Left" Margin="123,56,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Height="24"/>
+            <Label Content="Manter valores?" HorizontalAlignment="Left" Margin="123,83,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Height="24"/>
+            <ComboBox x:Name="cbManterDias" HorizontalAlignment="Left" Margin="229,57,0,0" VerticalAlignment="Top" Width="46"/>
+            <ComboBox x:Name="cbManterValores" HorizontalAlignment="Left" Margin="229,84,0,0" VerticalAlignment="Top" Width="46"/>
+        </Grid>
+        <Label Content="Saldo Atual:" HorizontalAlignment="Left" Margin="500,20,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Height="24" Width="78"/>
+        <TextBox x:Name="txtSaldoAtual" HorizontalAlignment="Left" Height="23" Margin="578,22,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="75" Background="{x:Null}"/>
+
+        <Grid x:Name="gdLateralBotoes" HorizontalAlignment="Left" Height="65" Margin="-1,125,0,0" VerticalAlignment="Top" Width="7" Background="#B2FE8F00"/>
+        <Image HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="171" Source="Resources/logoLaranjaTransparente.png" Stretch="Fill" Margin="0,10,0,0"/>
+        <DataGrid x:Name="dgReceitas" HeadersVisibility="Column" Margin="505,61,3,10" RenderTransformOrigin="0.5,0.5" ScrollViewer.CanContentScroll="True" UseLayoutRounding="False" AutoGenerateColumns="False" CanUserResizeColumns="False" GridLinesVisibility="None" CanUserResizeRows="False" Grid.ColumnSpan="2" SelectionChanged="dgReceitas_SelectionChanged" Background="#FFF1EFF1">
+            <DataGrid.Resources>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="Background" Value="#292C33" />
+                    <Setter Property="Foreground" Value="#FFDAD7DA" />
+                    <Setter Property="Height" Value="25" />
+                </Style>
+                <Style TargetType="{x:Type DataGridCell}">
+                    <Setter Property="Template">
+                        <Setter.Value>
+                            <ControlTemplate TargetType="{x:Type DataGridCell}">
+                                <Grid Background="{TemplateBinding Background}">
+                                    <ContentPresenter VerticalAlignment="Center" />
+                                </Grid>
+                            </ControlTemplate>
+                        </Setter.Value>
+                    </Setter>
+                </Style>
+            </DataGrid.Resources>
+            <DataGrid.RowStyle>
+                <Style TargetType="{x:Type DataGridRow}">
+                    <Setter Property="Background" Value="#FFF1EFF1" />
+                    <Setter Property="Height" Value="30" />
+                    <Setter Property="VerticalAlignment" Value="Center" />
+                </Style>
+            </DataGrid.RowStyle>
+            <DataGrid.Columns>
+                <DataGridTextColumn Binding="{Binding id}" Header="Código" Visibility="Hidden"/>
+                <DataGridTextColumn Binding="{Binding data_insercao, StringFormat=d}" Header="Data Inser." Width="100" />
+                <DataGridTextColumn Binding="{Binding descricao}" Header="Descrição" Width="200"/>
+                <DataGridTextColumn Binding="{Binding categoria}" Header="Categoria" Width="100"/>
+                <DataGridTextColumn Binding="{Binding valor}" Header="Valor" Width="Auto"/>
+            </DataGrid.Columns>
+        </DataGrid>
+        <Label x:Name="lblNomeUsuario" Content="" HorizontalAlignment="Left" Margin="262,22,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Height="24" Width="78" Grid.Column="1" FlowDirection="RightToLeft"/>
+        <Button x:Name="btnResetLogin" Content="Reset" Background="#FF1275B6" HorizontalAlignment="Left" Margin="695,12,0,0" VerticalAlignment="Top" Width="76" Height="37" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnResetLogin_Click">
+            <Button.Template>
+                <ControlTemplate TargetType="{x:Type Button}" >
+                    <ContentControl x:Name="btnPersonalizado">
+                        <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
+                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                        </Border>
+                    </ContentControl>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsMouseOver" Value="true">
+                            <Setter Property="Background" TargetName="Borda" Value="#FF1684CD"/>
+                        </Trigger>
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Button.Template>
+        </Button>
+
+    </Grid>
+</Window>
