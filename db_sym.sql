@@ -12,7 +12,6 @@ create table usuarios (
     created_at datetime default current_timestamp
 );
 select * from usuarios;
-INSERT INTO usuarios (nome, email, senha, vencimento_plano) VALUES ("Maybi", "maybi", "maybi", "2020-12-27 19:10:36");
 
 create table despesas(
 	id int primary key auto_increment,
