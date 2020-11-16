@@ -1,9 +1,12 @@
-﻿using MySql.Data.MySqlClient;
+﻿using Microsoft.Win32;
+using MySql.Data.MySqlClient;
 using MySqlX.XDevAPI.Relational;
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Diagnostics;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
 using System.Text;
@@ -35,6 +38,8 @@ namespace tcc_windows_version
         string idDespesaSelecionada;
         string idReceitaSelecionada;
         string nome_usuario;
+        string caminho_imagem = "";
+        byte[] ImageData;
         int idUsuario;
 
         #region Borda Customizada
@@ -173,6 +178,7 @@ namespace tcc_windows_version
             gdDespesas.Visibility = Visibility.Visible;
             gdFiltrar.Visibility = Visibility.Hidden;
             gdReceitas.Visibility = Visibility.Hidden;
+            gdObjetivos.Visibility = Visibility.Hidden;
 
             dgReceitas.Visibility = Visibility.Hidden;
             dgDespesas.Visibility = Visibility.Visible;
@@ -187,6 +193,10 @@ namespace tcc_windows_version
             lblNomeUsuario.Content = "Olá, " + nome_usuario;
 
             atualizarGridDespesasAnoAtual();
+
+            //Buscar saldo
+            OutrosBO oBO = new OutrosBO();
+            txtSaldoAtual.Text = "R$" + oBO.BuscarSaldo(idUsuario);
         }
 
         public void atualizarGridDespesasAnoAtual()
@@ -260,10 +270,10 @@ namespace tcc_windows_version
             DataRowView row_selected = dg.SelectedItem as DataRowView;
             if (row_selected != null)
             {
-                idReceitaSelecionada = row_selected["id"].ToString();               
-                txtDescricaoReceita.Text = row_selected["descricao"].ToString();                
+                idReceitaSelecionada = row_selected["id"].ToString();
+                txtDescricaoReceita.Text = row_selected["descricao"].ToString();
                 cbCategoriaReceita.Text = row_selected["categoria"].ToString();
-                txtValorReceita.Text = row_selected["valor"].ToString();                
+                txtValorReceita.Text = row_selected["valor"].ToString();
             }
         }
 
@@ -273,7 +283,8 @@ namespace tcc_windows_version
             gdDespesas.Visibility = Visibility.Visible;
             gdFiltrar.Visibility = Visibility.Hidden;
             gdReceitas.Visibility = Visibility.Hidden;
-            gdLateralBotoes.Margin = new Thickness(-1,125,0,0);
+            gdObjetivos.Visibility = Visibility.Hidden;
+            gdLateralBotoes.Margin = new Thickness(-1, 125, 0, 0);
 
             dgReceitas.Visibility = Visibility.Hidden;
             dgDespesas.Visibility = Visibility.Visible;
@@ -285,6 +296,7 @@ namespace tcc_windows_version
         {
             gdDespesas.Visibility = Visibility.Hidden;
             gdFiltrar.Visibility = Visibility.Hidden;
+            gdObjetivos.Visibility = Visibility.Hidden;
             gdReceitas.Visibility = Visibility.Visible;
             gdLateralBotoes.Margin = new Thickness(-1, 190, 0, 0);
             dgDespesas.Visibility = Visibility.Hidden;
@@ -298,6 +310,7 @@ namespace tcc_windows_version
             gdFiltrar.Visibility = Visibility.Visible;
             gdReceitas.Visibility = Visibility.Hidden;
             gdDespesas.Visibility = Visibility.Hidden;
+            gdObjetivos.Visibility = Visibility.Hidden;
             gdLateralBotoes.Margin = new Thickness(-1, 255, 0, 0);
 
             dgReceitas.Visibility = Visibility.Hidden;
@@ -310,6 +323,12 @@ namespace tcc_windows_version
         {
             gdLateralBotoes.Margin = new Thickness(-1, 488, 0, 0);
         }
+
+        private void btnObjetivos_Click(object sender, RoutedEventArgs e)
+        {
+            gdLateralBotoes.Margin = new Thickness(-1, 320, 0, 0);
+            gdObjetivos.Visibility = Visibility.Visible;
+        }
         #endregion
 
         #region Botões borda windows
@@ -320,13 +339,14 @@ namespace tcc_windows_version
 
         private void btnMaximizar_Click(object sender, RoutedEventArgs e)
         {
-            if(WindowState == WindowState.Maximized)
+            if (WindowState == WindowState.Maximized)
             {
                 WindowState = WindowState.Normal;
-            } else
+            }
+            else
             {
                 WindowState = WindowState.Maximized;
-            }            
+            }
         }
 
         private void btnFechar_Click(object sender, RoutedEventArgs e)
@@ -424,8 +444,8 @@ namespace tcc_windows_version
             Receitas receita = new Receitas();
             ReceitasBO bo = new ReceitasBO();
 
-            receita.descricao = txtDescricaoReceita.Text;            
-            receita.categoria = cbCategoriaReceita.Text;            
+            receita.descricao = txtDescricaoReceita.Text;
+            receita.categoria = cbCategoriaReceita.Text;
             receita.valor = txtValorReceita.Text;
             receita.id_usuario = idUsuario;
 
@@ -451,7 +471,7 @@ namespace tcc_windows_version
             receita.id_usuario = idUsuario;
 
             bo.Editar(receita);
-                        
+
             atualizarGridReceitasAnoAtual();
 
             idReceitaSelecionada = "";
@@ -483,16 +503,18 @@ namespace tcc_windows_version
         #region Botões filtrar
         private void btnBuscar_Click(object sender, RoutedEventArgs e)
         {
-            DespesasBO bo = new DespesasBO(); 
-            
+            DespesasBO bo = new DespesasBO();
+
             DataView resultado = bo.Filtrar(txtNomeDespesaFiltrar.Text, txtEmpresaDespesaFiltrar.Text, cbCategoriaDespesaFiltrar.Text, cbMesDespesaFiltrar.Text, cbAnoDespesaFiltrar.Text, cbEstadoDespesaFiltrar.Text, idUsuario);
 
-            if (resultado != null) {
+            if (resultado != null)
+            {
                 dgDespesas.ItemsSource = resultado;
-            } else
+            }
+            else
             {
                 atualizarGridDespesasAnoAtual();
-            }            
+            }
         }
         private void btnLimparFiltrar_Click(object sender, RoutedEventArgs e)
         {
@@ -510,6 +532,55 @@ namespace tcc_windows_version
             Settings.Default["email"] = "";
             Settings.Default["senha"] = "";
             Settings.Default.Save();
+            Process.Start(Application.ResourceAssembly.Location);
+            Application.Current.Shutdown();
+        }
+
+        private void btnAdicionarObjetivo_Click(object sender, RoutedEventArgs e)
+        {
+            Objetivos objetivo = new Objetivos();
+            objetivo.nome = txtNomeObjetivo.Text;
+            objetivo.preco = txtPrecoObjetivo.Text;
+            objetivo.image_bytes = ImageData;
+            objetivo.valor_mes = txtValorMesObjetivo.Text;
+            objetivo.valor_inicial = txtValorInicialObjetivo.Text;
+            objetivo.id_usuario = idUsuario;
+
+            ObjetivoBO oBO = new ObjetivoBO();
+            oBO.Cadastrar(objetivo);
+        }
+
+        private void btnImageObjetivo_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Filter = "Image files (*.jpg, *.png)|*.jpg; *.png";
+            openFileDialog1.Multiselect = false;
+            if (openFileDialog1.ShowDialog() == true)
+            {
+                caminho_imagem = openFileDialog1.FileName;
+
+                if(caminho_imagem != "")
+                {
+                    btnImageObjetivo.Background = new ImageBrush { ImageSource = new BitmapImage(new Uri(caminho_imagem, UriKind.Relative)) };
+                    string FileName = caminho_imagem;
+                    
+                    FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read);
+                    BinaryReader br = new BinaryReader(fs);
+                    ImageData = br.ReadBytes((int)fs.Length);
+                    br.Close();
+                    fs.Close();
+                }
+            }
+        }
+
+        private void btnLimparObjetivo_Click(object sender, RoutedEventArgs e)
+        {
+            txtNomeObjetivo.Text = "";
+            txtPrecoObjetivo.Text = "";
+            caminho_imagem = "";
+            btnImageObjetivo.Background = new ImageBrush { ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/imageIcon.png", UriKind.RelativeOrAbsolute)) };
+            txtValorMesObjetivo.Text = "";
+            txtValorInicialObjetivo.Text = "";            
         }
     }
 }

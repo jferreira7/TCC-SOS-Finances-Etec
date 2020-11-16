@@ -87,9 +87,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Business\ObjetivoBO.cs" />
+    <Compile Include="Business\OutrosBO.cs" />
     <Compile Include="Business\UsuarioBO.cs" />
+    <Compile Include="Database\ObjetivosCRUD.cs" />
+    <Compile Include="Database\Outros.cs" />
     <Compile Include="Database\UsuarioValida.cs" />
+    <Compile Include="Model\Objetivos.cs" />
     <Compile Include="Model\Usuario.cs" />
+    <Compile Include="View\Configurações.xaml.cs">
+      <DependentUpon>Configurações.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
@@ -110,6 +118,10 @@
       <DependentUpon>Principal.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Configurações.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Login.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -180,6 +192,9 @@
   <ItemGroup>
     <Resource Include="Resources\iconeFecharLogin.png" />
     <Resource Include="Resources\iconeFecharLogin_Over.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\imageIcon.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -10,7 +10,7 @@ namespace tcc_windows_version.Database
     class Connection
     {
         MySqlConnection objSqlConnnection = new MySqlConnection();
-
+       
         string server = "localhost";
         string port = "3306";
         string user_id = "root";
@@ -24,8 +24,7 @@ namespace tcc_windows_version.Database
         }
 
         public MySqlConnection Conectar()
-        {
-
+        {            
             if (objSqlConnnection.State == System.Data.ConnectionState.Closed)
             {
                 objSqlConnnection.Open();

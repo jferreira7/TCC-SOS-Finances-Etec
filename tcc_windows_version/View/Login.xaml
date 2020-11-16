@@ -21,89 +21,89 @@
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="35"/>
     </WindowChrome.WindowChrome>
-
-    <Grid Background="#FF083A5B" Margin="0,0,10,10" RenderTransformOrigin="0.5,0.5" >
-        <Grid.Effect>
-            <DropShadowEffect Color="#FF191919" BlurRadius="10" Direction="315" ShadowDepth="3"/>
-        </Grid.Effect>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0*"/>
-            <ColumnDefinition Width="0*"/>
-            <ColumnDefinition/>
-            <ColumnDefinition Width="0*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.RowDefinitions>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
-        <Image Height="127" Margin="93,32,94,0" VerticalAlignment="Top" Source="/Resources/logoLaranjaTransparente.png" Grid.Column="2"/>
-        <Label Content="E-mail:" HorizontalAlignment="Left" Margin="85,166,0,0" VerticalAlignment="Top" FontFamily="Century Gothic" FontSize="18" Foreground="#FFDAD7DA" Grid.Column="2" Height="32" Width="67"/>
-        <TextBox x:Name="txtEmail" HorizontalAlignment="Center" Height="23" Margin="82,198,82,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="226" Background="{x:Null}" BorderBrush="#CCDAD7DA" Grid.Column="2" Foreground="#CCDAD7DA"/>
-        <Label Content="Senha:" HorizontalAlignment="Left" Margin="85,226,0,0" VerticalAlignment="Top" FontFamily="Century Gothic" FontSize="18" Foreground="#FFDAD7DA" Grid.Column="2" Height="32" Width="67"/>
-        <Button x:Name="btnLogar" Content="Logar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="82,324,0,0" VerticalAlignment="Top" Width="106" Height="49" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnLogar_Click" Grid.ColumnSpan="3">
-            <Button.Template>
-                <ControlTemplate TargetType="{x:Type Button}" >
-                    <ContentControl x:Name="btnPersonalizado">
-                        <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
-                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        </Border>
-                    </ContentControl>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Background" TargetName="Borda" Value="#FF1684CD"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
-        <Button x:Name="btnCadastrar" Content="Cadastrar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="202,324,0,0" VerticalAlignment="Top" Width="106" Height="49" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnCadastrar_Click" Grid.ColumnSpan="3">
-            <Button.Template>
-                <ControlTemplate TargetType="{x:Type Button}" >
-                    <ContentControl x:Name="btnPersonalizado">
-                        <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
-                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        </Border>
-                    </ContentControl>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Background" TargetName="Borda" Value="#FF1684CD"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
-        <Label Content="Esqueci minha senha" HorizontalAlignment="Left" Margin="129,378,0,0" VerticalAlignment="Top" FontFamily="Century Gothic" FontSize="12" Foreground="#FFDAD7DA" Grid.Column="2" Height="23" Width="133"/>
-        <PasswordBox x:Name="txtSenha" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="82,258,0,0" VerticalAlignment="Top" Height="23" Width="226" Background="{x:Null}"/>
-        <Grid Height="35" Margin="0,5,6,0" Background="#FF083A5B" VerticalAlignment="Top" FlowDirection="RightToLeft" HorizontalAlignment="Right" Width="375" Grid.ColumnSpan="3">
+    <Border CornerRadius="10" BorderThickness="1" BorderBrush="#FF083A5B" Background="#FF083A5B" Margin="0,0,10,10">
+        <Border.Effect>
+            <DropShadowEffect Color="#FF191919" BlurRadius="10" Direction="-90" ShadowDepth="3"/>
+        </Border.Effect>
+        <Grid>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="501*"/>
-                <ColumnDefinition Width="680*"/>
+                <ColumnDefinition Width="0*"/>
+                <ColumnDefinition Width="0*"/>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="0*"/>
             </Grid.ColumnDefinitions>
-            <StackPanel Height="34" WindowChrome.IsHitTestVisibleInChrome="True" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Width="377" Grid.ColumnSpan="2" Margin="0,0,0,1">
-                <Button Width="35" Height="30" Margin="2" x:Name="btnFechar" Click="btnFechar_Click">
-                    <Button.Background>
-                        <ImageBrush ImageSource="/Resources/iconeFecharLogin.png" Stretch="None"/>
-                    </Button.Background>
-                    <Button.Template>
-                        <ControlTemplate TargetType="{x:Type Button}" >
-                            <ContentControl x:Name="btnPersonalizado">
-                                <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
-                                    <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                                </Border>
-                            </ContentControl>
-                            <ControlTemplate.Triggers>
-                                <Trigger Property="IsMouseOver" Value="true">
-                                    <Setter Property="Background" TargetName="Borda">
-                                        <Setter.Value>
-                                            <ImageBrush ImageSource="/Resources/iconeFecharLogin_Over.png"/>
-                                        </Setter.Value>
-                                    </Setter>
-                                </Trigger>
-                            </ControlTemplate.Triggers>
-                        </ControlTemplate>
-                    </Button.Template>
-                </Button>
-            </StackPanel>
+            <Grid.RowDefinitions>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Image Height="127" Margin="93,32,94,0" VerticalAlignment="Top" Source="/Resources/logoLaranjaTransparente.png" Grid.Column="2"/>
+            <Label Content="E-mail:" HorizontalAlignment="Left" Margin="85,166,0,0" VerticalAlignment="Top" FontFamily="Century Gothic" FontSize="18" Foreground="#FFDAD7DA" Grid.Column="2" Height="32" Width="67"/>
+            <Label Content="Senha:" HorizontalAlignment="Left" Margin="85,226,0,0" VerticalAlignment="Top" FontFamily="Century Gothic" FontSize="18" Foreground="#FFDAD7DA" Grid.Column="2" Height="32" Width="67"/>
+            <TextBox x:Name="txtEmail" HorizontalAlignment="Center" Height="23" Margin="82,198,80,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="226" Background="{x:Null}" BorderBrush="#CCDAD7DA" Grid.Column="2" Foreground="#CCDAD7DA" TabIndex="1"/>
+            <Button x:Name="btnLogar" Content="Logar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="82,324,0,0" VerticalAlignment="Top" Width="106" Height="49" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnLogar_Click" Grid.ColumnSpan="3">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}" >
+                        <ContentControl x:Name="btnPersonalizado">
+                            <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+                        </ContentControl>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="Borda" Value="#FF1684CD"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Button x:Name="btnCadastrar" Content="Cadastrar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="202,324,0,0" VerticalAlignment="Top" Width="106" Height="49" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnCadastrar_Click" Grid.ColumnSpan="3">
+                <Button.Template>
+                    <ControlTemplate TargetType="{x:Type Button}" >
+                        <ContentControl x:Name="btnPersonalizado">
+                            <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
+                                <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                            </Border>
+                        </ContentControl>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="true">
+                                <Setter Property="Background" TargetName="Borda" Value="#FF1684CD"/>
+                            </Trigger>
+                        </ControlTemplate.Triggers>
+                    </ControlTemplate>
+                </Button.Template>
+            </Button>
+            <Label Content="Esqueci minha senha" HorizontalAlignment="Left" Margin="129,378,0,0" VerticalAlignment="Top" FontFamily="Century Gothic" FontSize="12" Foreground="#FFDAD7DA" Grid.Column="2" Height="23" Width="133"/>
+            <PasswordBox x:Name="txtSenha" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="82,258,0,0" VerticalAlignment="Top" Height="23" Width="226" Background="{x:Null}" TabIndex="2"/>
+            <Grid Height="35" Margin="0,5,6,0" Background="#FF083A5B" VerticalAlignment="Top" FlowDirection="RightToLeft" HorizontalAlignment="Right" Width="375" Grid.ColumnSpan="3">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="501*"/>
+                    <ColumnDefinition Width="680*"/>
+                </Grid.ColumnDefinitions>
+                <StackPanel Height="34" WindowChrome.IsHitTestVisibleInChrome="True" Orientation="Horizontal" VerticalAlignment="Center" HorizontalAlignment="Right" Width="377" Grid.ColumnSpan="2" Margin="0,0,0,1">
+                    <Button Width="35" Height="30" Margin="2" x:Name="btnFechar" Click="btnFechar_Click">
+                        <Button.Background>
+                            <ImageBrush ImageSource="/Resources/iconeFecharLogin.png" Stretch="None"/>
+                        </Button.Background>
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}" >
+                                <ContentControl x:Name="btnPersonalizado">
+                                    <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
+                                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    </Border>
+                                </ContentControl>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="true">
+                                        <Setter Property="Background" TargetName="Borda">
+                                            <Setter.Value>
+                                                <ImageBrush ImageSource="/Resources/iconeFecharLogin_Over.png"/>
+                                            </Setter.Value>
+                                        </Setter>
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
+                </StackPanel>
+            </Grid>
         </Grid>
-    </Grid>
-
+    </Border>
 </Window>

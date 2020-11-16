@@ -23,6 +23,7 @@ namespace tcc_windows_version
             else
             {
                 this.StartupUri = new Uri("Principal.xaml", UriKind.Relative);
+                //this.StartupUri = new Uri("View/Configurações.xaml", UriKind.Relative);
             }
         }
     }

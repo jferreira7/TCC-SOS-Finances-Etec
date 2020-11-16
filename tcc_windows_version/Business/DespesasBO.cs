@@ -16,7 +16,11 @@ namespace tcc_windows_version.Business
         public void Cadastrar(Despesas despesa)
         {
             
-            if ((despesa.nome != "") && (despesa.categoria != "") && (despesa.estado != "") && (despesa.valor != "") && (despesa.id_usuario > 0))
+            if ((despesa.nome != "") && 
+                (despesa.categoria != "") && 
+                (despesa.estado != "") && 
+                (despesa.valor != "") && 
+                (despesa.id_usuario > 0))
             {
                 DespesasCRUD crud = new DespesasCRUD();
                 crud.Create(despesa);                
