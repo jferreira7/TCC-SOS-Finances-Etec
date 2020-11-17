@@ -1,5 +1,6 @@
 ﻿using Microsoft.Win32;
 using MySql.Data.MySqlClient;
+using MySqlX.XDevAPI.Common;
 using MySqlX.XDevAPI.Relational;
 using System;
 using System.Collections.Generic;
@@ -38,7 +39,7 @@ namespace tcc_windows_version
         string idDespesaSelecionada;
         string idReceitaSelecionada;
         string nome_usuario;
-        string caminho_imagem = "";
+        string caminho_imagem = "";        
         byte[] ImageData;
         int idUsuario;
 
@@ -328,6 +329,19 @@ namespace tcc_windows_version
         {
             gdLateralBotoes.Margin = new Thickness(-1, 320, 0, 0);
             gdObjetivos.Visibility = Visibility.Visible;
+
+            ObjetivosBO bo = new ObjetivosBO();
+            DataView resultado = bo.BuscarTodos(idUsuario);
+
+            if (resultado != null)
+            {
+                /*foreach (DataRowView rowView in resultado)
+                {
+                    rowView["nome"] += "aaaa";
+                }*/            
+                
+                dgObjetivos.ItemsSource = resultado;
+            }
         }
         #endregion
 
@@ -546,7 +560,7 @@ namespace tcc_windows_version
             objetivo.valor_inicial = txtValorInicialObjetivo.Text;
             objetivo.id_usuario = idUsuario;
 
-            ObjetivoBO oBO = new ObjetivoBO();
+            ObjetivosBO oBO = new ObjetivosBO();
             oBO.Cadastrar(objetivo);
         }
 
@@ -557,7 +571,7 @@ namespace tcc_windows_version
             openFileDialog1.Multiselect = false;
             if (openFileDialog1.ShowDialog() == true)
             {
-                caminho_imagem = openFileDialog1.FileName;
+                caminho_imagem = openFileDialog1.FileName;                
 
                 if(caminho_imagem != "")
                 {

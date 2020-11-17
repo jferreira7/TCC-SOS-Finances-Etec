@@ -5,7 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:tcc_windows_version"
         mc:Ignorable="d"
-        Title="Save Your Money" Height="636" Width="1191" BorderThickness="0" Margin="0" BorderBrush="#FF3F3F46" Padding="0" SnapsToDevicePixels="True" Background="#FF3F3F46" WindowStartupLocation="CenterScreen" AllowsTransparency="True" WindowStyle="None">
+        Title="Save Your Money" Height="636" Width="1191" BorderThickness="0" Margin="0" BorderBrush="#FF3F3F46" Padding="0" SnapsToDevicePixels="True" Background="#FF3F3F46" WindowStartupLocation="CenterScreen" AllowsTransparency="True" WindowStyle="None"
+        >
 
     <WindowChrome.WindowChrome>
         <WindowChrome CaptionHeight="35"/>
@@ -554,7 +555,7 @@
         <Grid x:Name="gdObjetivos" Margin="176,51,3,3" Grid.ColumnSpan="2" Background="#FFF1EFF1">
             <Label Content="Adicione os itens que deseja comprar:" HorizontalAlignment="Left" Margin="10,15,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Width="233"/>
             <TextBox x:Name="txtNomeObjetivo" HorizontalAlignment="Left" Height="23" Margin="17,82,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="204" Background="{x:Null}"/>
-            <DataGrid x:Name="dgObjetivos" HeadersVisibility="None" Margin="349,10,51,243" RenderTransformOrigin="0.5,0.5" ScrollViewer.CanContentScroll="True" UseLayoutRounding="False" AutoGenerateColumns="False" CanUserResizeColumns="False" GridLinesVisibility="None" CanUserResizeRows="False" SelectionChanged="dgDespesas_SelectionChanged" Background="#FFF1EFF1">
+            <DataGrid x:Name="dgObjetivos" HeadersVisibility="All" Margin="349,10,51,243" RenderTransformOrigin="0.5,0.5" ScrollViewer.CanContentScroll="True" UseLayoutRounding="False" AutoGenerateColumns="False" CanUserResizeColumns="False" GridLinesVisibility="None" CanUserResizeRows="False" Background="#FFF1EFF1" CanUserDeleteRows="False" BorderBrush="{x:Null}" RowHeaderWidth="0">
                 <DataGrid.Resources>
                     <Style TargetType="{x:Type DataGridColumnHeader}">
                         <Setter Property="Background" Value="#292C33" />
@@ -570,19 +571,34 @@
                                     </Grid>
                                 </ControlTemplate>
                             </Setter.Value>
-                        </Setter>
+                        </Setter>                        
+                    </Style>
+                    <Style TargetType="DataGridCellsPresenter">
+                        <Setter Property="Height" Value="55" />
                     </Style>
                 </DataGrid.Resources>
+                <DataGrid.Columns>
+                    <DataGridTextColumn Binding="{Binding id}" ClipboardContentBinding="{x:Null}" Header="ID" Visibility="Hidden"/>
+                    <DataGridTemplateColumn Header="Image" IsReadOnly="True">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Image Source="{Binding imagem}" />
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                    </DataGridTemplateColumn>
+                    <DataGridTextColumn Binding="{Binding nome}" ClipboardContentBinding="{x:Null}" Header="Nome"/>
+                    <DataGridTextColumn Binding="{Binding preco}" ClipboardContentBinding="{x:Null}" Header="Preço"/>
+                    <DataGridTextColumn Binding="{Binding valor_mes}" ClipboardContentBinding="{x:Null}" Header="Valor/mês"/>
+                    <DataGridTextColumn Binding="{Binding meses_guardados}" ClipboardContentBinding="{x:Null}" Header="Meses guardados"/>
+                    <DataGridTextColumn Binding="{Binding valor_restante}" ClipboardContentBinding="{x:Null}" Header="Valor Restante"/>
+                </DataGrid.Columns>
                 <DataGrid.RowStyle>
                     <Style TargetType="{x:Type DataGridRow}">
                         <Setter Property="Background" Value="#FFF1EFF1" />
-                        <Setter Property="Height" Value="30" />
+                        <Setter Property="Height" Value="60" />
                         <Setter Property="VerticalAlignment" Value="Center" />
                     </Style>
                 </DataGrid.RowStyle>
-                <DataGrid.Columns>
-
-                </DataGrid.Columns>
             </DataGrid>
             <Label Content="Nome:" HorizontalAlignment="Left" Margin="10,56,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Width="53"/>
             <TextBox x:Name="txtPrecoObjetivo" HorizontalAlignment="Left" Height="23" Margin="237,82,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="89" Background="{x:Null}"/>
@@ -663,7 +679,7 @@
                 <Button.BorderBrush>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="Black" Offset="0"/>
-                        <GradientStop Color="White" Offset="1"/>
+                        <GradientStop Color="Black" Offset="1"/>
                     </LinearGradientBrush>
                 </Button.BorderBrush>
                 <Button.Background>
@@ -672,10 +688,10 @@
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}" >
                         <ContentControl x:Name="btnPersonalizado">
-                            <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
+                            <Border x:Name="Borda" BorderThickness="1" Background="{TemplateBinding Background}" BorderBrush="#FFABADB3">
                                 <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
                             </Border>
-                        </ContentControl>                        
+                        </ContentControl>
                     </ControlTemplate>
                 </Button.Template>
             </Button>

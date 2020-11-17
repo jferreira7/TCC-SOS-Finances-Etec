@@ -87,7 +87,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="Business\ObjetivoBO.cs" />
+    <Compile Include="Business\ObjetivosBO.cs" />
     <Compile Include="Business\OutrosBO.cs" />
     <Compile Include="Business\UsuarioBO.cs" />
     <Compile Include="Database\ObjetivosCRUD.cs" />

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ using tcc_windows_version.Model;
 
 namespace tcc_windows_version.Business
 {
-    class ObjetivoBO
+    class ObjetivosBO
     {
         public void Cadastrar(Objetivos objetivo)
         {
@@ -27,6 +28,18 @@ namespace tcc_windows_version.Business
             else
             {
                 MessageBox.Show("Preencha corretamente as lacunas!");
+            }
+        }
+        public DataView BuscarTodos (int idUsuario)
+        {
+            if (idUsuario > 0)
+            {
+                ObjetivosCRUD crud = new ObjetivosCRUD();
+                return crud.Read(idUsuario);
+            }
+            else
+            {                
+                return null;
             }
         }
     }

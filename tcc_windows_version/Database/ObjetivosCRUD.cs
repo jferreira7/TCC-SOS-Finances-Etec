@@ -40,11 +40,18 @@ namespace tcc_windows_version.Database
             {
                 MessageBox.Show("Erro conexão com o servidor: " + erro);
             }
-        }/*
-        public void Read()
-        {
-
         }
+        public DataView Read(int idUsuario)
+        {
+            MySqlDataAdapter adpt;
+            DataTable data = new DataTable("objetivos");
+
+            string anoAtual = DateTime.Now.Year.ToString();
+            adpt = new MySqlDataAdapter("select * from objetivos where id_usuario = " + idUsuario + ";", objConexao.Conexao());
+            adpt.Fill(data);
+            objConexao.Desconectar();
+            return data.DefaultView;
+        }/*
         public void Update(Despesas despesa)
         {
             objComando.CommandText = "update despesas set estado = @estado, empresa = @empresa, nome = @nome, categoria = @categoria, valor = @valor, data_vencimento = @data_vencimento where id = @id and id_usuario = @id_usuario;";
