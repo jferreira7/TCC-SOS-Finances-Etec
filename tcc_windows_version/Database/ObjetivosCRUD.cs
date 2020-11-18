@@ -17,12 +17,12 @@ namespace tcc_windows_version.Database
         public void Create(Objetivos objetivo)
         {
             objComando.CommandType = CommandType.Text;
-            objComando.CommandText = "insert into objetivos (nome, preco, imagem, valor_mes, valor_inicial, valor_guardado,valor_restante, id_usuario) VALUES (@nome, @preco, @imagem, @valor_mes, @valor_inicial, @valor_guardado, @valor_restante, @id_usuario);";
+            objComando.CommandText = "insert into objetivos (nome, preco, imagem, valor_inicial, porcentagem, valor_guardado, valor_restante, id_usuario) VALUES (@nome, @preco, @imagem, @valor_inicial, @porcentagem, @valor_guardado, @valor_restante, @id_usuario);";
 
             objComando.Parameters.Add("@nome", MySqlDbType.VarChar, 8).Value = objetivo.nome;
             objComando.Parameters.Add("@preco", MySqlDbType.Decimal, 12).Value = objetivo.preco;
             objComando.Parameters.Add("@imagem", MySqlDbType.MediumBlob).Value = objetivo.image_bytes;
-            objComando.Parameters.Add("@valor_mes", MySqlDbType.Decimal, 12).Value = objetivo.valor_mes;
+            objComando.Parameters.Add("@porcentagem", MySqlDbType.Float).Value = objetivo.porcentagem;
             objComando.Parameters.Add("@valor_inicial", MySqlDbType.Decimal, 12).Value = objetivo.valor_inicial;
             objComando.Parameters.Add("@valor_guardado", MySqlDbType.Decimal, 12).Value = objetivo.valor_inicial;
             objComando.Parameters.Add("@valor_restante", MySqlDbType.Decimal, 12).Value = (Convert.ToDecimal(objetivo.preco) - Convert.ToDecimal(objetivo.valor_inicial));

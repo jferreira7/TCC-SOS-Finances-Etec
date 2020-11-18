@@ -19,11 +19,17 @@ namespace tcc_windows_version.Database
 
         public DataTable Login(Usuario usuario)
         {
-            DataTable data = new DataTable("usuarios");
-            adpt = new MySqlDataAdapter("SELECT id, nome FROM usuarios WHERE email='"+usuario.email+"' AND senha='"+usuario.senha+"';", objConexao.Conexao());
-            adpt.Fill(data);      
-            objConexao.Desconectar();
-            return data;
+            try
+            {
+                DataTable data = new DataTable("usuarios");
+                adpt = new MySqlDataAdapter("SELECT id, nome FROM usuarios WHERE email='" + usuario.email + "' AND senha='" + usuario.senha + "';", objConexao.Conexao());
+                adpt.Fill(data);
+                objConexao.Desconectar();
+                return data;
+            } catch
+            {
+                return null;
+            }
         }
     }
 }

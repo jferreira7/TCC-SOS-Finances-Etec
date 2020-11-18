@@ -17,24 +17,37 @@ namespace tcc_windows_version.Business
         public string nome_usuario = "";
         public int Logar(Usuario usario)
         {
-            if (usario.email != "" && usario.senha != "")
+            try
             {
-                UsuarioValida uv = new UsuarioValida();
-                DataTable data = uv.Login(usario);
-
-                if (data.Rows.Count > 0)
+                if (usario.email != "" && usario.senha != "")
                 {
-                    nome_usuario = data.Rows[0]["nome"].ToString();
-                    return Convert.ToInt32(data.Rows[0]["id"]);
+                    UsuarioValida uv = new UsuarioValida();
+                    
+                    DataTable data = uv.Login(usario);
+                    if (data != null)
+                    {
+                        if (data.Rows.Count > 0)
+                        {
+                            nome_usuario = data.Rows[0]["nome"].ToString();
+                            return Convert.ToInt32(data.Rows[0]["id"]);
+                        }
+                        else
+                        {
+                            return -2;
+                        }
+                    }
+                    else
+                    {
+                        return -3;
+                    }
                 }
                 else
                 {
-                    return -2;
+                    return -1;
                 }
-            } 
-            else
+            }catch
             {
-                return -1;
+                return -3;
             }
         }
     }

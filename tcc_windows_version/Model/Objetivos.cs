@@ -9,7 +9,8 @@ namespace tcc_windows_version.Model
     class Objetivos
     {
         public int id, id_usuario;
-        public string nome, preco, valor_mes, valor_inicial, meses_guardados, valor_guardado, valor_restante;
+        public string nome, preco, valor_mes, valor_inicial, meses_guardados, valor_restante;
+        public double porcentagem;
         public byte[] image_bytes;
     }
 }

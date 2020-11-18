@@ -227,7 +227,7 @@ namespace tcc_windows_version
             }
             catch
             {
-                MessageBox.Show("Não foi possível conectar com o banco de dados.");
+                
             }
         }
         public void atualizarGridReceitasAnoAtual()
@@ -247,7 +247,7 @@ namespace tcc_windows_version
             }
             catch
             {
-                MessageBox.Show("Não foi possível conectar com o banco de dados.");
+               
             }
         }
         private void dgDespesas_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -555,8 +555,7 @@ namespace tcc_windows_version
             Objetivos objetivo = new Objetivos();
             objetivo.nome = txtNomeObjetivo.Text;
             objetivo.preco = txtPrecoObjetivo.Text;
-            objetivo.image_bytes = ImageData;
-            objetivo.valor_mes = txtValorMesObjetivo.Text;
+            objetivo.image_bytes = ImageData;            
             objetivo.valor_inicial = txtValorInicialObjetivo.Text;
             objetivo.id_usuario = idUsuario;
 
@@ -592,8 +591,7 @@ namespace tcc_windows_version
             txtNomeObjetivo.Text = "";
             txtPrecoObjetivo.Text = "";
             caminho_imagem = "";
-            btnImageObjetivo.Background = new ImageBrush { ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/imageIcon.png", UriKind.RelativeOrAbsolute)) };
-            txtValorMesObjetivo.Text = "";
+            btnImageObjetivo.Background = new ImageBrush { ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/imageIcon.png", UriKind.RelativeOrAbsolute)) };            
             txtValorInicialObjetivo.Text = "";            
         }
     }

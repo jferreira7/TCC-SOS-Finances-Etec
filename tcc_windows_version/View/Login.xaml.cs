@@ -188,6 +188,7 @@ namespace tcc_windows_version.View
             }
             if (id == -1) { MessageBox.Show("Preencha todos os campos!"); }
             if (id == -2) { MessageBox.Show("Senha e email não correspondem!"); }
+            if (id == -3) { MessageBox.Show("Sem conexão com o banco de dados!"); }
         }
 
         private void btnFecharLogin_Click_1(object sender, RoutedEventArgs e)

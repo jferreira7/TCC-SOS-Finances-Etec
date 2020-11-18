@@ -58,6 +58,22 @@ create table saldos (
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
 );
 
+-- SQL Trigger
+CREATE TRIGGER usuarios_AFTER_INSERT ON usuarios AFTER INSERT AS 
+BEGIN
+	INSERT INTO saldos (valor, id_usuario) VALUES ("0", new.id);
+END;
+
+CREATE TRIGGER despesas_AFTER_INSERT ON despesas AFTER INSERT AS 
+BEGIN
+	UPDATE saldos set valor = valor - new.valor where id_usuario = new.id_usuario;
+END;
+
+CREATE TRIGGER receitas_AFTER_INSERT ON receitas AFTER INSERT AS
+BEGIN
+	UPDATE saldos set valor = valor + new.valor where id_usuario = new.id_usuario;
+END;//
+
 DELIMITER //
 
 CREATE TRIGGER usuarios_AFTER_INSERT AFTER INSERT ON usuarios FOR EACH ROW
@@ -99,16 +115,19 @@ create table objetivos (
 );
 
 select * from objetivos;
-
-drop trigger objetivos_AFTER_INSERT;
-
-DELIMITER //
-
-CREATE TRIGGER objetivos_AFTER_INSERT AFTER INSERT ON objetivos FOR EACH ROW
-BEGIN
-	set new.valor_guardado=new.valor_inicial, new.valor_restante=(new.preco - new.valor_inicial);
-END;//
-
-DELIMITER ;
-
 insert into objetivos (nome, preco, valor_mes, valor_inicial, id_usuario) values ("AAAAA", 200.00, 50.00, 100.00, 1);
+
+create table objetivos (
+	id int primary key auto_increment,
+    nome varchar(150) not null,
+    preco decimal(12,2) not null,
+    imagem mediumblob default null,
+    valor_inicial decimal(12,2),
+    porcentagem float(3, 1) default 0,
+    valor_guardado decimal(12,2) default 0.00,
+    valor_restante decimal(12,2) default 0.00,
+    data_insercao datetime DEFAULT CURRENT_TIMESTAMP,
+    data_finalizacao datetime DEFAULT CURRENT_TIMESTAMP,
+    id_usuario int not null,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
+);

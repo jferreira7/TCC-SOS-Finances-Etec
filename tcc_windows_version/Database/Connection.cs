@@ -10,12 +10,20 @@ namespace tcc_windows_version.Database
     class Connection
     {
         MySqlConnection objSqlConnnection = new MySqlConnection();
-       
+        
         string server = "localhost";
         string port = "3306";
         string user_id = "root";
         string password = "";
         string database = "sym";
+        
+        /*
+        string server = "localhost";
+        string port = "3306";
+        string user_id = "root";
+        string password = "";
+        string database = "sym";
+        */
 
         public string Conexao()
         {
