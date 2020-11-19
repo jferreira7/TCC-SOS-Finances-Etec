@@ -123,7 +123,7 @@ create table objetivos (
     preco decimal(12,2) not null,
     imagem mediumblob default null,
     valor_inicial decimal(12,2),
-    porcentagem float(3, 1) default 0,
+    porcentagem decimal(3, 1) default 0,
     valor_guardado decimal(12,2) default 0.00,
     valor_restante decimal(12,2) default 0.00,
     data_insercao datetime DEFAULT CURRENT_TIMESTAMP,

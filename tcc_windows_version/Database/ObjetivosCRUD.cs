@@ -22,7 +22,7 @@ namespace tcc_windows_version.Database
             objComando.Parameters.Add("@nome", MySqlDbType.VarChar, 8).Value = objetivo.nome;
             objComando.Parameters.Add("@preco", MySqlDbType.Decimal, 12).Value = objetivo.preco;
             objComando.Parameters.Add("@imagem", MySqlDbType.MediumBlob).Value = objetivo.image_bytes;
-            objComando.Parameters.Add("@porcentagem", MySqlDbType.Float).Value = objetivo.porcentagem;
+            objComando.Parameters.Add("@porcentagem", MySqlDbType.Decimal).Value = objetivo.porcentagem;
             objComando.Parameters.Add("@valor_inicial", MySqlDbType.Decimal, 12).Value = objetivo.valor_inicial;
             objComando.Parameters.Add("@valor_guardado", MySqlDbType.Decimal, 12).Value = objetivo.valor_inicial;
             objComando.Parameters.Add("@valor_restante", MySqlDbType.Decimal, 12).Value = (Convert.ToDecimal(objetivo.preco) - Convert.ToDecimal(objetivo.valor_inicial));

@@ -21,12 +21,13 @@
         <Grid.RowDefinitions>
             <RowDefinition/>
         </Grid.RowDefinitions>
-        <DataGrid x:Name="dgReceitas" HeadersVisibility="Column" Margin="505,60.333,3,10.667" RenderTransformOrigin="0.5,0.5" ScrollViewer.CanContentScroll="True" UseLayoutRounding="False" AutoGenerateColumns="False" CanUserResizeColumns="False" GridLinesVisibility="None" CanUserResizeRows="False" Grid.ColumnSpan="2" SelectionChanged="dgReceitas_SelectionChanged" Background="#FFF1EFF1">
+        <DataGrid x:Name="dgReceitas" HeadersVisibility="Column" Margin="505,60.333,3,10.667" RenderTransformOrigin="0.5,0.5" ScrollViewer.CanContentScroll="True" UseLayoutRounding="False" AutoGenerateColumns="False" CanUserResizeColumns="False" GridLinesVisibility="None" CanUserResizeRows="False" Grid.ColumnSpan="2" SelectionChanged="dgReceitas_SelectionChanged" Background="#FFF1EFF1" BorderThickness="0">
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="Background" Value="#292C33" />
                     <Setter Property="Foreground" Value="#FFDAD7DA" />
                     <Setter Property="Height" Value="25" />
+                    <Setter Property="FontSize" Value="14" />
                 </Style>
                 <Style TargetType="{x:Type DataGridCell}">
                     <Setter Property="Template">
@@ -43,16 +44,97 @@
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}">
                     <Setter Property="Background" Value="#FFF1EFF1" />
-                    <Setter Property="Height" Value="30" />
-                    <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="Height" Value="30" />                    
+                    <Setter Property="FontSize" Value="14" />
                 </Style>
             </DataGrid.RowStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding id}" Header="Código" Visibility="Hidden"/>
-                <DataGridTextColumn Binding="{Binding data_insercao, StringFormat=d}" Header="Data Inser." Width="100" />
-                <DataGridTextColumn Binding="{Binding descricao}" Header="Descrição" Width="200"/>
-                <DataGridTextColumn Binding="{Binding categoria}" Header="Categoria" Width="100"/>
-                <DataGridTextColumn Binding="{Binding valor}" Header="Valor" Width="Auto"/>
+                
+                <DataGridTextColumn Binding="{Binding id}" Header="Código" Visibility="Hidden">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Margin" Value="9,0,0,0"/>
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Margin" Value="11,0,0,0"/>
+                            <Setter Property="Background" Value="#292C33" />
+                            <Setter Property="Foreground" Value="#FFDAD7DA" />
+                            <Setter Property="FontSize" Value="14" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                
+                <DataGridTextColumn Binding="{Binding data_insercao, StringFormat=d}" Header="Data Inser." Width="100">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Margin" Value="3,0,0,0"/>
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Margin" Value="7,0,0,0"/>
+                            <Setter Property="Background" Value="#292C33" />
+                            <Setter Property="Foreground" Value="#FFDAD7DA" />
+                            <Setter Property="FontSize" Value="14" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                
+                <DataGridTextColumn Binding="{Binding descricao}" Header="Descrição" Width="200">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Margin" Value="3,0,0,0"/>
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Margin" Value="7,0,0,0"/>
+                            <Setter Property="Background" Value="#292C33" />
+                            <Setter Property="Foreground" Value="#FFDAD7DA" />
+                            <Setter Property="FontSize" Value="14" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                
+                <DataGridTextColumn Binding="{Binding categoria}" Header="Categoria" Width="100">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Margin" Value="3,0,0,0"/>
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Margin" Value="7,0,0,0"/>
+                            <Setter Property="Background" Value="#292C33" />
+                            <Setter Property="Foreground" Value="#FFDAD7DA" />
+                            <Setter Property="FontSize" Value="14" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                
+                <DataGridTextColumn Binding="{Binding valor}" Header="Valor" Width="Auto">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Margin" Value="3,0,0,0"/>
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Margin" Value="7,0,0,0"/>
+                            <Setter Property="Background" Value="#292C33" />
+                            <Setter Property="Foreground" Value="#FFDAD7DA" />
+                            <Setter Property="FontSize" Value="14" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                
             </DataGrid.Columns>
         </DataGrid>
         <Grid x:Name="gdReceitas" HorizontalAlignment="Left" Height="353" VerticalAlignment="Top" Width="332" Background="#FFF1EFF1" Margin="172,47,0,0">
@@ -307,12 +389,13 @@
             </ComboBox>
         </Grid>
 
-        <DataGrid x:Name="dgDespesas" HeadersVisibility="Column" Margin="505,60,3,10" RenderTransformOrigin="0.5,0.5" ScrollViewer.CanContentScroll="True" UseLayoutRounding="False" AutoGenerateColumns="False" CanUserResizeColumns="False" GridLinesVisibility="None" CanUserResizeRows="False" Grid.ColumnSpan="2" SelectionChanged="dgDespesas_SelectionChanged" Background="#FFF1EFF1">
+        <DataGrid x:Name="dgDespesas" HeadersVisibility="Column" Margin="505,60,3,10" RenderTransformOrigin="0.5,0.5" ScrollViewer.CanContentScroll="True" UseLayoutRounding="False" AutoGenerateColumns="False" CanUserResizeColumns="False" GridLinesVisibility="None" CanUserResizeRows="False" Grid.ColumnSpan="2" SelectionChanged="dgDespesas_SelectionChanged" Background="#FFF1EFF1" BorderThickness="0">
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="Background" Value="#292C33" />
                     <Setter Property="Foreground" Value="#FFDAD7DA" />
                     <Setter Property="Height" Value="25" />
+                    <Setter Property="FontSize" Value="14" />
                 </Style>
                 <Style TargetType="{x:Type DataGridCell}">
                     <Setter Property="Template">
@@ -331,16 +414,122 @@
                     <Setter Property="Background" Value="#FFF1EFF1" />
                     <Setter Property="Height" Value="30" />
                     <Setter Property="VerticalAlignment" Value="Center" />
+                    <Setter Property="FontSize" Value="14" />
                 </Style>
             </DataGrid.RowStyle>
             <DataGrid.Columns>
-                <DataGridTextColumn Binding="{Binding id}" Header="Código" Visibility="Hidden"/>
-                <DataGridTextColumn Binding="{Binding data_vencimento, StringFormat=d}" Header="Data Venc." Width="100" />
-                <DataGridTextColumn Binding="{Binding estado}" Header="Status" Width="80" SortMemberPath="estado"/>
-                <DataGridTextColumn Binding="{Binding nome}" Header="Nome" Width="200"/>
-                <DataGridTextColumn Binding="{Binding empresa}"  Header="Empresa" Width="100"/>
-                <DataGridTextColumn Binding="{Binding categoria}" Header="Categoria" Width="100"/>
-                <DataGridTextColumn Binding="{Binding valor}" Header="Valor" Width="Auto"/>
+                <DataGridTextColumn Binding="{Binding id}" Header="Código" Visibility="Hidden">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Margin" Value="3,0,0,0"/>
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Margin" Value="7,0,0,0"/>
+                            <Setter Property="Background" Value="#292C33" />
+                            <Setter Property="Foreground" Value="#FFDAD7DA" />
+                            <Setter Property="FontSize" Value="14" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding data_vencimento, StringFormat=d}" Header="Data Venc." Width="100">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Margin" Value="3,0,0,0"/>
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Margin" Value="7,0,0,0"/>
+                            <Setter Property="Background" Value="#292C33" />
+                            <Setter Property="Foreground" Value="#FFDAD7DA" />
+                            <Setter Property="FontSize" Value="14" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding estado}" Header="Status" Width="80" SortMemberPath="estado">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Margin" Value="3,0,0,0"/>
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Margin" Value="7,0,0,0"/>
+                            <Setter Property="Background" Value="#292C33" />
+                            <Setter Property="Foreground" Value="#FFDAD7DA" />
+                            <Setter Property="FontSize" Value="14" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding nome}" Header="Nome" Width="200">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Margin" Value="3,0,0,0"/>
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Margin" Value="7,0,0,0"/>
+                            <Setter Property="Background" Value="#292C33" />
+                            <Setter Property="Foreground" Value="#FFDAD7DA" />
+                            <Setter Property="FontSize" Value="14" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding empresa}"  Header="Empresa" Width="100">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Margin" Value="3,0,0,0"/>
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Margin" Value="7,0,0,0"/>
+                            <Setter Property="Background" Value="#292C33" />
+                            <Setter Property="Foreground" Value="#FFDAD7DA" />
+                            <Setter Property="FontSize" Value="14" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding categoria}" Header="Categoria" Width="100">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Margin" Value="3,0,0,0"/>
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Margin" Value="7,0,0,0"/>
+                            <Setter Property="Background" Value="#292C33" />
+                            <Setter Property="Foreground" Value="#FFDAD7DA" />
+                            <Setter Property="FontSize" Value="14" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
+                <DataGridTextColumn Binding="{Binding valor}" Header="Valor" Width="Auto">
+                    <DataGridTextColumn.CellStyle>
+                        <Style TargetType="DataGridCell">
+                            <Setter Property="Margin" Value="3,0,0,0"/>
+                            <Setter Property="VerticalAlignment" Value="Center" />
+                        </Style>
+                    </DataGridTextColumn.CellStyle>
+                    <DataGridTextColumn.HeaderStyle>
+                        <Style TargetType="DataGridColumnHeader">
+                            <Setter Property="Margin" Value="7,0,0,0"/>
+                            <Setter Property="Background" Value="#292C33" />
+                            <Setter Property="Foreground" Value="#FFDAD7DA" />
+                            <Setter Property="FontSize" Value="14" />
+                        </Style>
+                    </DataGridTextColumn.HeaderStyle>
+                </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
 
@@ -555,12 +744,13 @@
         <Grid x:Name="gdObjetivos" Margin="176,51,3,3" Grid.ColumnSpan="2" Background="#FFF1EFF1">
             <Label Content="Adicione os itens que deseja comprar:" HorizontalAlignment="Left" Margin="3,15,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Width="233"/>
             <TextBox x:Name="txtNomeObjetivo" HorizontalAlignment="Left" Height="23" Margin="10,82,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="204" Background="{x:Null}"/>
-            <DataGrid x:Name="dgObjetivos" HeadersVisibility="All" Margin="328,10,281.75,0" RenderTransformOrigin="0.5,0.5" ScrollViewer.CanContentScroll="True" UseLayoutRounding="False" AutoGenerateColumns="False" CanUserResizeColumns="False" GridLinesVisibility="None" CanUserResizeRows="False" Background="#FFF1EFF1" CanUserDeleteRows="False" BorderBrush="{x:Null}" RowHeaderWidth="0">
+            <DataGrid x:Name="dgObjetivos" HeadersVisibility="All" Margin="328,10,0,233" RenderTransformOrigin="0.5,0.5" ScrollViewer.CanContentScroll="True" UseLayoutRounding="False" AutoGenerateColumns="False" CanUserResizeColumns="False" GridLinesVisibility="None" CanUserResizeRows="False" Background="#FFF1EFF1" CanUserDeleteRows="False" BorderBrush="#FF292C33" RowHeaderWidth="0" BorderThickness="0,0,0,5">
                 <DataGrid.Resources>
                     <Style TargetType="{x:Type DataGridColumnHeader}">
                         <Setter Property="Background" Value="#292C33" />
                         <Setter Property="Foreground" Value="#FFDAD7DA" />
                         <Setter Property="Height" Value="25" />
+                        <Setter Property="FontSize" Value="14" />
                     </Style>
                     <Style TargetType="{x:Type DataGridCell}">
                         <Setter Property="Template">
@@ -571,45 +761,126 @@
                                     </Grid>
                                 </ControlTemplate>
                             </Setter.Value>
-                        </Setter>
+                        </Setter>                        
                     </Style>
                     <Style TargetType="DataGridCellsPresenter">
                         <Setter Property="Height" Value="55" />
                     </Style>
-                </DataGrid.Resources>
+                    <Style x:Key="ColumnElementStyle" TargetType="TextBlock">
+                        <Setter Property="Margin" Value="5,0,0,0" />
+                    </Style>
+                    <Style x:Key="ColumnHeaderStyle" TargetType="TextBlock">
+                        <Setter Property="Margin" Value="5,0,0,0" />
+                    </Style>                    
+                </DataGrid.Resources>                
                 <DataGrid.Columns>
                     
                     <DataGridTextColumn Binding="{Binding id}" ClipboardContentBinding="{x:Null}" Header="ID" Visibility="Hidden"/>
                     
-                    <DataGridTemplateColumn Header="Image" IsReadOnly="True">
+                    <DataGridTemplateColumn Header="" IsReadOnly="False" MinWidth="70">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Image Source="{Binding imagem}" />
+                                <Border BorderThickness="1" BorderBrush="#292C33" Width="80" Margin="5,0,0,0">
+                                    <Image Source="{Binding imagem}" Margin="0,0,0,0"/>
+                                </Border>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Margin" Value="7,0,0,0"/>
+                                <Setter Property="Background" Value="#292C33" />
+                                <Setter Property="Foreground" Value="#FFDAD7DA" />
+                                <Setter Property="FontSize" Value="14" />
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
+                    </DataGridTemplateColumn>                    
+
+                    <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="Nome" Width="150">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding nome}" FontSize="14" Margin="9,0,0,0" TextWrapping="Wrap"/>
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Margin" Value="9,0,0,0"/>
+                                <Setter Property="Background" Value="#292C33" />
+                                <Setter Property="Foreground" Value="#FFDAD7DA" />
+                                <Setter Property="FontSize" Value="14" />
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
+                    </DataGridTemplateColumn>
+
+
+                    <DataGridTemplateColumn Header="Progresso" Width="150" Visibility="Visible">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <ProgressBar Value="{Binding porcentagem}" Minimum="0" Maximum="100" Height="20" Margin="10,0,0,0" />                                
+                            </DataTemplate>                            
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Margin" Value="9,0,0,0"/>
+                                <Setter Property="Background" Value="#292C33" />
+                                <Setter Property="Foreground" Value="#FFDAD7DA" />
+                                <Setter Property="FontSize" Value="14" />
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>                        
+                    </DataGridTemplateColumn>
+
+                    <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="Preço" Width="100">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <TextBlock Text="{Binding preco}" FontSize="14" Margin="20,0,0,0"/>                                
+                            </DataTemplate>
+                        </DataGridTemplateColumn.CellTemplate>
+                        <DataGridTemplateColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Margin" Value="20,0,0,0"/>
+                                <Setter Property="Background" Value="#292C33" />
+                                <Setter Property="Foreground" Value="#FFDAD7DA" />
+                                <Setter Property="FontSize" Value="14" />
+                            </Style>
+                        </DataGridTemplateColumn.HeaderStyle>
+                    </DataGridTemplateColumn>
+                    
+                    <DataGridTemplateColumn Header="" Visibility="Visible">
+                        <DataGridTemplateColumn.CellTemplate>
+                            <DataTemplate>
+                                <Button x:Name="btnDetalhesObjetivo" Height="30" Width="70" Content="Detalhes" Click="btnAdicionarValor_Click"/>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-                    
-                    <DataGridTextColumn Binding="{Binding nome}" ClipboardContentBinding="{x:Null}" Header="Nome"/>
-                    
-                    <DataGridTemplateColumn Header="Progresso" Width="100" Visibility="Visible">
-                        <DataGridTemplateColumn.CellTemplate>
-                            <DataTemplate>
-                                <ProgressBar Value="{Binding porcentagem}" Minimum="0" Maximum="100" Height="20" />
-                            </DataTemplate>
-                        </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>
-                    
-                    <DataGridTextColumn Binding="{Binding preco}" ClipboardContentBinding="{x:Null}" Header="Preço"/>   
-                    
+
+                    <DataGridTextColumn ClipboardContentBinding="{x:Null}" Header="" Width="50">
+                        <DataGridTextColumn.CellStyle>
+                            <Style TargetType="DataGridCell">
+                                <Setter Property="Margin" Value="12,0,0,0"/>
+                                <Setter Property="FontSize" Value="14" />
+                                <Setter Property="VerticalAlignment" Value="Center" />
+                            </Style>
+                        </DataGridTextColumn.CellStyle>
+                        <DataGridTextColumn.HeaderStyle>
+                            <Style TargetType="DataGridColumnHeader">
+                                <Setter Property="Margin" Value="14,0,0,0"/>
+                                <Setter Property="Background" Value="#292C33" />
+                                <Setter Property="Foreground" Value="#FFDAD7DA" />
+                                <Setter Property="FontSize" Value="14" />
+                            </Style>
+                        </DataGridTextColumn.HeaderStyle>
+                    </DataGridTextColumn>
+
                 </DataGrid.Columns>
+                
                 <DataGrid.RowStyle>
                     <Style TargetType="{x:Type DataGridRow}">
                         <Setter Property="Background" Value="#FFF1EFF1" />
                         <Setter Property="Height" Value="60" />
-                        <Setter Property="VerticalAlignment" Value="Center" />
                     </Style>
                 </DataGrid.RowStyle>
+                
             </DataGrid>
+            
             <Label Content="Nome:" HorizontalAlignment="Left" Margin="3,56,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Width="53"/>
             <TextBox x:Name="txtPrecoObjetivo" HorizontalAlignment="Left" Height="23" Margin="230,82,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="89" Background="{x:Null}"/>
             <Label Content="Preço:" HorizontalAlignment="Left" Margin="226,56,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Width="54"/>

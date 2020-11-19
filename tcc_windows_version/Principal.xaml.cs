@@ -594,5 +594,10 @@ namespace tcc_windows_version
             btnImageObjetivo.Background = new ImageBrush { ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/imageIcon.png", UriKind.RelativeOrAbsolute)) };            
             txtValorInicialObjetivo.Text = "";            
         }
+
+        private void btnAdicionarValor_Click(object sender, RoutedEventArgs e)
+        {
+            MessageBox.Show("OK");
+        }
     }
 }
