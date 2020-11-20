@@ -21,7 +21,7 @@ namespace tcc_windows_version.Database
 
             objComando.Parameters.Add("@nome", MySqlDbType.VarChar, 8).Value = objetivo.nome;
             objComando.Parameters.Add("@preco", MySqlDbType.Decimal, 12).Value = objetivo.preco;
-            objComando.Parameters.Add("@imagem", MySqlDbType.MediumBlob).Value = objetivo.image_bytes;
+            objComando.Parameters.Add("@imagem", MySqlDbType.MediumBlob).Value = objetivo.imagem_bytes;
             objComando.Parameters.Add("@porcentagem", MySqlDbType.Decimal).Value = objetivo.porcentagem;
             objComando.Parameters.Add("@valor_inicial", MySqlDbType.Decimal, 12).Value = objetivo.valor_inicial;
             objComando.Parameters.Add("@valor_guardado", MySqlDbType.Decimal, 12).Value = objetivo.valor_inicial;
@@ -41,6 +41,29 @@ namespace tcc_windows_version.Database
                 MessageBox.Show("Erro conexão com o servidor: " + erro);
             }
         }
+        public void Update(Objetivos objetivo)
+        {
+            objComando.CommandText = "update objetivos set nome = @nome, preco = @preco, imagem = @imagem where id = @id and id_usuario = @id_usuario;";
+
+            objComando.Parameters.Add("@id", MySqlDbType.Int32).Value = objetivo.id;
+            objComando.Parameters.Add("@nome", MySqlDbType.VarChar, 8).Value = objetivo.nome;
+            objComando.Parameters.Add("@preco", MySqlDbType.Decimal, 12).Value = objetivo.preco;
+            objComando.Parameters.Add("@imagem", MySqlDbType.MediumBlob).Value = objetivo.imagem_bytes;
+            objComando.Parameters.Add("@id_usuario", MySqlDbType.Int32).Value = objetivo.id_usuario;
+
+            try
+            {
+                objConexao.Conexao();
+                objComando.Connection = objConexao.Conectar();
+                objComando.ExecuteNonQuery();
+                objConexao.Desconectar();
+                MessageBox.Show("Objetivo atualizado!");
+            }
+            catch (Exception erro)
+            {
+                MessageBox.Show("Erro conexão com o servidor: " + erro);
+            }
+        }
         public DataView Read(int idUsuario)
         {
             MySqlDataAdapter adpt;
@@ -51,7 +74,27 @@ namespace tcc_windows_version.Database
             adpt.Fill(data);
             objConexao.Desconectar();
             return data.DefaultView;
-        }/*
+        }
+        public void Delete(int id)
+        {
+            objComando.CommandText = "delete from objetivos where id = @id";
+            objComando.Parameters.Add("@id", MySqlDbType.Int32, 11).Value = id;
+
+            try
+            {
+                objConexao.Conexao();
+                objComando.Connection = objConexao.Conectar();
+                objComando.ExecuteNonQuery();
+                objConexao.Desconectar();
+                MessageBox.Show("Objetivo deletado!");
+            }
+            catch (Exception erro)
+            {
+                MessageBox.Show("Erro de conexão com o servidor: " + erro);
+            }
+        }
+
+        /*
         public void Update(Despesas despesa)
         {
             objComando.CommandText = "update despesas set estado = @estado, empresa = @empresa, nome = @nome, categoria = @categoria, valor = @valor, data_vencimento = @data_vencimento where id = @id and id_usuario = @id_usuario;";
@@ -105,27 +148,27 @@ namespace tcc_windows_version.Database
             string mes = "1";
             string ano = "2020";*/
 
-            /*"select* from despesas where nome like '%nada%' and empresa like '%DAAE%' and categoria like '%men%' and MONTH(data_vencimento) = '10' and YEAR(data_vencimento) = '2020' and estado = 'Pendente';"*//*
-            if (nome != "") { query += "nome like '%" + nome + "%' and "; }
-            if (empresa != "") { query += "empresa like '%" + empresa + "%' and "; }
-            if (categoria != "") { query += "categoria like '%" + categoria + "%' and "; }
-            if (mes != "") { query += "MONTH(data_vencimento) = '" + mes + "' and "; }
-            if (ano != "") { query += "YEAR(data_vencimento) = '" + ano + "' and "; }
-            if (estado != "") { query += "estado = '" + estado + "' and "; }
-            if (id_usuario > 0) { query += "id_usuario = '" + id_usuario.ToString() + "' and "; }
+        /*"select* from despesas where nome like '%nada%' and empresa like '%DAAE%' and categoria like '%men%' and MONTH(data_vencimento) = '10' and YEAR(data_vencimento) = '2020' and estado = 'Pendente';"*//*
+        if (nome != "") { query += "nome like '%" + nome + "%' and "; }
+        if (empresa != "") { query += "empresa like '%" + empresa + "%' and "; }
+        if (categoria != "") { query += "categoria like '%" + categoria + "%' and "; }
+        if (mes != "") { query += "MONTH(data_vencimento) = '" + mes + "' and "; }
+        if (ano != "") { query += "YEAR(data_vencimento) = '" + ano + "' and "; }
+        if (estado != "") { query += "estado = '" + estado + "' and "; }
+        if (id_usuario > 0) { query += "id_usuario = '" + id_usuario.ToString() + "' and "; }
 
-            query = query.TrimEnd(' ', 'a', 'n', 'd', ' ');
-            query += ";";
+        query = query.TrimEnd(' ', 'a', 'n', 'd', ' ');
+        query += ";";
 
-            Connection objConexao = new Connection();
-            MySqlDataAdapter adpt;
-            DataTable data = new DataTable("despesas");
+        Connection objConexao = new Connection();
+        MySqlDataAdapter adpt;
+        DataTable data = new DataTable("despesas");
 
-            adpt = new MySqlDataAdapter(query, objConexao.Conexao());
-            adpt.Fill(data);
-            objConexao.Desconectar();
+        adpt = new MySqlDataAdapter(query, objConexao.Conexao());
+        adpt.Fill(data);
+        objConexao.Desconectar();
 
-            return data.DefaultView;
-        }*/
+        return data.DefaultView;
+    }*/
     }
 }

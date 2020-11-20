@@ -17,7 +17,7 @@ namespace tcc_windows_version.Business
 
             if ((objetivo.nome != "") && 
                 (objetivo.preco != "" || Convert.ToDecimal(objetivo.preco) > 0) && 
-                (objetivo.image_bytes != null) &&                 
+                (objetivo.imagem_bytes != null) &&                 
                 (objetivo.valor_inicial != "" || Convert.ToDecimal(objetivo.valor_inicial) > 0) &&
                 (objetivo.id_usuario > 0))
             {
@@ -26,6 +26,21 @@ namespace tcc_windows_version.Business
 
                 ObjetivosCRUD crud = new ObjetivosCRUD();
                 crud.Create(objetivo);
+            }
+            else
+            {
+                MessageBox.Show("Preencha corretamente as lacunas!");
+            }
+        }
+        public void Editar(Objetivos objetivo)
+        {
+            if ((objetivo.nome != "") &&
+                (objetivo.preco != "" || Convert.ToDecimal(objetivo.preco) > 0) &&
+                (objetivo.imagem_bytes != null) &&
+                (objetivo.id_usuario > 0))
+            {
+                ObjetivosCRUD crud = new ObjetivosCRUD();
+                crud.Update(objetivo);
             }
             else
             {
@@ -42,6 +57,14 @@ namespace tcc_windows_version.Business
             else
             {                
                 return null;
+            }
+        }
+        public void Deletar(int id)
+        {
+            if (id > 0)
+            {
+                ObjetivosCRUD crud = new ObjetivosCRUD();
+                crud.Delete(id);
             }
         }
     }

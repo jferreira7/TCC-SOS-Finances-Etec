@@ -88,10 +88,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Business\ObjetivosBO.cs" />
-    <Compile Include="Business\OutrosBO.cs" />
+    <Compile Include="Business\ValoresBO.cs" />
     <Compile Include="Business\UsuarioBO.cs" />
     <Compile Include="Database\ObjetivosCRUD.cs" />
-    <Compile Include="Database\Outros.cs" />
+    <Compile Include="Database\ValoresRead.cs" />
     <Compile Include="Database\UsuarioValida.cs" />
     <Compile Include="Model\Objetivos.cs" />
     <Compile Include="Model\Usuario.cs" />

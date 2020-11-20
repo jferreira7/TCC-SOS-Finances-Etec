@@ -10,6 +10,7 @@ using System.Globalization;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices;
+using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -36,11 +37,10 @@ namespace tcc_windows_version
     /// </summary>
     public partial class MainWindow : Window
     {
-        string idDespesaSelecionada;
-        string idReceitaSelecionada;
+        string idDespesaSelecionada, idReceitaSelecionada, idObjetivoSelecionado;
         string nome_usuario;
         string caminho_imagem = "";        
-        byte[] ImageData;
+        byte[] imagem;
         int idUsuario;
 
         #region Borda Customizada
@@ -196,7 +196,7 @@ namespace tcc_windows_version
             atualizarGridDespesasAnoAtual();
 
             //Buscar saldo
-            OutrosBO oBO = new OutrosBO();
+            ValoresBO oBO = new ValoresBO();
             txtSaldoAtual.Text = "R$" + oBO.BuscarSaldo(idUsuario);
         }
 
@@ -248,6 +248,17 @@ namespace tcc_windows_version
             catch
             {
                
+            }
+        }
+        public void atualizarGridObjetivos()
+        {
+            ObjetivosBO bo = new ObjetivosBO();
+            DataView resultado = bo.BuscarTodos(idUsuario);
+
+            if (resultado != null)
+            {
+
+                dgObjetivos.ItemsSource = resultado;
             }
         }
         private void dgDespesas_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -330,18 +341,7 @@ namespace tcc_windows_version
             gdLateralBotoes.Margin = new Thickness(-1, 320, 0, 0);
             gdObjetivos.Visibility = Visibility.Visible;
 
-            ObjetivosBO bo = new ObjetivosBO();
-            DataView resultado = bo.BuscarTodos(idUsuario);
-
-            if (resultado != null)
-            {
-                /*foreach (DataRowView rowView in resultado)
-                {
-                    rowView["nome"] += "aaaa";
-                }*/            
-                
-                dgObjetivos.ItemsSource = resultado;
-            }
+            atualizarGridObjetivos();
         }
         #endregion
 
@@ -449,6 +449,7 @@ namespace tcc_windows_version
             txtEmpresa.Text = "";
             txtValorDespesas.Text = "";
             dpDespesa.Text = "";
+            dgDespesas.UnselectAll();
         }
         #endregion
 
@@ -511,6 +512,7 @@ namespace tcc_windows_version
             txtDescricaoReceita.Text = "";
             cbCategoriaReceita.SelectedIndex = -1;
             txtValorReceita.Text = "";
+            dgReceitas.UnselectAll();
         }
         #endregion
 
@@ -538,8 +540,121 @@ namespace tcc_windows_version
             cbMesDespesaFiltrar.SelectedIndex = -1;
             cbAnoDespesaFiltrar.SelectedIndex = -1;
             cbEstadoDespesaFiltrar.SelectedIndex = -1;
+            dgDespesas.UnselectAll();
         }
         #endregion
+
+        #region Botões objetivos
+
+        private void btnAdicionarObjetivo_Click(object sender, RoutedEventArgs e)
+        {
+            Objetivos objetivo = new Objetivos();
+            objetivo.nome = txtNomeObjetivo.Text;
+            objetivo.preco = txtPrecoObjetivo.Text;
+            objetivo.imagem_bytes = imagem;
+            objetivo.valor_inicial = txtValorInicialObjetivo.Text;
+            objetivo.id_usuario = idUsuario;
+
+            ObjetivosBO oBO = new ObjetivosBO();
+            oBO.Cadastrar(objetivo);
+
+            atualizarGridObjetivos();
+            limparObjetivo();
+        }
+        private void btnImageObjetivo_Click(object sender, RoutedEventArgs e)
+        {
+            OpenFileDialog openFileDialog1 = new OpenFileDialog();
+            openFileDialog1.Filter = "Image files (*.jpg, *.png)|*.jpg; *.png";
+            openFileDialog1.Multiselect = false;
+            if (openFileDialog1.ShowDialog() == true)
+            {
+                caminho_imagem = openFileDialog1.FileName;
+
+                if (caminho_imagem != "")
+                {
+                    btnImageObjetivo.Background = new ImageBrush { ImageSource = new BitmapImage(new Uri(caminho_imagem, UriKind.Relative)) };
+                    string FileName = caminho_imagem;
+
+                    FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read);
+                    BinaryReader br = new BinaryReader(fs);
+                    imagem = br.ReadBytes((int)fs.Length);
+                    br.Close();
+                    fs.Close();
+                }
+            }
+        }
+        private void btnLimparObjetivo_Click(object sender, RoutedEventArgs e)
+        {
+            limparObjetivo();
+            dgObjetivos.UnselectAll();
+        }
+        private void btnDeletarObjetivo_Click(object sender, RoutedEventArgs e)
+        {
+            ObjetivosBO objetivo = new ObjetivosBO();
+            objetivo.Deletar(Convert.ToInt32(idObjetivoSelecionado));
+
+            atualizarGridObjetivos();
+            limparObjetivo();
+        }
+        private void btnAlterarObjetivo_Click(object sender, RoutedEventArgs e)
+        {
+            Objetivos objetivo = new Objetivos();
+            ObjetivosBO oBO = new ObjetivosBO();
+
+            objetivo.id = Convert.ToInt32(idObjetivoSelecionado);
+            objetivo.nome = txtNomeObjetivo.Text;
+            objetivo.preco = txtPrecoObjetivo.Text;
+            objetivo.imagem_bytes = imagem;
+            objetivo.id_usuario = idUsuario;
+           
+            oBO.Editar(objetivo);
+
+            atualizarGridObjetivos();
+            limparObjetivo();
+        }
+        public BitmapImage ToImage(byte[] array)
+        {
+            using (var ms = new System.IO.MemoryStream(array))
+            {
+                var image = new BitmapImage();
+                image.BeginInit();
+                image.CacheOption = BitmapCacheOption.OnLoad;
+                image.StreamSource = ms;
+                image.EndInit();
+                return image;
+            }
+        }
+        public void limparObjetivo()
+        {
+            idDespesaSelecionada = "";
+            txtNomeObjetivo.Text = "";
+            txtPrecoObjetivo.Text = "";
+            btnImageObjetivo.Background = new ImageBrush { ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/imageIcon.png", UriKind.RelativeOrAbsolute)) };
+            txtValorInicialObjetivo.Text = "";
+            txtValorInicialObjetivo.IsEnabled = true;
+        }
+
+        #endregion
+
+               
+        private void dgObjetivos_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            DataGrid dg = (DataGrid)sender;
+            DataRowView row_selected = dg.SelectedItem as DataRowView;
+            if (row_selected != null)
+            {
+                idObjetivoSelecionado = row_selected["id"].ToString();
+                txtNomeObjetivo.Text = row_selected["nome"].ToString();
+                txtPrecoObjetivo.Text = row_selected["preco"].ToString();
+                txtValorInicialObjetivo.Text = row_selected["valor_inicial"].ToString();
+                txtValorInicialObjetivo.IsEnabled = false;
+
+                imagem = (byte[])row_selected["imagem"];
+                btnImageObjetivo.Background = new ImageBrush { ImageSource = ToImage(imagem) };
+            }
+        }
+
+
 
         private void btnResetLogin_Click(object sender, RoutedEventArgs e)
         {
@@ -550,54 +665,5 @@ namespace tcc_windows_version
             Application.Current.Shutdown();
         }
 
-        private void btnAdicionarObjetivo_Click(object sender, RoutedEventArgs e)
-        {
-            Objetivos objetivo = new Objetivos();
-            objetivo.nome = txtNomeObjetivo.Text;
-            objetivo.preco = txtPrecoObjetivo.Text;
-            objetivo.image_bytes = ImageData;            
-            objetivo.valor_inicial = txtValorInicialObjetivo.Text;
-            objetivo.id_usuario = idUsuario;
-
-            ObjetivosBO oBO = new ObjetivosBO();
-            oBO.Cadastrar(objetivo);
-        }
-
-        private void btnImageObjetivo_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog openFileDialog1 = new OpenFileDialog();
-            openFileDialog1.Filter = "Image files (*.jpg, *.png)|*.jpg; *.png";
-            openFileDialog1.Multiselect = false;
-            if (openFileDialog1.ShowDialog() == true)
-            {
-                caminho_imagem = openFileDialog1.FileName;                
-
-                if(caminho_imagem != "")
-                {
-                    btnImageObjetivo.Background = new ImageBrush { ImageSource = new BitmapImage(new Uri(caminho_imagem, UriKind.Relative)) };
-                    string FileName = caminho_imagem;
-                    
-                    FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read);
-                    BinaryReader br = new BinaryReader(fs);
-                    ImageData = br.ReadBytes((int)fs.Length);
-                    br.Close();
-                    fs.Close();
-                }
-            }
-        }
-
-        private void btnLimparObjetivo_Click(object sender, RoutedEventArgs e)
-        {
-            txtNomeObjetivo.Text = "";
-            txtPrecoObjetivo.Text = "";
-            caminho_imagem = "";
-            btnImageObjetivo.Background = new ImageBrush { ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/imageIcon.png", UriKind.RelativeOrAbsolute)) };            
-            txtValorInicialObjetivo.Text = "";            
-        }
-
-        private void btnAdicionarValor_Click(object sender, RoutedEventArgs e)
-        {
-            MessageBox.Show("OK");
-        }
     }
 }

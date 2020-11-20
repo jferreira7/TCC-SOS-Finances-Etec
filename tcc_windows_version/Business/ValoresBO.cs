@@ -7,13 +7,13 @@ using tcc_windows_version.Database;
 
 namespace tcc_windows_version.Business
 {
-    class OutrosBO
+    class ValoresBO
     {
         public string BuscarSaldo(int id)
         {
             if (id > 0) {
-                Outros outros = new Outros();
-                return outros.GetSaldo(id);
+                ValoresRead valor = new ValoresRead();
+                return valor.GetSaldo(id);
             } 
             else
             {

@@ -58,22 +58,6 @@ create table saldos (
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
 );
 
--- SQL Trigger
-CREATE TRIGGER usuarios_AFTER_INSERT ON usuarios AFTER INSERT AS 
-BEGIN
-	INSERT INTO saldos (valor, id_usuario) VALUES ("0", new.id);
-END;
-
-CREATE TRIGGER despesas_AFTER_INSERT ON despesas AFTER INSERT AS 
-BEGIN
-	UPDATE saldos set valor = valor - new.valor where id_usuario = new.id_usuario;
-END;
-
-CREATE TRIGGER receitas_AFTER_INSERT ON receitas AFTER INSERT AS
-BEGIN
-	UPDATE saldos set valor = valor + new.valor where id_usuario = new.id_usuario;
-END;//
-
 DELIMITER //
 
 CREATE TRIGGER usuarios_AFTER_INSERT AFTER INSERT ON usuarios FOR EACH ROW
@@ -98,24 +82,7 @@ SELECT * FROM saldos;
 select valor from saldos where id=1;
 
 drop table objetivos;
-create table objetivos (
-	id int primary key auto_increment,
-    nome varchar(150) not null,
-    preco decimal(12,2) not null,
-    imagem mediumblob default null,
-    valor_mes decimal(12,2) not null,
-    valor_inicial decimal(12,2),
-    meses_guardados int default 0,
-    valor_guardado decimal(12,2) default 0.00,
-    valor_restante decimal(12,2) default 0.00,
-    data_insercao datetime DEFAULT CURRENT_TIMESTAMP,
-    data_finalizacao datetime DEFAULT CURRENT_TIMESTAMP,
-    id_usuario int not null,
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
-);
-
 select * from objetivos;
-insert into objetivos (nome, preco, valor_mes, valor_inicial, id_usuario) values ("AAAAA", 200.00, 50.00, 100.00, 1);
 
 create table objetivos (
 	id int primary key auto_increment,
@@ -127,7 +94,70 @@ create table objetivos (
     valor_guardado decimal(12,2) default 0.00,
     valor_restante decimal(12,2) default 0.00,
     data_insercao datetime DEFAULT CURRENT_TIMESTAMP,
-    data_finalizacao datetime DEFAULT CURRENT_TIMESTAMP,
+    data_finalizacao datetime,
     id_usuario int not null,
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
 );
+
+drop trigger objetivos_BEFORE_UPDATE;
+
+DELIMITER //
+CREATE TRIGGER objetivos_BEFORE_UPDATE BEFORE UPDATE ON objetivos FOR EACH ROW
+BEGIN	
+	IF (NEW.valor_guardado > 0) THEN
+		SET NEW.porcentagem = ((OLD.valor_inicial + NEW.valor_guardado) * 100)/OLD.preco;   
+        SET NEW.valor_restante = OLD.preco - (OLD.valor_inicial + NEW.valor_guardado);
+        UPDATE valores SET valor_saldo = valor_saldo - (NEW.valor_guardado - OLD.valor_guardado), valor_reserva = valor_reserva + (NEW.valor_guardado - OLD.valor_guardado) WHERE id_usuario=NEW.id_usuario; 
+	END IF;
+	IF (NEW.preco <> OLD.preco) THEN
+		SET NEW.porcentagem = ((OLD.valor_inicial + OLD.valor_guardado) * 100)/NEW.preco;
+        SET NEW.valor_restante = NEW.preco - (OLD.valor_inicial + OLD.valor_guardado);
+    END IF;
+END;//
+DELIMITER ;
+
+select * from objetivos;
+update objetivos set valor_guardado=680 where id=3;
+update objetivos set preco=1000 where id=3;
+update objetivos set nome="Novo" where id=3;
+
+drop table valores;
+create table valores (
+	id int primary key auto_increment,    
+    valor_saldo decimal(12,2) not null,
+    valor_reserva decimal(12,2) not null,
+    valor_poupanca decimal(12,2) not null,
+    id_usuario int not null,
+    FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
+);
+drop trigger usuarios_AFTER_INSERT;
+drop trigger despesas_AFTER_INSERT;
+drop trigger receitas_AFTER_INSERT;
+
+DELIMITER //
+CREATE TRIGGER usuarios_AFTER_INSERT AFTER INSERT ON usuarios FOR EACH ROW
+BEGIN
+	INSERT INTO saldos (valor_saldo, valor_reserva, valor_poupanca, id_usuario) VALUES ("0", "0", "0", NEW.id);
+END;//
+CREATE TRIGGER despesas_AFTER_INSERT AFTER INSERT ON despesas FOR EACH ROW
+BEGIN
+	UPDATE valores set valor_saldo = valor_saldo - new.valor where id_usuario = new.id_usuario;
+END;//
+CREATE TRIGGER receitas_AFTER_INSERT AFTER INSERT ON receitas FOR EACH ROW
+BEGIN
+	UPDATE valores set valor_saldo = valor_saldo + new.valor where id_usuario = new.id_usuario;
+END;//
+DELIMITER ;
+
+select * from valores;
+insert into valores (valor_saldo, valor_reserva, valor_poupanca, id_usuario) values (536.54, 268.25, 1520.50 , 1);
+
+-- Trigger poupança
+
+
+
+
+
+
+
+

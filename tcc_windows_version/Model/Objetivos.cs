@@ -11,6 +11,6 @@ namespace tcc_windows_version.Model
         public int id, id_usuario;
         public string nome, preco, valor_mes, valor_inicial, meses_guardados, valor_restante;
         public double porcentagem;
-        public byte[] image_bytes;
+        public byte[] imagem_bytes;
     }
 }

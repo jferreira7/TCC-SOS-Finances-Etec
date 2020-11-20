@@ -11,21 +11,21 @@ using System.Windows;
 
 namespace tcc_windows_version.Database
 {
-    class Outros
+    class ValoresRead
     {
         Connection objConexao = new Connection();
         MySqlDataAdapter adpt;
 
         public string GetSaldo (int id) {
-            DataTable data = new DataTable("saldos");
-            adpt = new MySqlDataAdapter("select valor from saldos where id=" + id + " limit 1;", objConexao.Conexao());
+            DataTable data = new DataTable("saldo");
+            adpt = new MySqlDataAdapter("select valor_saldo from valores where id=" + id + " limit 1;", objConexao.Conexao());
             adpt.Fill(data);
             objConexao.Desconectar();          
             
             
             if (data.Rows.Count > 0)
             {
-                return data.Rows[0]["valor"].ToString();
+                return data.Rows[0]["valor_saldo"].ToString();
             }
             else
             {
