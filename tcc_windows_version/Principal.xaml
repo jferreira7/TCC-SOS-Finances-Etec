@@ -450,11 +450,11 @@
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
                 </DataGridTextColumn>
-                <DataGridTextColumn Binding="{Binding estado}" Header="Status" Width="1.3*" SortMemberPath="estado">                    
+                <DataGridTextColumn Binding="{Binding estado}" Header="Status" Width="1.3*" SortMemberPath="estado">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="DataGridCell">
                             <Setter Property="Margin" Value="3,0,0,0"/>
-                            <Setter Property="VerticalAlignment" Value="Center" />                            
+                            <Setter Property="VerticalAlignment" Value="Center" />
                         </Style>
                     </DataGridTextColumn.CellStyle>
                     <DataGridTextColumn.HeaderStyle>
@@ -476,7 +476,7 @@
                     </DataGridTextColumn.CellStyle>
                     <DataGridTextColumn.HeaderStyle>
                         <Style TargetType="DataGridColumnHeader">
-                            <Setter Property="Margin" Value="7,0,0,0"/>                            
+                            <Setter Property="Margin" Value="7,0,0,0"/>
                             <Setter Property="Background" Value="#292C33" />
                             <Setter Property="Foreground" Value="#FFDAD7DA" />
                             <Setter Property="FontSize" Value="14" />
@@ -720,8 +720,8 @@
             <ComboBox x:Name="cbManterDias" HorizontalAlignment="Left" Margin="229,57,0,0" VerticalAlignment="Top" Width="46"/>
             <ComboBox x:Name="cbManterValores" HorizontalAlignment="Left" Margin="229,84,0,0" VerticalAlignment="Top" Width="46"/>
         </Grid>
-        <Label Content="Saldo Atual:" HorizontalAlignment="Left" Margin="500,20,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Height="24" Width="79"/>
-        <TextBox x:Name="txtSaldoAtual" Height="23" Margin="579,21,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Background="{x:Null}" FontSize="14" BorderBrush="{x:Null}" HorizontalAlignment="Left" Width="77"/>
+        <Label Content="Saldo Atual:" HorizontalAlignment="Left" Margin="500,25,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Height="24" Width="79"/>
+        <TextBlock x:Name="tbSaldoAtual" Height="23" Margin="579,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Background="{x:Null}" FontSize="14" HorizontalAlignment="Left" Width="77"/>
 
         <Grid x:Name="gdLateralBotoes" HorizontalAlignment="Left" Height="65" Margin="-1,125,0,0" VerticalAlignment="Top" Width="7" Background="#B2FE8F00"/>
         <Image x:Name="imgLogo" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="171" Source="Resources/logoLaranjaTransparente.png" Stretch="Fill" Margin="0,10,0,0"/>
@@ -745,7 +745,7 @@
         <Grid x:Name="gdObjetivos" Margin="176,51,3,3" Grid.ColumnSpan="2" Background="#FFF1EFF1">
             <Label Content="Adicione os itens que deseja comprar:" HorizontalAlignment="Left" Margin="3,15,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Width="233"/>
             <TextBox x:Name="txtNomeObjetivo" HorizontalAlignment="Left" Height="23" Margin="10,82,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="204" Background="{x:Null}"/>
-            <DataGrid x:Name="dgObjetivos" HeadersVisibility="All" Margin="328,10,0,233" RenderTransformOrigin="0.5,0.5" ScrollViewer.CanContentScroll="True" UseLayoutRounding="False" AutoGenerateColumns="False" CanUserResizeColumns="False" GridLinesVisibility="None" CanUserResizeRows="False" Background="#FFF1EFF1" CanUserDeleteRows="False" BorderBrush="#FF292C33" RowHeaderWidth="0" BorderThickness="0,0,0,5" CanUserAddRows="false" SelectionChanged="dgObjetivos_SelectionChanged">
+            <DataGrid x:Name="dgObjetivos" HeadersVisibility="All" Margin="328,10,0,184" RenderTransformOrigin="0.5,0.5" ScrollViewer.CanContentScroll="True" UseLayoutRounding="False" AutoGenerateColumns="False" CanUserResizeColumns="False" GridLinesVisibility="None" CanUserResizeRows="False" Background="#FFF1EFF1" CanUserDeleteRows="False" BorderBrush="#FF292C33" RowHeaderWidth="0" BorderThickness="0,0,0,5" CanUserAddRows="false" SelectionChanged="dgObjetivos_SelectionChanged">
                 <DataGrid.Resources>
                     <Style TargetType="{x:Type DataGridColumnHeader}">
                         <Setter Property="Background" Value="#292C33" />
@@ -897,7 +897,7 @@
                                                     <Trigger Property="IsMouseOver" Value="true">
                                                         <Setter Property="Background" TargetName="Borda">
                                                             <Setter.Value>
-                                                                <ImageBrush ImageSource="/Resources/iconeRemover.png"/>                                                                
+                                                                <ImageBrush ImageSource="/Resources/iconeRemover.png"/>
                                                             </Setter.Value>
                                                         </Setter>
                                                         <Setter Property="Cursor" Value="Hand" />
@@ -906,7 +906,7 @@
                                             </ControlTemplate>
                                         </Button.Template>
                                     </Button>
-                                </StackPanel>  
+                                </StackPanel>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
@@ -914,7 +914,7 @@
                     <DataGridTemplateColumn Header="" Visibility="Visible" Width="1.5*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
-                                <Button Content="Detalhes" Background="#FF292C33" Foreground="#FFDAD7DA" Height="30">
+                                <Button x:Name="btnDetalhesObjetivo" Content="Detalhes" Background="#FF292C33" Foreground="#FFDAD7DA" Height="30" Click="btnDetalhesObjetivo_Click" Cursor="Hand">
                                     <Button.Template>
                                         <ControlTemplate TargetType="{x:Type Button}" >
                                             <ContentControl x:Name="btnPersonalizado">
@@ -934,7 +934,7 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-<!--
+                    <!--
                     <DataGridTemplateColumn Header="" Visibility="Visible" Width="1.5*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -952,7 +952,7 @@
                                 </TextBlock>
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
-                    </DataGridTemplateColumn>   -->                 
+                    </DataGridTemplateColumn>   -->
 
                 </DataGrid.Columns>
 
@@ -1059,10 +1059,33 @@
                 </Button.Template>
             </Button>
 
+
+
+            <Border x:Name="gdDetalhes" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="153" Margin="459,375,0,0" VerticalAlignment="Top" Width="407" Visibility="Hidden">
+                <Grid Margin="0,-1,0,0">
+                    <Label Content="Valor inicial: " HorizontalAlignment="Left" Margin="11,20,0,0" VerticalAlignment="Top"/>
+                    <Label Content="Porcentagem: " HorizontalAlignment="Left" Margin="11,51,0,0" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tbValorInicialObjetivo" HorizontalAlignment="Left" Margin="92,25,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tbPorcentagemObjetivo" HorizontalAlignment="Left" Margin="102,56,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                    <Label Content="Valor guardado: " HorizontalAlignment="Left" Margin="11,83,0,0" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tbValorGuardadoObjetivo" HorizontalAlignment="Left" Margin="113,88,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                    <Label Content="Valor restante: " HorizontalAlignment="Left" Margin="11,113,0,0" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tbValorRestanteObjetivo" HorizontalAlignment="Left" Margin="102,118,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                    <Label Content="Data da inserção: " HorizontalAlignment="Left" Margin="201,52,0,0" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tbDataInsercaoObjetivo" HorizontalAlignment="Left" Margin="310,57,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                    <Label Content="Data da finalização: " HorizontalAlignment="Left" Margin="201,83,0,0" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tbDataFinalizacaoObjetivo" HorizontalAlignment="Left" Margin="322,88,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" RenderTransformOrigin="1.258,0.564"/>
+                    <Label Content="Detalhes:" HorizontalAlignment="Left" Margin="10,-14,0,0" VerticalAlignment="Top" Background="#FFF1EFF1" FontWeight="Bold"/>
+                    <Label Content="Tempo de total: " HorizontalAlignment="Left" Margin="201,20,0,0" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tbTempoTotalObjetivo" HorizontalAlignment="Left" Margin="302,25,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+
+                </Grid>
+            </Border>
+
         </Grid>
-        <Label Content="Reserva objetivos:" Margin="663,20,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Height="26" HorizontalAlignment="Left" Width="112"/>
-        <TextBox x:Name="txtReservaObjetivos" HorizontalAlignment="Left" Height="23" Margin="775,21,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77" Background="{x:Null}" FontSize="14" BorderBrush="{x:Null}" Grid.ColumnSpan="2"/>
-        <Label Content="Poupança:" Margin="28,20,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Height="26" HorizontalAlignment="Left" Width="70" Grid.Column="1"/>
-        <TextBox x:Name="txtReservaObjetivos_Copy" HorizontalAlignment="Left" Height="23" Margin="98,21,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77" Background="{x:Null}" FontSize="14" BorderBrush="{x:Null}" Grid.Column="1"/>
+        <Label Content="Reserva objetivos:" Margin="663,25,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Height="26" HorizontalAlignment="Left" Width="112"/>
+        <TextBlock x:Name="tbReservaObjetivos" HorizontalAlignment="Left" Height="23" Margin="775,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77" Background="{x:Null}" FontSize="14" Grid.ColumnSpan="2"/>
+        <Label Content="Poupança:" Margin="28,25,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Height="26" HorizontalAlignment="Left" Width="70" Grid.Column="1"/>
+        <TextBlock x:Name="tbPoupanca" HorizontalAlignment="Left" Height="23" Margin="98,29,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="77" Background="{x:Null}" FontSize="14" Grid.Column="1"/>
     </Grid>
 </Window>

@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Diagnostics;
+using System.Drawing;
 using System.Globalization;
 using System.IO;
 using System.Linq;
@@ -22,6 +23,7 @@ using System.Windows.Input;
 using System.Windows.Interop;
 using System.Windows.Markup;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
@@ -193,13 +195,25 @@ namespace tcc_windows_version
 
             lblNomeUsuario.Content = "Olá, " + nome_usuario;
 
-            atualizarGridDespesasAnoAtual();
-
-            //Buscar saldo
-            ValoresBO oBO = new ValoresBO();
-            txtSaldoAtual.Text = "R$" + oBO.BuscarSaldo(idUsuario);
+            atualizarGridDespesasAnoAtual();            
         }
 
+        #region Funções
+        public void saldo()
+        {
+            ValoresBO oBO = new ValoresBO();
+            tbSaldoAtual.Text = "R$" + oBO.BuscarSaldo(idUsuario);
+        }
+        public void reserva()
+        {
+            ValoresBO oBO = new ValoresBO();
+            tbReservaObjetivos.Text = "R$" + oBO.BuscarReserva(idUsuario);
+        }
+        public void poupanca()
+        {
+            ValoresBO oBO = new ValoresBO();
+            tbPoupanca.Text = "R$" + oBO.BuscarPoupanca(idUsuario);
+        }
         public void atualizarGridDespesasAnoAtual()
         {
             try
@@ -224,6 +238,10 @@ namespace tcc_windows_version
                 dgDespesas.ItemsSource = data.DefaultView;
 
                 objConexao.Desconectar();
+
+                saldo();
+                reserva();
+                poupanca();
             }
             catch
             {
@@ -244,6 +262,10 @@ namespace tcc_windows_version
                 dgReceitas.ItemsSource = data.DefaultView;
 
                 objConexao.Desconectar();
+
+                saldo();
+                reserva();
+                poupanca();
             }
             catch
             {
@@ -257,10 +279,14 @@ namespace tcc_windows_version
 
             if (resultado != null)
             {
-
                 dgObjetivos.ItemsSource = resultado;
+                saldo();
+                reserva();
+                poupanca();
             }
         }
+        #endregion
+
         private void dgDespesas_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             DataGrid dg = (DataGrid)sender;
@@ -545,7 +571,6 @@ namespace tcc_windows_version
         #endregion
 
         #region Botões objetivos
-
         private void btnAdicionarObjetivo_Click(object sender, RoutedEventArgs e)
         {
             Objetivos objetivo = new Objetivos();
@@ -632,14 +657,31 @@ namespace tcc_windows_version
             btnImageObjetivo.Background = new ImageBrush { ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/imageIcon.png", UriKind.RelativeOrAbsolute)) };
             txtValorInicialObjetivo.Text = "";
             txtValorInicialObjetivo.IsEnabled = true;
+            gdDetalhes.Visibility = Visibility.Hidden;
         }
-
         #endregion
 
-               
-        private void dgObjetivos_SelectionChanged(object sender, SelectionChangedEventArgs e)
+
+        private void btnDetalhesObjetivo_Click(object sender, RoutedEventArgs e)
         {
-            DataGrid dg = (DataGrid)sender;
+            Button button = sender as Button;
+            DataRowView row_selected = button.DataContext as DataRowView;
+            if (row_selected != null)
+            {
+                gdDetalhes.Visibility = Visibility.Visible;
+                tbValorInicialObjetivo.Text = row_selected["valor_inicial"].ToString();
+                tbPorcentagemObjetivo.Text = row_selected["porcentagem"].ToString() + "%";
+                tbValorGuardadoObjetivo.Text = row_selected["valor_guardado"].ToString();
+                tbValorRestanteObjetivo.Text = row_selected["valor_restante"].ToString();
+                tbTempoTotalObjetivo.Text = "0";
+                tbDataInsercaoObjetivo.Text = row_selected["data_insercao"].ToString().Substring(0, 10);
+                tbDataFinalizacaoObjetivo.Text = row_selected["data_finalizacao"].ToString().Substring(0, 10);
+            }
+        }
+        public void dgObjetivos_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            gdDetalhes.Visibility = Visibility.Hidden;
+            DataGrid dg = (DataGrid)sender;            
             DataRowView row_selected = dg.SelectedItem as DataRowView;
             if (row_selected != null)
             {
@@ -653,9 +695,6 @@ namespace tcc_windows_version
                 btnImageObjetivo.Background = new ImageBrush { ImageSource = ToImage(imagem) };
             }
         }
-
-
-
         private void btnResetLogin_Click(object sender, RoutedEventArgs e)
         {
             Settings.Default["email"] = "";
