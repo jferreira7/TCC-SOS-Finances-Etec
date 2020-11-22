@@ -17,15 +17,14 @@ namespace tcc_windows_version.Database
         public void Create(Objetivos objetivo)
         {
             objComando.CommandType = CommandType.Text;
-            objComando.CommandText = "insert into objetivos (nome, preco, imagem, valor_inicial, porcentagem, valor_guardado, valor_restante, id_usuario) VALUES (@nome, @preco, @imagem, @valor_inicial, @porcentagem, @valor_guardado, @valor_restante, @id_usuario);";
+            objComando.CommandText = "insert into objetivos (nome, preco, imagem, porcentagem, valor_guardado, valor_restante, id_usuario) VALUES (@nome, @preco, @imagem, @porcentagem, @valor_guardado, @valor_restante, @id_usuario);";
 
             objComando.Parameters.Add("@nome", MySqlDbType.VarChar, 8).Value = objetivo.nome;
             objComando.Parameters.Add("@preco", MySqlDbType.Decimal, 12).Value = objetivo.preco;
             objComando.Parameters.Add("@imagem", MySqlDbType.MediumBlob).Value = objetivo.imagem_bytes;
             objComando.Parameters.Add("@porcentagem", MySqlDbType.Decimal).Value = objetivo.porcentagem;
-            objComando.Parameters.Add("@valor_inicial", MySqlDbType.Decimal, 12).Value = objetivo.valor_inicial;
-            objComando.Parameters.Add("@valor_guardado", MySqlDbType.Decimal, 12).Value = objetivo.valor_inicial;
-            objComando.Parameters.Add("@valor_restante", MySqlDbType.Decimal, 12).Value = (Convert.ToDecimal(objetivo.preco) - Convert.ToDecimal(objetivo.valor_inicial));
+            objComando.Parameters.Add("@valor_guardado", MySqlDbType.Decimal, 12).Value = objetivo.valor_guardado;
+            objComando.Parameters.Add("@valor_restante", MySqlDbType.Decimal, 12).Value = (Convert.ToDecimal(objetivo.preco) - Convert.ToDecimal(objetivo.valor_guardado));
             objComando.Parameters.Add("@id_usuario", MySqlDbType.Int32).Value = objetivo.id_usuario;
 
             try
@@ -93,7 +92,46 @@ namespace tcc_windows_version.Database
                 MessageBox.Show("Erro de conexão com o servidor: " + erro);
             }
         }
+        public void UpdateValorGuardado(int id, int id_usuario, double valor_guardado)
+        {
+            objComando.CommandText = "update objetivos set valor_guardado=@valor_guardado where id=@id and id_usuario=@id_usuario;";
+            
+            objComando.Parameters.Add("@id", MySqlDbType.Int32).Value = id;            
+            objComando.Parameters.Add("@valor_guardado", MySqlDbType.Decimal, 12).Value = valor_guardado;            
+            objComando.Parameters.Add("@id_usuario", MySqlDbType.Int32).Value = id_usuario;
+            try
+            {
+                objConexao.Conexao();
+                objComando.Connection = objConexao.Conectar();
+                objComando.ExecuteNonQuery();
+                objConexao.Desconectar();
+                MessageBox.Show("Objetivo atualizado!");
+            }
+            catch (Exception erro)
+            {
+                MessageBox.Show("Erro conexão com o servidor: " + erro);
+            }
+        }
+        public void UpdateValorInicial(int id, int id_usuario, double valor_inicial)
+        {
+            objComando.CommandText = "update objetivos set valor_inicial=@valor_inicial where id=@id and id_usuario=@id_usuario;";
 
+            objComando.Parameters.Add("@id", MySqlDbType.Int32).Value = id;
+            objComando.Parameters.Add("@valor_inicial", MySqlDbType.Decimal, 12).Value = valor_inicial;
+            objComando.Parameters.Add("@id_usuario", MySqlDbType.Int32).Value = id_usuario;
+            try
+            {
+                objConexao.Conexao();
+                objComando.Connection = objConexao.Conectar();
+                objComando.ExecuteNonQuery();
+                objConexao.Desconectar();
+                MessageBox.Show("Objetivo atualizado!");
+            }
+            catch (Exception erro)
+            {
+                MessageBox.Show("Erro conexão com o servidor: " + erro);
+            }
+        }
         /*
         public void Update(Despesas despesa)
         {

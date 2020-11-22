@@ -857,8 +857,8 @@
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
                                 <StackPanel Orientation="Horizontal" Margin="10,0,0,0">
-                                    <TextBox x:Name="txtValorObjetivoAddRemove" Text="" FontSize="14"  Width="54" Margin="0,0,5,0" Background="{x:Null}" BorderThickness="1" BorderBrush="#FFABADB3" Height="20"/>
-                                    <Button x:Name="btnAdicionarValorObjetivo" Height="24" Width="24">
+                                    <TextBox x:Name="txtValorObjetivoAddRemove" Text="" FontSize="14"  Width="54" Margin="0,0,5,0" Background="{x:Null}" BorderThickness="1" BorderBrush="#FFABADB3" Height="20" TextChanged="txtValorObjetivoAddRemove_TextChanged"  PreviewMouseLeftButtonDown="txtValorObjetivoAddRemove_PreviewMouseLeftButtonDown"/>
+                                    <Button x:Name="btnAdicionarValorObjetivo" Height="24" Width="24" Click="btnAdicionarValorObjetivo_Click">
                                         <Button.Background>
                                             <ImageBrush ImageSource="/Resources/iconeAdicionar.png" Stretch="None"/>
                                         </Button.Background>
@@ -882,7 +882,7 @@
                                             </ControlTemplate>
                                         </Button.Template>
                                     </Button>
-                                    <Button x:Name="btnRemoverValorObjetivo" Height="24" Width="24">
+                                    <Button x:Name="btnRemoverValorObjetivo" Height="24" Width="24" Click="btnRemoverValorObjetivo_Click">
                                         <Button.Background>
                                             <ImageBrush ImageSource="/Resources/iconeRemover.png" Stretch="None"/>
                                         </Button.Background>
@@ -1061,24 +1061,21 @@
 
 
 
-            <Border x:Name="gdDetalhes" BorderBrush="Black" BorderThickness="1" HorizontalAlignment="Left" Height="153" Margin="459,375,0,0" VerticalAlignment="Top" Width="407" Visibility="Hidden">
+            <Border x:Name="gdDetalhes" BorderBrush="Black" BorderThickness="1" Margin="453,0,0,30" Visibility="Visible" HorizontalAlignment="Left" Width="407" Height="130" VerticalAlignment="Bottom">
                 <Grid Margin="0,-1,0,0">
-                    <Label Content="Valor inicial: " HorizontalAlignment="Left" Margin="11,20,0,0" VerticalAlignment="Top"/>
-                    <Label Content="Porcentagem: " HorizontalAlignment="Left" Margin="11,51,0,0" VerticalAlignment="Top"/>
-                    <TextBlock x:Name="tbValorInicialObjetivo" HorizontalAlignment="Left" Margin="92,25,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
-                    <TextBlock x:Name="tbPorcentagemObjetivo" HorizontalAlignment="Left" Margin="102,56,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
-                    <Label Content="Valor guardado: " HorizontalAlignment="Left" Margin="11,83,0,0" VerticalAlignment="Top"/>
-                    <TextBlock x:Name="tbValorGuardadoObjetivo" HorizontalAlignment="Left" Margin="113,88,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
-                    <Label Content="Valor restante: " HorizontalAlignment="Left" Margin="11,113,0,0" VerticalAlignment="Top"/>
-                    <TextBlock x:Name="tbValorRestanteObjetivo" HorizontalAlignment="Left" Margin="102,118,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                    <Label Content="Porcentagem: " HorizontalAlignment="Left" Margin="11,21,0,0" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tbPorcentagemObjetivo" HorizontalAlignment="Left" Margin="102,26,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                    <Label Content="Valor guardado: " HorizontalAlignment="Left" Margin="11,53,0,0" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tbValorGuardadoObjetivo" HorizontalAlignment="Left" Margin="113,58,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                    <Label Content="Valor restante: " HorizontalAlignment="Left" Margin="11,83,0,0" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tbValorRestanteObjetivo" HorizontalAlignment="Left" Margin="102,88,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
                     <Label Content="Data da inserção: " HorizontalAlignment="Left" Margin="201,52,0,0" VerticalAlignment="Top"/>
                     <TextBlock x:Name="tbDataInsercaoObjetivo" HorizontalAlignment="Left" Margin="310,57,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
                     <Label Content="Data da finalização: " HorizontalAlignment="Left" Margin="201,83,0,0" VerticalAlignment="Top"/>
                     <TextBlock x:Name="tbDataFinalizacaoObjetivo" HorizontalAlignment="Left" Margin="322,88,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" RenderTransformOrigin="1.258,0.564"/>
                     <Label Content="Detalhes:" HorizontalAlignment="Left" Margin="10,-14,0,0" VerticalAlignment="Top" Background="#FFF1EFF1" FontWeight="Bold"/>
-                    <Label Content="Tempo de total: " HorizontalAlignment="Left" Margin="201,20,0,0" VerticalAlignment="Top"/>
-                    <TextBlock x:Name="tbTempoTotalObjetivo" HorizontalAlignment="Left" Margin="302,25,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
-
+                    <Label Content="Tempo transcorrido: " HorizontalAlignment="Left" Margin="201,20,0,0" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tbTempoTotalObjetivo" HorizontalAlignment="Left" Margin="322,25,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
                 </Grid>
             </Border>
 

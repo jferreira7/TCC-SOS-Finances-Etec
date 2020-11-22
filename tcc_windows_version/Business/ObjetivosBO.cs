@@ -18,10 +18,10 @@ namespace tcc_windows_version.Business
             if ((objetivo.nome != "") && 
                 (objetivo.preco != "" || Convert.ToDecimal(objetivo.preco) > 0) && 
                 (objetivo.imagem_bytes != null) &&                 
-                (objetivo.valor_inicial != "" || Convert.ToDecimal(objetivo.valor_inicial) > 0) &&
+                (objetivo.valor_guardado != "" || Convert.ToDecimal(objetivo.valor_guardado) > 0) &&
                 (objetivo.id_usuario > 0))
             {
-                objetivo.porcentagem = Math.Round(((Convert.ToDouble(objetivo.valor_inicial) * 100) / Convert.ToDouble(objetivo.preco)), 2, MidpointRounding.AwayFromZero);
+                objetivo.porcentagem = Math.Round(((Convert.ToDouble(objetivo.valor_guardado) * 100) / Convert.ToDouble(objetivo.preco)), 2, MidpointRounding.AwayFromZero);
                 MessageBox.Show(objetivo.porcentagem.ToString());
 
                 ObjetivosCRUD crud = new ObjetivosCRUD();
@@ -67,5 +67,30 @@ namespace tcc_windows_version.Business
                 crud.Delete(id);
             }
         }
+        public void AtualizarValorGuardado(int id, int id_usuario, double valor_guardado)
+        {
+            if (id > 0 && id_usuario > 0 && valor_guardado >= 0)
+            {
+                ObjetivosCRUD crud = new ObjetivosCRUD();
+                crud.UpdateValorGuardado(id, id_usuario, valor_guardado);
+            }
+            else
+            {
+                MessageBox.Show("Selecione uma linha e preencha corretamente a lacuna do valor a ser guardado.");
+            }
+        }
+        /*
+        public void AtualizarValorInicial(int id, int id_usuario, double valor_inicial)
+        {
+            if (id > 0 && id_usuario > 0 && valor_inicial >= 0)
+            {
+                ObjetivosCRUD crud = new ObjetivosCRUD();
+                crud.UpdateValorInicial(id, id_usuario, valor_inicial);
+            }
+            else
+            {
+                MessageBox.Show("Selecione uma linha e preencha corretamente a lacuna do valor a ser guardado.");
+            }
+        }*/
     }
 }

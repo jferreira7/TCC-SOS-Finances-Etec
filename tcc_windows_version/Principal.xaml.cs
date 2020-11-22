@@ -18,6 +18,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Diagnostics;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Interop;
@@ -44,6 +45,8 @@ namespace tcc_windows_version
         string caminho_imagem = "";        
         byte[] imagem;
         int idUsuario;
+        int idRow;
+        TextBox txtAnterior = null;
 
         #region Borda Customizada
         static IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -577,7 +580,7 @@ namespace tcc_windows_version
             objetivo.nome = txtNomeObjetivo.Text;
             objetivo.preco = txtPrecoObjetivo.Text;
             objetivo.imagem_bytes = imagem;
-            objetivo.valor_inicial = txtValorInicialObjetivo.Text;
+            objetivo.valor_guardado = txtValorInicialObjetivo.Text;
             objetivo.id_usuario = idUsuario;
 
             ObjetivosBO oBO = new ObjetivosBO();
@@ -661,7 +664,7 @@ namespace tcc_windows_version
         }
         #endregion
 
-
+        
         private void btnDetalhesObjetivo_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
@@ -669,32 +672,120 @@ namespace tcc_windows_version
             if (row_selected != null)
             {
                 gdDetalhes.Visibility = Visibility.Visible;
-                tbValorInicialObjetivo.Text = row_selected["valor_inicial"].ToString();
                 tbPorcentagemObjetivo.Text = row_selected["porcentagem"].ToString() + "%";
                 tbValorGuardadoObjetivo.Text = row_selected["valor_guardado"].ToString();
                 tbValorRestanteObjetivo.Text = row_selected["valor_restante"].ToString();
                 tbTempoTotalObjetivo.Text = "0";
                 tbDataInsercaoObjetivo.Text = row_selected["data_insercao"].ToString().Substring(0, 10);
-                tbDataFinalizacaoObjetivo.Text = row_selected["data_finalizacao"].ToString().Substring(0, 10);
+                if(row_selected["data_finalizacao"].ToString() != "")
+                {
+                    tbDataFinalizacaoObjetivo.Text = row_selected["data_finalizacao"].ToString().Substring(0, 10);
+                }
+                else
+                {
+                    tbDataFinalizacaoObjetivo.Text = "";
+                }
             }
         }
+        private void btnAdicionarValorObjetivo_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            DataRowView row_selected = button.DataContext as DataRowView;
+
+            if (idRow == Convert.ToInt32(row_selected["id"]))
+            {
+                double novoValorGuardado = Convert.ToDouble(row_selected["valor_guardado"]) + Convert.ToDouble(txtAnterior.Text);                
+                double preco = Convert.ToDouble(row_selected["preco"]);
+                ObjetivosBO oBO = new ObjetivosBO();
+
+                if (novoValorGuardado <= preco)
+                {                    
+                    oBO.AtualizarValorGuardado(idRow, idUsuario, novoValorGuardado);
+                }
+                else
+                {
+                    novoValorGuardado = preco;
+                    oBO.AtualizarValorGuardado(idRow, idUsuario, novoValorGuardado);
+                }                
+                
+                
+                atualizarGridObjetivos();
+            }
+            else
+            {
+                MessageBox.Show("Insira o valor na linha correta.");                
+            }
+        }
+        private void btnRemoverValorObjetivo_Click(object sender, RoutedEventArgs e)
+        {
+            Button button = sender as Button;
+            DataRowView row_selected = button.DataContext as DataRowView;
+
+            if (idRow == Convert.ToInt32(row_selected["id"]) && Convert.ToDouble(txtAnterior.Text) != 0)
+            {
+                double novoValorGuardado = Convert.ToDouble(row_selected["valor_guardado"]) - Convert.ToDouble(txtAnterior.Text);
+                double preco = Convert.ToDouble(row_selected["preco"]);
+                ObjetivosBO oBO = new ObjetivosBO();
+
+                if (novoValorGuardado >= 0)
+                {
+                    oBO.AtualizarValorGuardado(idRow, idUsuario, novoValorGuardado);
+                }
+                else
+                {
+                    novoValorGuardado = 0;
+                    oBO.AtualizarValorGuardado(idRow, idUsuario, novoValorGuardado);
+                }
+
+                atualizarGridObjetivos();
+            }
+            else
+            {
+                MessageBox.Show("Insira o valor na linha correta.");
+            }
+        }
+
+        
+
+        public void txtValorObjetivoAddRemove_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            TextBox txt = sender as TextBox;
+            DataRowView row_selected = txt.DataContext as DataRowView;
+
+            txtAnterior = txt;
+
+            if (row_selected != null)
+            {
+                idRow = Convert.ToInt32(row_selected["id"]);                
+            }
+        }
+        private void txtValorObjetivoAddRemove_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (txtAnterior != null)
+            {
+                txtAnterior.Text = "";
+                txtAnterior = null;
+            }
+        }   
         public void dgObjetivos_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             gdDetalhes.Visibility = Visibility.Hidden;
             DataGrid dg = (DataGrid)sender;            
-            DataRowView row_selected = dg.SelectedItem as DataRowView;
+            DataRowView row_selected = dg.SelectedItem as DataRowView;                       
+
             if (row_selected != null)
             {
                 idObjetivoSelecionado = row_selected["id"].ToString();
                 txtNomeObjetivo.Text = row_selected["nome"].ToString();
                 txtPrecoObjetivo.Text = row_selected["preco"].ToString();
-                txtValorInicialObjetivo.Text = row_selected["valor_inicial"].ToString();
                 txtValorInicialObjetivo.IsEnabled = false;
 
                 imagem = (byte[])row_selected["imagem"];
                 btnImageObjetivo.Background = new ImageBrush { ImageSource = ToImage(imagem) };
             }
         }
+
+
         private void btnResetLogin_Click(object sender, RoutedEventArgs e)
         {
             Settings.Default["email"] = "";
