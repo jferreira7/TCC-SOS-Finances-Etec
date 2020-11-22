@@ -67,6 +67,7 @@ select * from objetivos;
 INSERT INTO objetivos (nome, preco, imagem, porcentagem, valor_guardado, valor_restante, id_usuario) SELECT nome, preco, imagem, porcentagem, valor_guardado, valor_restante, id_usuario FROM objetivos WHERE id = 1;
 create table objetivos (
 	id int primary key auto_increment,
+    estado varchar(10) not null,
     nome varchar(150) not null,
     preco decimal(12,2) not null,
     imagem mediumblob default null,    
@@ -89,9 +90,19 @@ BEGIN
         SET NEW.valor_restante = OLD.preco -  NEW.valor_guardado;
         UPDATE valores SET valor_saldo = valor_saldo - (NEW.valor_guardado - OLD.valor_guardado), valor_reserva = valor_reserva + (NEW.valor_guardado - OLD.valor_guardado) WHERE id_usuario=NEW.id_usuario; 
 	END IF;
+    IF (NEW.valor_guardado = OLD.preco) THEN
+		SET NEW.data_finalizacao = CURRENT_TIMESTAMP;
+        SET NEW.estado = "Finalizado";
+	END IF;
 	IF (NEW.preco <> OLD.preco) THEN
 		SET NEW.porcentagem = (OLD.valor_guardado * 100)/NEW.preco;
         SET NEW.valor_restante = NEW.preco - OLD.valor_guardado;
+        
+        IF (NEW.preco > OLD.valor_guardado) THEN
+			SET NEW.data_finalizacao = NULL;
+		ELSE 
+			SET NEW.data_finalizacao = CURRENT_TIMESTAMP;
+		END IF;
     END IF;
 END;//
 DELIMITER ;
@@ -121,28 +132,28 @@ drop trigger objetivos_AFTER_INSERT;
 DELIMITER //
 
 CREATE TRIGGER usuarios_AFTER_INSERT AFTER INSERT ON usuarios FOR EACH ROW
-BEGIN
-	INSERT INTO valores (valor_saldo, valor_reserva, valor_poupanca, id_usuario) VALUES ("0", "0", "0", NEW.id);
-END;//
+	BEGIN
+		INSERT INTO valores (valor_saldo, valor_reserva, valor_poupanca, id_usuario) VALUES ("0", "0", "0", NEW.id);
+	END;//
 
-CREATE TRIGGER despesas_AFTER_INSERT AFTER INSERT ON despesas FOR EACH ROW
-BEGIN
-	UPDATE valores set valor_saldo = valor_saldo - new.valor where id_usuario = new.id_usuario;
-END;//
+	CREATE TRIGGER despesas_AFTER_INSERT AFTER INSERT ON despesas FOR EACH ROW
+	BEGIN
+		UPDATE valores set valor_saldo = valor_saldo - new.valor where id_usuario = new.id_usuario;
+	END;//
 
-CREATE TRIGGER receitas_AFTER_INSERT AFTER INSERT ON receitas FOR EACH ROW
-BEGIN
-	UPDATE valores set valor_saldo = valor_saldo + new.valor where id_usuario = new.id_usuario;
-END;//
+	CREATE TRIGGER receitas_AFTER_INSERT AFTER INSERT ON receitas FOR EACH ROW
+	BEGIN
+		UPDATE valores set valor_saldo = valor_saldo + new.valor where id_usuario = new.id_usuario;
+	END;//
 
-CREATE TRIGGER objetivos_AFTER_INSERT AFTER INSERT ON objetivos FOR EACH ROW
-BEGIN
-	UPDATE valores set valor_saldo = valor_saldo - new.valor_guardado, valor_reserva = valor_reserva + new.valor_guardado where id_usuario = new.id_usuario;
-END;//
+	CREATE TRIGGER objetivos_AFTER_INSERT AFTER INSERT ON objetivos FOR EACH ROW
+	BEGIN
+		UPDATE valores set valor_saldo = valor_saldo - new.valor_guardado, valor_reserva = valor_reserva + new.valor_guardado where id_usuario = new.id_usuario;
+	END;//
 
-CREATE TRIGGER objetivos_BEFORE_DELETE BEFORE DELETE ON objetivos FOR EACH ROW
-BEGIN
-	UPDATE valores set valor_saldo = valor_saldo + OLD.valor_guardado, valor_reserva = valor_reserva - OLD.valor_guardado where id_usuario = OLD.id_usuario;
+	CREATE TRIGGER objetivos_BEFORE_DELETE BEFORE DELETE ON objetivos FOR EACH ROW
+	BEGIN
+		UPDATE valores set valor_saldo = valor_saldo + OLD.valor_guardado, valor_reserva = valor_reserva - OLD.valor_guardado where id_usuario = OLD.id_usuario;
 END;//
 
 DELIMITER ;
@@ -150,8 +161,12 @@ DELIMITER ;
 SELECT * From valores;
 UPDATE valores set valor_saldo = (valor_saldo + 200), valor_reserva = (valor_reserva) - 200 where id_usuario = 1;
 
-select * from valores;
+select * from objetivos;
 insert into valores (valor_saldo, valor_reserva, valor_poupanca, id_usuario) values (536.54, 268.25, 1520.50 , 1);
+
+UPDATE objetivos set data_finalizacao=null where id = 1;
+
+select * from objetivos where id_usuario=1 and estado in('Andamento','Finalizado');
 
 -- Trigger poupança
 

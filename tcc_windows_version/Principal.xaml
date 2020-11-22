@@ -1061,7 +1061,7 @@
 
 
 
-            <Border x:Name="gdDetalhes" BorderBrush="Black" BorderThickness="1" Margin="453,0,0,30" Visibility="Visible" HorizontalAlignment="Left" Width="407" Height="130" VerticalAlignment="Bottom">
+            <Border x:Name="gdDetalhes" BorderBrush="Black" BorderThickness="1" Margin="453,0,0,30" Visibility="Hidden" HorizontalAlignment="Left" Width="407" Height="130" VerticalAlignment="Bottom">
                 <Grid Margin="0,-1,0,0">
                     <Label Content="Porcentagem: " HorizontalAlignment="Left" Margin="11,21,0,0" VerticalAlignment="Top"/>
                     <TextBlock x:Name="tbPorcentagemObjetivo" HorizontalAlignment="Left" Margin="102,26,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>

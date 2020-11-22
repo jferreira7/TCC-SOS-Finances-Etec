@@ -47,6 +47,7 @@ namespace tcc_windows_version
         int idUsuario;
         int idRow;
         TextBox txtAnterior = null;
+        
 
         #region Borda Customizada
         static IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -580,11 +581,27 @@ namespace tcc_windows_version
             objetivo.nome = txtNomeObjetivo.Text;
             objetivo.preco = txtPrecoObjetivo.Text;
             objetivo.imagem_bytes = imagem;
-            objetivo.valor_guardado = txtValorInicialObjetivo.Text;
             objetivo.id_usuario = idUsuario;
 
-            ObjetivosBO oBO = new ObjetivosBO();
-            oBO.Cadastrar(objetivo);
+            if(txtValorInicialObjetivo.Text != "")
+            {
+                objetivo.valor_guardado = txtValorInicialObjetivo.Text;
+            }
+            else
+            {
+                objetivo.valor_guardado = "0";
+            }            
+            
+
+            if (Convert.ToDecimal(objetivo.valor_guardado) > Convert.ToDecimal(objetivo.preco))
+            {
+                MessageBox.Show("O preço está menor do que está sendo guardado.");
+            }
+            else
+            {
+                ObjetivosBO oBO = new ObjetivosBO();
+                oBO.Cadastrar(objetivo);
+            }            
 
             atualizarGridObjetivos();
             limparObjetivo();
@@ -634,6 +651,16 @@ namespace tcc_windows_version
             objetivo.preco = txtPrecoObjetivo.Text;
             objetivo.imagem_bytes = imagem;
             objetivo.id_usuario = idUsuario;
+
+            
+            DataView dv = oBO.SelecionarUm(objetivo.id);
+            DataTable dt = dv.ToTable();
+
+            if (dt != null)
+            {
+                objetivo.valor_guardado = dt.Rows[0]["valor_guardado"].ToString();
+                objetivo.estado = dt.Rows[0]["estado"].ToString();
+            }
            
             oBO.Editar(objetivo);
 
@@ -680,10 +707,14 @@ namespace tcc_windows_version
                 if(row_selected["data_finalizacao"].ToString() != "")
                 {
                     tbDataFinalizacaoObjetivo.Text = row_selected["data_finalizacao"].ToString().Substring(0, 10);
+                    TimeSpan durantion = Convert.ToDateTime(row_selected["data_finalizacao"]) - Convert.ToDateTime(row_selected["data_insercao"]);
+                    tbTempoTotalObjetivo.Text = Convert.ToInt32(durantion.TotalDays).ToString() + " dias";
                 }
                 else
                 {
                     tbDataFinalizacaoObjetivo.Text = "";
+                    TimeSpan durantion = DateTime.Now - Convert.ToDateTime(row_selected["data_insercao"]);
+                    tbTempoTotalObjetivo.Text = Convert.ToInt32(durantion.TotalDays).ToString() + " dias";
                 }
             }
         }
@@ -694,22 +725,27 @@ namespace tcc_windows_version
 
             if (idRow == Convert.ToInt32(row_selected["id"]))
             {
-                double novoValorGuardado = Convert.ToDouble(row_selected["valor_guardado"]) + Convert.ToDouble(txtAnterior.Text);                
-                double preco = Convert.ToDouble(row_selected["preco"]);
-                ObjetivosBO oBO = new ObjetivosBO();
+                if(row_selected["valor_guardado"].ToString() != row_selected["preco"].ToString())
+                {
+                    double novoValorGuardado = Convert.ToDouble(row_selected["valor_guardado"]) + Convert.ToDouble(txtAnterior.Text);
+                    double preco = Convert.ToDouble(row_selected["preco"]);
+                    ObjetivosBO oBO = new ObjetivosBO();
 
-                if (novoValorGuardado <= preco)
-                {                    
-                    oBO.AtualizarValorGuardado(idRow, idUsuario, novoValorGuardado);
+                    if (novoValorGuardado <= preco)
+                    {
+                        oBO.AtualizarValorGuardado(idRow, idUsuario, novoValorGuardado);
+                    }
+                    else
+                    {
+                        novoValorGuardado = preco;
+                        oBO.AtualizarValorGuardado(idRow, idUsuario, novoValorGuardado);
+                    }
+                    atualizarGridObjetivos();
                 }
                 else
                 {
-                    novoValorGuardado = preco;
-                    oBO.AtualizarValorGuardado(idRow, idUsuario, novoValorGuardado);
-                }                
-                
-                
-                atualizarGridObjetivos();
+                    MessageBox.Show("O objetivo já foi completo!");
+                }              
             }
             else
             {
@@ -781,7 +817,7 @@ namespace tcc_windows_version
                 txtValorInicialObjetivo.IsEnabled = false;
 
                 imagem = (byte[])row_selected["imagem"];
-                btnImageObjetivo.Background = new ImageBrush { ImageSource = ToImage(imagem) };
+                btnImageObjetivo.Background = new ImageBrush { ImageSource = ToImage(imagem) };                
             }
         }
 

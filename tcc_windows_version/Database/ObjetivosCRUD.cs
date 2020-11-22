@@ -17,8 +17,9 @@ namespace tcc_windows_version.Database
         public void Create(Objetivos objetivo)
         {
             objComando.CommandType = CommandType.Text;
-            objComando.CommandText = "insert into objetivos (nome, preco, imagem, porcentagem, valor_guardado, valor_restante, id_usuario) VALUES (@nome, @preco, @imagem, @porcentagem, @valor_guardado, @valor_restante, @id_usuario);";
+            objComando.CommandText = "insert into objetivos (estado, nome, preco, imagem, porcentagem, valor_guardado, valor_restante, id_usuario) VALUES (@estado, @nome, @preco, @imagem, @porcentagem, @valor_guardado, @valor_restante, @id_usuario);";
 
+            objComando.Parameters.Add("@estado", MySqlDbType.VarChar, 10).Value = objetivo.estado;
             objComando.Parameters.Add("@nome", MySqlDbType.VarChar, 8).Value = objetivo.nome;
             objComando.Parameters.Add("@preco", MySqlDbType.Decimal, 12).Value = objetivo.preco;
             objComando.Parameters.Add("@imagem", MySqlDbType.MediumBlob).Value = objetivo.imagem_bytes;
@@ -42,9 +43,11 @@ namespace tcc_windows_version.Database
         }
         public void Update(Objetivos objetivo)
         {
-            objComando.CommandText = "update objetivos set nome = @nome, preco = @preco, imagem = @imagem where id = @id and id_usuario = @id_usuario;";
+            objComando.CommandText = "update objetivos set estado = @estado, nome = @nome, preco = @preco, imagem = @imagem where id = @id and id_usuario = @id_usuario;";
 
+            objComando.Parameters.Clear();
             objComando.Parameters.Add("@id", MySqlDbType.Int32).Value = objetivo.id;
+            objComando.Parameters.Add("@estado", MySqlDbType.VarChar, 10).Value = objetivo.estado;
             objComando.Parameters.Add("@nome", MySqlDbType.VarChar, 8).Value = objetivo.nome;
             objComando.Parameters.Add("@preco", MySqlDbType.Decimal, 12).Value = objetivo.preco;
             objComando.Parameters.Add("@imagem", MySqlDbType.MediumBlob).Value = objetivo.imagem_bytes;
@@ -69,7 +72,7 @@ namespace tcc_windows_version.Database
             DataTable data = new DataTable("objetivos");
 
             string anoAtual = DateTime.Now.Year.ToString();
-            adpt = new MySqlDataAdapter("select * from objetivos where id_usuario = " + idUsuario + ";", objConexao.Conexao());
+            adpt = new MySqlDataAdapter("select * from objetivos where id_usuario = " + idUsuario + " and estado in('Andamento','Finalizado');", objConexao.Conexao());
             adpt.Fill(data);
             objConexao.Desconectar();
             return data.DefaultView;
@@ -131,6 +134,17 @@ namespace tcc_windows_version.Database
             {
                 MessageBox.Show("Erro conexão com o servidor: " + erro);
             }
+        }
+        public DataView OneSelection(int id)
+        {
+            MySqlDataAdapter adpt;
+            DataTable data = new DataTable("objetivos");
+
+            string anoAtual = DateTime.Now.Year.ToString();
+            adpt = new MySqlDataAdapter("select * from objetivos where id = " + id + " limit 1;", objConexao.Conexao());
+            adpt.Fill(data);
+            objConexao.Desconectar();
+            return data.DefaultView;
         }
         /*
         public void Update(Despesas despesa)

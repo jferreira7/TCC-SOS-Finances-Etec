@@ -18,9 +18,17 @@ namespace tcc_windows_version.Business
             if ((objetivo.nome != "") && 
                 (objetivo.preco != "" || Convert.ToDecimal(objetivo.preco) > 0) && 
                 (objetivo.imagem_bytes != null) &&                 
-                (objetivo.valor_guardado != "" || Convert.ToDecimal(objetivo.valor_guardado) > 0) &&
+                (objetivo.valor_guardado != "" || Convert.ToDecimal(objetivo.valor_guardado) >= 0) &&
                 (objetivo.id_usuario > 0))
             {
+                if (Convert.ToDecimal(objetivo.preco) != Convert.ToDecimal(objetivo.valor_guardado))
+                {
+                    objetivo.estado = "Andamento";
+                }
+                else
+                {
+                    objetivo.estado = "Finalizado";
+                }
                 objetivo.porcentagem = Math.Round(((Convert.ToDouble(objetivo.valor_guardado) * 100) / Convert.ToDouble(objetivo.preco)), 2, MidpointRounding.AwayFromZero);
                 MessageBox.Show(objetivo.porcentagem.ToString());
 
@@ -34,13 +42,43 @@ namespace tcc_windows_version.Business
         }
         public void Editar(Objetivos objetivo)
         {
-            if ((objetivo.nome != "") &&
+            if ((objetivo.id > 0) &&
+                (objetivo.nome != "") &&
                 (objetivo.preco != "" || Convert.ToDecimal(objetivo.preco) > 0) &&
+                (objetivo.valor_guardado != "" || Convert.ToDecimal(objetivo.valor_guardado) >= 0) &&
                 (objetivo.imagem_bytes != null) &&
                 (objetivo.id_usuario > 0))
             {
+                //Preço maior que o vg --> alterar ou manter o estado
+                //Preço igual ao vg --> alterar o estado
+                //Preço menor que o vg --> alterar o saldo, a reserva e o estado(alterar ou manter)
                 ObjetivosCRUD crud = new ObjetivosCRUD();
-                crud.Update(objetivo);
+                if (Convert.ToDecimal(objetivo.preco) > Convert.ToDecimal(objetivo.valor_guardado))
+                {
+                    if (objetivo.estado != "Andamento")
+                    {                        
+                        objetivo.estado = "Andamento";                        
+                    }
+                    crud.Update(objetivo);                    
+                }
+                else if (Convert.ToDecimal(objetivo.preco) == Convert.ToDecimal(objetivo.valor_guardado))
+                {
+                    if (objetivo.estado != "Finalizado")
+                    {
+                        objetivo.estado = "Finalizado";
+                    }
+                    crud.Update(objetivo);                    
+                }
+                else //Convert.ToDecimal(objetivo.preco) < Convert.ToDecimal(objetivo.valor_guardado)
+                {
+                    if (objetivo.estado != "Finalizado")
+                    {
+                         objetivo.estado = "Finalizado";
+                    }
+                    objetivo.valor_guardado = objetivo.preco;
+                    crud.UpdateValorGuardado(objetivo.id, objetivo.id_usuario, Convert.ToDouble(objetivo.valor_guardado));
+                    crud.Update(objetivo);
+                }
             }
             else
             {
@@ -77,6 +115,18 @@ namespace tcc_windows_version.Business
             else
             {
                 MessageBox.Show("Selecione uma linha e preencha corretamente a lacuna do valor a ser guardado.");
+            }
+        }
+        public DataView SelecionarUm(int id)
+        {
+            if (id > 0)
+            {
+                ObjetivosCRUD crud = new ObjetivosCRUD();
+                return crud.OneSelection(id);
+            }
+            else
+            {
+                return null;
             }
         }
         /*
