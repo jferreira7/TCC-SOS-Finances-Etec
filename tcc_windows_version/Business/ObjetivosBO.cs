@@ -29,8 +29,7 @@ namespace tcc_windows_version.Business
                 {
                     objetivo.estado = "Finalizado";
                 }
-                objetivo.porcentagem = Math.Round(((Convert.ToDouble(objetivo.valor_guardado) * 100) / Convert.ToDouble(objetivo.preco)), 2, MidpointRounding.AwayFromZero);
-                MessageBox.Show(objetivo.porcentagem.ToString());
+                objetivo.porcentagem = Math.Round(((Convert.ToDouble(objetivo.valor_guardado) * 100) / Convert.ToDouble(objetivo.preco)), 2, MidpointRounding.AwayFromZero);                
 
                 ObjetivosCRUD crud = new ObjetivosCRUD();
                 crud.Create(objetivo);

@@ -213,12 +213,7 @@ namespace tcc_windows_version
         {
             ValoresBO oBO = new ValoresBO();
             tbReservaObjetivos.Text = "R$" + oBO.BuscarReserva(idUsuario);
-        }
-        public void poupanca()
-        {
-            ValoresBO oBO = new ValoresBO();
-            tbPoupanca.Text = "R$" + oBO.BuscarPoupanca(idUsuario);
-        }
+        }       
         public void atualizarGridDespesasAnoAtual()
         {
             try
@@ -245,8 +240,7 @@ namespace tcc_windows_version
                 objConexao.Desconectar();
 
                 saldo();
-                reserva();
-                poupanca();
+                reserva();                
             }
             catch
             {
@@ -270,7 +264,6 @@ namespace tcc_windows_version
 
                 saldo();
                 reserva();
-                poupanca();
             }
             catch
             {
@@ -287,7 +280,6 @@ namespace tcc_windows_version
                 dgObjetivos.ItemsSource = resultado;
                 saldo();
                 reserva();
-                poupanca();
             }
         }
         #endregion

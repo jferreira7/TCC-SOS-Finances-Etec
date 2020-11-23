@@ -41,9 +41,9 @@ namespace tcc_windows_version.Database
         {
             return GetGeneric(id, coluna);
         }
-        public string GetPoupanca(int id, string coluna)
+        /*public string GetPoupanca(int id, string coluna)
         {
             return GetGeneric(id, coluna);
-        }
+        }*/
     }
 }

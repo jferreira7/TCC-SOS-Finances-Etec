@@ -16,10 +16,10 @@ namespace tcc_windows_version.Business
                 ValoresRead valor = new ValoresRead();
                 if (coluna == "saldo")
                     return valor.GetSaldo(id, coluna);
-                else if (coluna == "reserva")
+                else //if
                     return valor.GetReserva(id, coluna);
-                else
-                    return valor.GetPoupanca(id, coluna);
+                /*else
+                    return valor.GetPoupanca(id, coluna);*/
             }
             else
             {
