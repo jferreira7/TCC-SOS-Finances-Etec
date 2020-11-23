@@ -22,7 +22,7 @@ namespace tcc_windows_version.Database
             try
             {
                 DataTable data = new DataTable("usuarios");
-                adpt = new MySqlDataAdapter("SELECT id, nome FROM usuarios WHERE email='" + usuario.email + "' AND senha='" + usuario.senha + "';", objConexao.Conexao());
+                adpt = new MySqlDataAdapter("SELECT id, nome, vencimento_plano FROM usuarios WHERE email='" + usuario.email + "' AND senha='" + usuario.senha + "' LIMIT 1;", objConexao.Conexao());
                 adpt.Fill(data);
                 objConexao.Desconectar();
                 return data;

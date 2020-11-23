@@ -304,6 +304,7 @@
                 <ComboBoxItem Content="Manutenção"/>
                 <ComboBoxItem Content="Moradia"/>
                 <ComboBoxItem Content="Saúde"/>
+                <ComboBoxItem Content="Objetivos" />
             </ComboBox>
         </Grid>
 
@@ -380,6 +381,7 @@
                 <ComboBoxItem Content="Manutenção"/>
                 <ComboBoxItem Content="Moradia"/>
                 <ComboBoxItem Content="Saúde"/>
+                <ComboBoxItem Content="Objetivos" />
             </ComboBox>
             <Label Content="Estado:" HorizontalAlignment="Left" Margin="4,132,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Height="31"/>
             <ComboBox x:Name="cbEstadoDespesaFiltrar" HorizontalAlignment="Left" Margin="10,156,0,0" VerticalAlignment="Top" Width="78">
@@ -726,22 +728,6 @@
         <Grid x:Name="gdLateralBotoes" HorizontalAlignment="Left" Height="65" Margin="-1,125,0,0" VerticalAlignment="Top" Width="7" Background="#B2FE8F00"/>
         <Image x:Name="imgLogo" HorizontalAlignment="Left" Height="100" VerticalAlignment="Top" Width="171" Source="Resources/logoLaranjaTransparente.png" Stretch="Fill" Margin="0,10,0,0"/>
         <Label x:Name="lblNomeUsuario" Content="" HorizontalAlignment="Left" Margin="262,22,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Height="24" Width="78" Grid.Column="1" FlowDirection="RightToLeft"/>
-        <Button x:Name="btnResetLogin" Content="Reset" Background="#FF1275B6" HorizontalAlignment="Left" Margin="262,12,0,0" VerticalAlignment="Top" Width="76" Height="37" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnResetLogin_Click" Grid.Column="1">
-            <Button.Template>
-                <ControlTemplate TargetType="{x:Type Button}" >
-                    <ContentControl x:Name="btnPersonalizado">
-                        <Border x:Name="Borda" BorderThickness="0" Background="{TemplateBinding Background}">
-                            <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
-                        </Border>
-                    </ContentControl>
-                    <ControlTemplate.Triggers>
-                        <Trigger Property="IsMouseOver" Value="true">
-                            <Setter Property="Background" TargetName="Borda" Value="#FF1684CD"/>
-                        </Trigger>
-                    </ControlTemplate.Triggers>
-                </ControlTemplate>
-            </Button.Template>
-        </Button>
         <Grid x:Name="gdObjetivos" Margin="176,51,3,3" Grid.ColumnSpan="2" Background="#FFF1EFF1">
             <Label Content="Adicione os itens que deseja comprar:" HorizontalAlignment="Left" Margin="3,15,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Width="233"/>
             <TextBox x:Name="txtNomeObjetivo" HorizontalAlignment="Left" Height="23" Margin="10,82,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="204" Background="{x:Null}"/>
@@ -1061,21 +1047,54 @@
 
 
 
-            <Border x:Name="gdDetalhes" BorderBrush="Black" BorderThickness="1" Margin="453,0,0,30" Visibility="Hidden" HorizontalAlignment="Left" Width="407" Height="130" VerticalAlignment="Bottom">
+            <Border x:Name="gdDetalhes" BorderBrush="Black" BorderThickness="1" Margin="453,0,0,24" Visibility="Visible" HorizontalAlignment="Left" Width="407" Height="136" VerticalAlignment="Bottom">
                 <Grid Margin="0,-1,0,0">
                     <Label Content="Porcentagem: " HorizontalAlignment="Left" Margin="11,21,0,0" VerticalAlignment="Top"/>
-                    <TextBlock x:Name="tbPorcentagemObjetivo" HorizontalAlignment="Left" Margin="102,26,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tbPorcentagemObjetivo" HorizontalAlignment="Left" Margin="102,26,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
                     <Label Content="Valor guardado: " HorizontalAlignment="Left" Margin="11,53,0,0" VerticalAlignment="Top"/>
-                    <TextBlock x:Name="tbValorGuardadoObjetivo" HorizontalAlignment="Left" Margin="113,58,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tbValorGuardadoObjetivo" HorizontalAlignment="Left" Margin="113,58,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
                     <Label Content="Valor restante: " HorizontalAlignment="Left" Margin="11,83,0,0" VerticalAlignment="Top"/>
-                    <TextBlock x:Name="tbValorRestanteObjetivo" HorizontalAlignment="Left" Margin="102,88,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tbValorRestanteObjetivo" HorizontalAlignment="Left" Margin="102,88,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
                     <Label Content="Data da inserção: " HorizontalAlignment="Left" Margin="201,52,0,0" VerticalAlignment="Top"/>
-                    <TextBlock x:Name="tbDataInsercaoObjetivo" HorizontalAlignment="Left" Margin="310,57,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tbDataInsercaoObjetivo" HorizontalAlignment="Left" Margin="310,57,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
                     <Label Content="Data da finalização: " HorizontalAlignment="Left" Margin="201,83,0,0" VerticalAlignment="Top"/>
-                    <TextBlock x:Name="tbDataFinalizacaoObjetivo" HorizontalAlignment="Left" Margin="322,88,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top" RenderTransformOrigin="1.258,0.564"/>
+                    <TextBlock x:Name="tbDataFinalizacaoObjetivo" HorizontalAlignment="Left" Margin="322,88,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" RenderTransformOrigin="1.258,0.564"/>
                     <Label Content="Detalhes:" HorizontalAlignment="Left" Margin="10,-14,0,0" VerticalAlignment="Top" Background="#FFF1EFF1" FontWeight="Bold"/>
                     <Label Content="Tempo transcorrido: " HorizontalAlignment="Left" Margin="201,20,0,0" VerticalAlignment="Top"/>
-                    <TextBlock x:Name="tbTempoTotalObjetivo" HorizontalAlignment="Left" Margin="322,25,0,0" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Top"/>
+                    <TextBlock x:Name="tbTempoTotalObjetivo" HorizontalAlignment="Left" Margin="322,25,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
+                    <Button x:Name="btnCompradoObjetivo" Content="Comprado" HorizontalAlignment="Left" Margin="144,115,0,-17" VerticalAlignment="Top" Width="110" Height="37" BorderBrush="Black" FontFamily="Century Gothic" FontSize="18" Foreground="Black" RenderTransformOrigin="1.506,1.828" BorderThickness="2" Click="btnCompradoObjetivo_Click">
+                        <Button.Effect>
+                            <DropShadowEffect ShadowDepth="2"/>
+                        </Button.Effect>
+                        <Button.Background>
+                            <LinearGradientBrush EndPoint="0.5,1" MappingMode="RelativeToBoundingBox" StartPoint="0.5,0">
+                                <GradientStop Color="#FFEBFF1E" Offset="0.012"/>
+                                <GradientStop Color="#FFF6AA0C" Offset="1"/>
+                            </LinearGradientBrush>
+                        </Button.Background>
+                        <Button.Template>
+                            <ControlTemplate TargetType="{x:Type Button}" >
+                                <ContentControl x:Name="btnPersonalizado">
+                                    <Border x:Name="Borda" BorderThickness="2" Background="{TemplateBinding Background}" BorderBrush="#FFABADB3">
+                                        <ContentPresenter VerticalAlignment="Center" HorizontalAlignment="Center"/>
+                                    </Border>
+                                </ContentControl>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="true">
+                                        <Setter Property="Background" TargetName="Borda">
+                                            <Setter.Value>
+                                                <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+                                                    <GradientStop Color="#FFF2FF67"/>
+                                                    <GradientStop Color="#FFFFB314" Offset="1"/>  
+                                                </LinearGradientBrush>
+                                            </Setter.Value>
+                                        </Setter>
+                                        <Setter Property="Cursor" Value="Hand" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                    </Button>
                 </Grid>
             </Border>
 

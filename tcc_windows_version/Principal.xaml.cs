@@ -32,6 +32,7 @@ using tcc_windows_version.Business;
 using tcc_windows_version.Database;
 using tcc_windows_version.Model;
 using tcc_windows_version.Properties;
+using tcc_windows_version.View;
 
 namespace tcc_windows_version
 {
@@ -48,7 +49,7 @@ namespace tcc_windows_version
         int idRow;
         TextBox txtAnterior = null;
         
-
+        /*
         #region Borda Customizada
         static IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
         {
@@ -164,7 +165,7 @@ namespace tcc_windows_version
         [DllImport("User32")]
         internal static extern IntPtr MonitorFromWindow(IntPtr handle, int flags);
         #endregion
-
+        */
         public MainWindow()
         {
             InitializeComponent();
@@ -176,11 +177,11 @@ namespace tcc_windows_version
             //FrameworkElement.LanguageProperty.OverrideMetadata(typeof(FrameworkElement), new FrameworkPropertyMetadata(XmlLanguage.GetLanguage(CultureInfo.CurrentCulture.IetfLanguageTag)));
 
             //Para retirar a barra superior padrão do windows e permitir mover o programa sem ela
-            SourceInitialized += (s, e) =>
+            /*SourceInitialized += (s, e) =>
             {
                 IntPtr handle = (new WindowInteropHelper(this)).Handle;
                 HwndSource.FromHwnd(handle).AddHook(new HwndSourceHook(WindowProc));
-            };
+            };*/
 
             gdDespesas.Visibility = Visibility.Visible;
             gdFiltrar.Visibility = Visibility.Hidden;
@@ -364,6 +365,8 @@ namespace tcc_windows_version
         private void btnConfig_Click(object sender, RoutedEventArgs e)
         {
             gdLateralBotoes.Margin = new Thickness(-1, 488, 0, 0);
+            Configurações config = new Configurações();
+            config.Show();
         }
 
         private void btnObjetivos_Click(object sender, RoutedEventArgs e)
@@ -579,8 +582,7 @@ namespace tcc_windows_version
         {
             Objetivos objetivo = new Objetivos();
             objetivo.nome = txtNomeObjetivo.Text;
-            objetivo.preco = txtPrecoObjetivo.Text;
-            objetivo.imagem_bytes = imagem;
+            objetivo.preco = txtPrecoObjetivo.Text;            
             objetivo.id_usuario = idUsuario;
 
             if(txtValorInicialObjetivo.Text != "")
@@ -592,6 +594,12 @@ namespace tcc_windows_version
                 objetivo.valor_guardado = "0";
             }            
             
+            if(caminho_imagem == "" || caminho_imagem == null)
+            {
+                imagem = System.Convert.FromBase64String(Settings.Default["imgObjetivo"].ToString());
+            }
+
+            objetivo.imagem_bytes = imagem;
 
             if (Convert.ToDecimal(objetivo.valor_guardado) > Convert.ToDecimal(objetivo.preco))
             {
@@ -605,6 +613,7 @@ namespace tcc_windows_version
 
             atualizarGridObjetivos();
             limparObjetivo();
+            caminho_imagem = "";
         }
         private void btnImageObjetivo_Click(object sender, RoutedEventArgs e)
         {
@@ -623,9 +632,15 @@ namespace tcc_windows_version
                     FileStream fs = new FileStream(FileName, FileMode.Open, FileAccess.Read);
                     BinaryReader br = new BinaryReader(fs);
                     imagem = br.ReadBytes((int)fs.Length);
+
+                    /*using (var tw = new StreamWriter(@"D:\Example.txt", true))
+                    {
+                        tw.WriteLine(System.Convert.ToBase64String(imagem));
+                    }*/  
+                    
                     br.Close();
                     fs.Close();
-                }
+                }                
             }
         }
         private void btnLimparObjetivo_Click(object sender, RoutedEventArgs e)
@@ -691,11 +706,11 @@ namespace tcc_windows_version
         }
         #endregion
 
-        
+        DataRowView row_selected;
         private void btnDetalhesObjetivo_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
-            DataRowView row_selected = button.DataContext as DataRowView;
+            row_selected = button.DataContext as DataRowView;
             if (row_selected != null)
             {
                 gdDetalhes.Visibility = Visibility.Visible;
@@ -703,8 +718,8 @@ namespace tcc_windows_version
                 tbValorGuardadoObjetivo.Text = row_selected["valor_guardado"].ToString();
                 tbValorRestanteObjetivo.Text = row_selected["valor_restante"].ToString();
                 tbTempoTotalObjetivo.Text = "0";
-                tbDataInsercaoObjetivo.Text = row_selected["data_insercao"].ToString().Substring(0, 10);
-                if(row_selected["data_finalizacao"].ToString() != "")
+                tbDataInsercaoObjetivo.Text = row_selected["data_insercao"].ToString().Substring(0, 10);                
+                if (row_selected["data_finalizacao"].ToString() != "")
                 {
                     tbDataFinalizacaoObjetivo.Text = row_selected["data_finalizacao"].ToString().Substring(0, 10);
                     TimeSpan durantion = Convert.ToDateTime(row_selected["data_finalizacao"]) - Convert.ToDateTime(row_selected["data_insercao"]);
@@ -716,8 +731,18 @@ namespace tcc_windows_version
                     TimeSpan durantion = DateTime.Now - Convert.ToDateTime(row_selected["data_insercao"]);
                     tbTempoTotalObjetivo.Text = Convert.ToInt32(durantion.TotalDays).ToString() + " dias";
                 }
+
+                if (row_selected["estado"].ToString() == "Finalizado")
+                {
+                    btnCompradoObjetivo.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    btnCompradoObjetivo.Visibility = Visibility.Hidden;
+                }
             }
         }
+        
         private void btnAdicionarValorObjetivo_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
@@ -795,6 +820,9 @@ namespace tcc_windows_version
                 idRow = Convert.ToInt32(row_selected["id"]);                
             }
         }
+
+        
+
         private void txtValorObjetivoAddRemove_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (txtAnterior != null)
@@ -821,15 +849,14 @@ namespace tcc_windows_version
             }
         }
 
-
-        private void btnResetLogin_Click(object sender, RoutedEventArgs e)
+        private void btnCompradoObjetivo_Click(object sender, RoutedEventArgs e)
         {
-            Settings.Default["email"] = "";
-            Settings.Default["senha"] = "";
-            Settings.Default.Save();
-            Process.Start(Application.ResourceAssembly.Location);
-            Application.Current.Shutdown();
-        }
+            int id = Convert.ToInt32(row_selected["id"]);
+            
+            ObjetivosBO oBO = new ObjetivosBO();
+            oBO.AtualizarEstado(id, idUsuario, "Comprado");
 
+            atualizarGridObjetivos();
+        }
     }
 }

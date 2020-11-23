@@ -129,6 +129,18 @@ namespace tcc_windows_version.Business
                 return null;
             }
         }
+        public void AtualizarEstado(int id, int id_usuario, string estado)
+        {
+            if (id > 0 && id_usuario > 0 && estado == "Comprado")
+            {
+                ObjetivosCRUD crud = new ObjetivosCRUD();
+                crud.UpdateEstado(id, id_usuario, estado);
+            }
+            else
+            {
+                MessageBox.Show("Erro ao debitar o objetivo.");
+            }
+        }
         /*
         public void AtualizarValorInicial(int id, int id_usuario, double valor_inicial)
         {

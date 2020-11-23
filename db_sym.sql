@@ -1,5 +1,3 @@
-drop database sym;
-
 create database sym;
 use sym;
 
@@ -11,8 +9,6 @@ create table usuarios (
     vencimento_plano datetime not null,
     created_at datetime default current_timestamp
 );
-select * from usuarios;
-
 create table despesas(
 	id int primary key auto_increment,
     estado varchar(8) not null,
@@ -25,10 +21,6 @@ create table despesas(
     id_usuario int not null,
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
 );
-
-insert into despesas (estado, nome, empresa, categoria, valor, data_vencimento, id_usuario) VALUES ("Pendente", "Nada", "DAAE", "Alimentação", 500.22 ,"2020-10-27", "1");
-select * from despesas;
-
 create table receitas(
 	id int primary key auto_increment,    
     descricao varchar(150) not null,    
@@ -38,33 +30,6 @@ create table receitas(
     id_usuario int not null,
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
 );
-
-select * from receitas;
-insert into receitas (descricao, categoria, valor, id_usuario) VALUES ("aaaaa", "salário", 756.84, 1);
-
-select * from despesas;
-select * from despesas 
-	where nome like "%nada%" 
-	and empresa like "%DAAE%" 
-	and categoria like "%men%" 
-	and MONTH(data_vencimento) = "10" 
-	and YEAR(data_vencimento) = "2020"
-    and estado = "Pago";
-    
-create table saldos (
-	id int primary key auto_increment,
-    valor decimal(12,2) not null,
-    id_usuario int not null,
-    FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
-);
-
-INSERT INTO saldos (valor, id_usuario) VALUES ("0", "1");
-SELECT * FROM saldos;
-select valor from saldos where id=1;
-
-drop table objetivos;
-select * from objetivos;
-INSERT INTO objetivos (nome, preco, imagem, porcentagem, valor_guardado, valor_restante, id_usuario) SELECT nome, preco, imagem, porcentagem, valor_guardado, valor_restante, id_usuario FROM objetivos WHERE id = 1;
 create table objetivos (
 	id int primary key auto_increment,
     estado varchar(10) not null,
@@ -79,42 +44,6 @@ create table objetivos (
     id_usuario int not null,
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
 );
-
-drop trigger objetivos_BEFORE_UPDATE;
-
-DELIMITER //
-CREATE TRIGGER objetivos_BEFORE_UPDATE BEFORE UPDATE ON objetivos FOR EACH ROW
-BEGIN	
-	IF (NEW.valor_guardado >= 0) THEN
-		SET NEW.porcentagem = (NEW.valor_guardado * 100)/OLD.preco;   
-        SET NEW.valor_restante = OLD.preco -  NEW.valor_guardado;
-        UPDATE valores SET valor_saldo = valor_saldo - (NEW.valor_guardado - OLD.valor_guardado), valor_reserva = valor_reserva + (NEW.valor_guardado - OLD.valor_guardado) WHERE id_usuario=NEW.id_usuario; 
-	END IF;
-    IF (NEW.valor_guardado = OLD.preco) THEN
-		SET NEW.data_finalizacao = CURRENT_TIMESTAMP;
-        SET NEW.estado = "Finalizado";
-	END IF;
-	IF (NEW.preco <> OLD.preco) THEN
-		SET NEW.porcentagem = (OLD.valor_guardado * 100)/NEW.preco;
-        SET NEW.valor_restante = NEW.preco - OLD.valor_guardado;
-        
-        IF (NEW.preco > OLD.valor_guardado) THEN
-			SET NEW.data_finalizacao = NULL;
-		ELSE 
-			SET NEW.data_finalizacao = CURRENT_TIMESTAMP;
-		END IF;
-    END IF;
-END;//
-DELIMITER ;
-
-update objetivos set valor_guardado = 780 where id = 3 and id_usuario = 1;
-select * from objetivos;
-select * from valores;
-update objetivos set valor_guardado=680 where id=3;
-update objetivos set preco=1000 where id=3;
-update objetivos set nome="Novo" where id=3;
-
-drop table valores;
 create table valores (
 	id int primary key auto_increment,    
     valor_saldo decimal(12,2) not null,
@@ -123,22 +52,44 @@ create table valores (
     id_usuario int not null,
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
 );
-drop trigger usuarios_AFTER_INSERT;
-drop trigger despesas_AFTER_INSERT;
-drop trigger receitas_AFTER_INSERT;
-
-drop trigger objetivos_AFTER_INSERT;
-
 DELIMITER //
+	CREATE TRIGGER objetivos_BEFORE_UPDATE BEFORE UPDATE ON objetivos FOR EACH ROW
+	BEGIN	
+		IF ((NEW.valor_guardado >= 0) AND (NEW.estado not like "Comprado")) THEN
+			SET NEW.porcentagem = (NEW.valor_guardado * 100)/OLD.preco;   
+			SET NEW.valor_restante = OLD.preco -  NEW.valor_guardado;
+			UPDATE valores SET valor_saldo = valor_saldo - (NEW.valor_guardado - OLD.valor_guardado), valor_reserva = valor_reserva + (NEW.valor_guardado - OLD.valor_guardado) WHERE id_usuario=NEW.id_usuario; 
+		END IF;
+		IF ((NEW.valor_guardado = OLD.preco) AND (NEW.estado not like "Comprado")) THEN
+			SET NEW.data_finalizacao = CURRENT_TIMESTAMP;
+			SET NEW.estado = "Finalizado";
+		END IF;
+		IF ((NEW.preco <> OLD.preco) AND (NEW.estado not like "Comprado")) THEN
+			SET NEW.porcentagem = (OLD.valor_guardado * 100)/NEW.preco;
+			SET NEW.valor_restante = NEW.preco - OLD.valor_guardado;
+			
+			IF (NEW.preco > OLD.valor_guardado) THEN
+				SET NEW.data_finalizacao = NULL;
+			ELSE 
+				SET NEW.data_finalizacao = CURRENT_TIMESTAMP;
+			END IF;
+		END IF;
+		IF (NEW.estado like "Comprado") THEN		
+			INSERT INTO despesas (estado, nome, categoria, valor, data_vencimento, id_usuario) VALUES ("Pago", OLD.nome, "Objetivos", OLD.preco , OLD.data_finalizacao, OLD.id_usuario); 
+			UPDATE valores SET valor_reserva = (valor_reserva - OLD.preco) WHERE id_usuario = OLD.id_usuario;
+		END IF;
+	END;//
 
-CREATE TRIGGER usuarios_AFTER_INSERT AFTER INSERT ON usuarios FOR EACH ROW
+	CREATE TRIGGER usuarios_AFTER_INSERT AFTER INSERT ON usuarios FOR EACH ROW
 	BEGIN
 		INSERT INTO valores (valor_saldo, valor_reserva, valor_poupanca, id_usuario) VALUES ("0", "0", "0", NEW.id);
 	END;//
 
 	CREATE TRIGGER despesas_AFTER_INSERT AFTER INSERT ON despesas FOR EACH ROW
-	BEGIN
-		UPDATE valores set valor_saldo = valor_saldo - new.valor where id_usuario = new.id_usuario;
+	BEGIN		
+		IF (NEW.categoria not like "Objetivos") THEN
+			UPDATE valores set valor_saldo = valor_saldo - new.valor where id_usuario = new.id_usuario;
+		END IF;
 	END;//
 
 	CREATE TRIGGER receitas_AFTER_INSERT AFTER INSERT ON receitas FOR EACH ROW
@@ -154,22 +105,35 @@ CREATE TRIGGER usuarios_AFTER_INSERT AFTER INSERT ON usuarios FOR EACH ROW
 	CREATE TRIGGER objetivos_BEFORE_DELETE BEFORE DELETE ON objetivos FOR EACH ROW
 	BEGIN
 		UPDATE valores set valor_saldo = valor_saldo + OLD.valor_guardado, valor_reserva = valor_reserva - OLD.valor_guardado where id_usuario = OLD.id_usuario;
-END;//
-
+	END;//
+    
+    CREATE TRIGGER despesas_BEFORE_DELETE BEFORE DELETE ON despesas FOR EACH ROW
+	BEGIN
+		UPDATE valores set valor_saldo = valor_saldo + OLD.valor where id_usuario = OLD.id_usuario;
+	END;//
+    
+	CREATE TRIGGER despesas_BEFORE_UPDATE BEFORE UPDATE ON despesas FOR EACH ROW
+	BEGIN
+		UPDATE valores set valor_saldo = valor_saldo - (NEW.valor - OLD.valor) where id_usuario = OLD.id_usuario;
+	END;//
+    
+    CREATE TRIGGER receitas_BEFORE_DELETE BEFORE DELETE ON receitas FOR EACH ROW
+	BEGIN
+		UPDATE valores set valor_saldo = valor_saldo - OLD.valor where id_usuario = OLD.id_usuario;
+	END;//
+    
+	CREATE TRIGGER receitas_BEFORE_UPDATE BEFORE UPDATE ON receitas FOR EACH ROW
+	BEGIN
+		UPDATE valores set valor_saldo = valor_saldo + (NEW.valor - OLD.valor) where id_usuario = OLD.id_usuario;
+	END;//
+    
 DELIMITER ;
 
-SELECT * From valores;
-UPDATE valores set valor_saldo = (valor_saldo + 200), valor_reserva = (valor_reserva) - 200 where id_usuario = 1;
-
 select * from objetivos;
-insert into valores (valor_saldo, valor_reserva, valor_poupanca, id_usuario) values (536.54, 268.25, 1520.50 , 1);
+select * from despesas;
+select * from valores;
 
-UPDATE objetivos set data_finalizacao=null where id = 1;
-
-select * from objetivos where id_usuario=1 and estado in('Andamento','Finalizado');
-
--- Trigger poupança
-
+insert into usuarios (nome, email, senha, vencimento_plano) values ("jean", "jean", "jean", "2020-01-01 10:10:10-08:00");
 
 
 

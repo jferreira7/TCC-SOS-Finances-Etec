@@ -15,15 +15,15 @@ namespace tcc_windows_version.Business
     class UsuarioBO
     {
         public string nome_usuario = "";
-        public int Logar(Usuario usario)
+        public int Logar(Usuario usuario)
         {
             try
             {
-                if (usario.email != "" && usario.senha != "")
+                if (usuario.email != "" && usuario.senha != "")
                 {
                     UsuarioValida uv = new UsuarioValida();
                     
-                    DataTable data = uv.Login(usario);
+                    DataTable data = uv.Login(usuario);
                     if (data != null)
                     {
                         if (data.Rows.Count > 0)
@@ -48,6 +48,18 @@ namespace tcc_windows_version.Business
             }catch
             {
                 return -3;
+            }
+        }
+        public DataTable UsuarioData(Usuario usuario)
+        {           
+            if (usuario.email != "" && usuario.senha != "")
+            {
+                UsuarioValida uv = new UsuarioValida();
+                return uv.Login(usuario);
+            }
+            else
+            {
+                return null;
             }
         }
     }
