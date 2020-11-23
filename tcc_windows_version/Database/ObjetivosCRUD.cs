@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using tcc_windows_version.Model;
+using tcc_windows_version.View;
 
 namespace tcc_windows_version.Database
 {
@@ -14,6 +15,8 @@ namespace tcc_windows_version.Database
     {
         Connection objConexao = new Connection();
         MySqlCommand objComando = new MySqlCommand();
+        MySqlDataAdapter adpt;
+        DataTable data;
         public void Create(Objetivos objetivo)
         {
             objComando.CommandType = CommandType.Text;
@@ -34,11 +37,11 @@ namespace tcc_windows_version.Database
                 objComando.Connection = objConexao.Conectar();
                 objComando.ExecuteNonQuery();
                 objConexao.Desconectar();
-                MessageBox.Show("Objetivo cadastrado!");
+                Mensagem.mensagemSucesso = "Objetivo adicionado com sucesso!";
             }
-            catch (Exception erro)
+            catch //(Exception erro)
             {
-                MessageBox.Show("Erro conexão com o servidor: " + erro);
+                Mensagem.mensagemErro = "Erro de conexão com o servidor! Tente mais tarde.";
             }
         }
         public void Update(Objetivos objetivo)
@@ -59,23 +62,30 @@ namespace tcc_windows_version.Database
                 objComando.Connection = objConexao.Conectar();
                 objComando.ExecuteNonQuery();
                 objConexao.Desconectar();
-                MessageBox.Show("Objetivo atualizado!");
+                Mensagem.mensagemSucesso = "Objetivo atualizado com sucesso!";
             }
-            catch (Exception erro)
+            catch //(Exception erro)
             {
-                MessageBox.Show("Erro conexão com o servidor: " + erro);
+                Mensagem.mensagemErro = "Erro de conexão com o servidor! Tente mais tarde.";
             }
         }
         public DataView Read(int idUsuario)
-        {
-            MySqlDataAdapter adpt;
-            DataTable data = new DataTable("objetivos");
+        {            
+            data = new DataTable("objetivos");
 
-            string anoAtual = DateTime.Now.Year.ToString();
-            adpt = new MySqlDataAdapter("select * from objetivos where id_usuario = " + idUsuario + " and estado in('Andamento','Finalizado');", objConexao.Conexao());
-            adpt.Fill(data);
-            objConexao.Desconectar();
-            return data.DefaultView;
+            try
+            {
+                string anoAtual = DateTime.Now.Year.ToString();
+                adpt = new MySqlDataAdapter("select * from objetivos where id_usuario = " + idUsuario + " and estado in('Andamento','Finalizado');", objConexao.Conexao());
+                adpt.Fill(data);
+                objConexao.Desconectar();
+                return data.DefaultView;
+            }
+            catch //(Exception erro)
+            {
+                Mensagem.mensagemErro = "Erro de conexão com o servidor! Tente mais tarde.";
+                return null;                
+            }
         }
         public void Delete(int id)
         {
@@ -88,11 +98,11 @@ namespace tcc_windows_version.Database
                 objComando.Connection = objConexao.Conectar();
                 objComando.ExecuteNonQuery();
                 objConexao.Desconectar();
-                MessageBox.Show("Objetivo deletado!");
+                Mensagem.mensagemSucesso = "Objetivo deletado com sucesso!";
             }
-            catch (Exception erro)
+            catch //(Exception erro)
             {
-                MessageBox.Show("Erro de conexão com o servidor: " + erro);
+                Mensagem.mensagemErro = "Erro de conexão com o servidor! Tente mais tarde.";
             }
         }
         public void UpdateValorGuardado(int id, int id_usuario, double valor_guardado)
@@ -108,37 +118,16 @@ namespace tcc_windows_version.Database
                 objComando.Connection = objConexao.Conectar();
                 objComando.ExecuteNonQuery();
                 objConexao.Desconectar();
-                MessageBox.Show("Objetivo atualizado!");
+                Mensagem.mensagemSucesso = "Objetivo atualizado com sucesso!";
             }
-            catch (Exception erro)
+            catch //(Exception erro)
             {
-                MessageBox.Show("Erro conexão com o servidor: " + erro);
+                Mensagem.mensagemErro = "Erro de conexão com o servidor! Tente mais tarde.";
             }
-        }
-        public void UpdateValorInicial(int id, int id_usuario, double valor_inicial)
-        {
-            objComando.CommandText = "update objetivos set valor_inicial=@valor_inicial where id=@id and id_usuario=@id_usuario;";
-
-            objComando.Parameters.Add("@id", MySqlDbType.Int32).Value = id;
-            objComando.Parameters.Add("@valor_inicial", MySqlDbType.Decimal, 12).Value = valor_inicial;
-            objComando.Parameters.Add("@id_usuario", MySqlDbType.Int32).Value = id_usuario;
-            try
-            {
-                objConexao.Conexao();
-                objComando.Connection = objConexao.Conectar();
-                objComando.ExecuteNonQuery();
-                objConexao.Desconectar();
-                MessageBox.Show("Objetivo atualizado!");
-            }
-            catch (Exception erro)
-            {
-                MessageBox.Show("Erro conexão com o servidor: " + erro);
-            }
-        }
+        }        
         public DataView OneSelection(int id)
-        {
-            MySqlDataAdapter adpt;
-            DataTable data = new DataTable("objetivos");
+        {            
+            data = new DataTable("objetivos");
 
             string anoAtual = DateTime.Now.Year.ToString();
             adpt = new MySqlDataAdapter("select * from objetivos where id = " + id + " limit 1;", objConexao.Conexao());
@@ -159,11 +148,11 @@ namespace tcc_windows_version.Database
                 objComando.Connection = objConexao.Conectar();
                 objComando.ExecuteNonQuery();
                 objConexao.Desconectar();
-                MessageBox.Show("Objetivo atualizado!");
+                Mensagem.mensagemSucesso = "Objetivo debitado/comprado com sucesso!";
             }
-            catch (Exception erro)
+            catch //(Exception erro)
             {
-                MessageBox.Show("Erro conexão com o servidor: " + erro);
+                Mensagem.mensagemErro = "Erro de conexão com o servidor! Tente mais tarde.";
             }
         }        
     }

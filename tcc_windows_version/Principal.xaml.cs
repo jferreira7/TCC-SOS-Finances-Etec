@@ -48,7 +48,8 @@ namespace tcc_windows_version
         int idUsuario;
         int idRow;
         TextBox txtAnterior = null;
-        
+        DataRowView row_selected;
+
         /*
         #region Borda Customizada
         static IntPtr WindowProc(IntPtr hwnd, int msg, IntPtr wParam, IntPtr lParam, ref bool handled)
@@ -200,7 +201,10 @@ namespace tcc_windows_version
 
             lblNomeUsuario.Content = "Olá, " + nome_usuario;
 
-            atualizarGridDespesasAnoAtual();            
+            atualizarGridDespesasAnoAtual();           
+
+            Mensagem.mensagemErro = "";
+            Mensagem.mensagemSucesso = "";
         }
 
         #region Funções
@@ -217,53 +221,34 @@ namespace tcc_windows_version
         public void atualizarGridDespesasAnoAtual()
         {
             try
-            {
-                /*MySqlConnection objSqlConnnection = new MySqlConnection("server=localhost;port=3306;User Id=root;password=;database=sym");
-                MySqlDataAdapter adpt;
-                DataTable data = new DataTable("despesas");
+            {                
+                DespesasBO dBO = new DespesasBO();
+                DataView resultado = dBO.Buscar(idUsuario);
 
-                objSqlConnnection.Open();
-                adpt = new MySqlDataAdapter("select estado, nome, empresa, categoria, valor, data_vencimento from despesas", objSqlConnnection.ConnectionString);
-                adpt.Fill(data);
-                dgDespesas.ItemsSource = data.DefaultView;*/
-
-
-                Connection objConexao = new Connection();
-                MySqlDataAdapter adpt;
-                DataTable data = new DataTable("despesas");
-
-                string anoAtual = DateTime.Now.Year.ToString();
-                adpt = new MySqlDataAdapter("select * from despesas where id_usuario = '" + idUsuario + "' and YEAR(data_vencimento) = " + anoAtual + ";", objConexao.Conexao());
-                adpt.Fill(data);
-                dgDespesas.ItemsSource = data.DefaultView;
-
-                objConexao.Desconectar();
-
-                saldo();
-                reserva();                
+                if (resultado != null)
+                {
+                    dgDespesas.ItemsSource = resultado;
+                    saldo();
+                    reserva();
+                }           
             }
             catch
-            {
-                
+            {                
             }
         }
         public void atualizarGridReceitasAnoAtual()
         {
             try
             {
-                Connection objConexao = new Connection();
-                MySqlDataAdapter adpt;
-                DataTable data = new DataTable("receitas");
+                ReceitasBO rBO = new ReceitasBO();
+                DataView resultado = rBO.Buscar(idUsuario);
 
-                string anoAtual = DateTime.Now.Year.ToString();
-                adpt = new MySqlDataAdapter("select * from receitas where id_usuario = '" + idUsuario + "' and YEAR(data_insercao) = " + anoAtual + ";", objConexao.Conexao());
-                adpt.Fill(data);
-                dgReceitas.ItemsSource = data.DefaultView;
-
-                objConexao.Desconectar();
-
-                saldo();
-                reserva();
+                if (resultado != null)
+                {
+                    dgReceitas.ItemsSource = resultado;
+                    saldo();
+                    reserva();
+                }                
             }
             catch
             {
@@ -273,13 +258,33 @@ namespace tcc_windows_version
         public void atualizarGridObjetivos()
         {
             ObjetivosBO bo = new ObjetivosBO();
-            DataView resultado = bo.BuscarTodos(idUsuario);
+            DataView resultado = bo.Buscar(idUsuario);
 
             if (resultado != null)
             {
                 dgObjetivos.ItemsSource = resultado;
                 saldo();
                 reserva();
+            }
+        }
+        public void mensagemErro(string mensagem)
+        {
+            if (mensagem != "")
+            {
+                tbMensagem.Visibility = Visibility.Visible;
+                tbMensagem.Foreground = new SolidColorBrush(Colors.Red);
+                tbMensagem.Text = mensagem;
+                Mensagem.mensagemErro = "";
+            }
+        }
+        public void mensagemSucesso(string mensagem)
+        {
+            if (mensagem != "")
+            {
+                tbMensagem.Visibility = Visibility.Visible;
+                tbMensagem.Foreground = new SolidColorBrush(Colors.Green);
+                tbMensagem.Text = mensagem;
+                Mensagem.mensagemSucesso = "";
             }
         }
         #endregion
@@ -320,13 +325,12 @@ namespace tcc_windows_version
             gdReceitas.Visibility = Visibility.Hidden;
             gdObjetivos.Visibility = Visibility.Hidden;
             gdLateralBotoes.Margin = new Thickness(-1, 125, 0, 0);
-
+            tbMensagem.Visibility = Visibility.Hidden;
             dgReceitas.Visibility = Visibility.Hidden;
             dgDespesas.Visibility = Visibility.Visible;
 
             atualizarGridDespesasAnoAtual();
         }
-
         private void btnReceitas_Click(object sender, RoutedEventArgs e)
         {
             gdDespesas.Visibility = Visibility.Hidden;
@@ -336,10 +340,10 @@ namespace tcc_windows_version
             gdLateralBotoes.Margin = new Thickness(-1, 190, 0, 0);
             dgDespesas.Visibility = Visibility.Hidden;
             dgReceitas.Visibility = Visibility.Visible;
+            tbMensagem.Visibility = Visibility.Hidden;
 
             atualizarGridReceitasAnoAtual();
         }
-
         private void btnFiltrar_Click(object sender, RoutedEventArgs e)
         {
             gdFiltrar.Visibility = Visibility.Visible;
@@ -347,20 +351,18 @@ namespace tcc_windows_version
             gdDespesas.Visibility = Visibility.Hidden;
             gdObjetivos.Visibility = Visibility.Hidden;
             gdLateralBotoes.Margin = new Thickness(-1, 255, 0, 0);
-
+            tbMensagem.Visibility = Visibility.Hidden;
             dgReceitas.Visibility = Visibility.Hidden;
             dgDespesas.Visibility = Visibility.Visible;
 
             atualizarGridDespesasAnoAtual();
         }
-
         private void btnConfig_Click(object sender, RoutedEventArgs e)
         {
             gdLateralBotoes.Margin = new Thickness(-1, 488, 0, 0);
             Configurações config = new Configurações();
             config.Show();
         }
-
         private void btnObjetivos_Click(object sender, RoutedEventArgs e)
         {
             gdDespesas.Visibility = Visibility.Hidden;
@@ -369,7 +371,7 @@ namespace tcc_windows_version
             gdObjetivos.Visibility = Visibility.Hidden;
             dgReceitas.Visibility = Visibility.Hidden;
             dgDespesas.Visibility = Visibility.Hidden;
-
+            tbMensagem.Visibility = Visibility.Hidden;
             gdLateralBotoes.Margin = new Thickness(-1, 320, 0, 0);
             gdObjetivos.Visibility = Visibility.Visible;
 
@@ -413,22 +415,21 @@ namespace tcc_windows_version
             despesa.categoria = cbCategoriaDespesas.Text.ToString();
             despesa.empresa = txtEmpresa.Text.ToString();
             despesa.valor = txtValorDespesas.Text;
-            despesa.data_vencimento = DateTime.Parse(dpDespesa.Text).ToString("yyyy-MM-dd");
+
+            if (dpDespesa.Text != "")
+                despesa.data_vencimento = DateTime.Parse(dpDespesa.Text).ToString("yyyy-MM-dd");
+
             despesa.id_usuario = idUsuario;
 
             bo.Cadastrar(despesa);
 
-            atualizarGridDespesasAnoAtual();
+            if (Mensagem.mensagemErro == "") limparDespesas();
 
-            idDespesaSelecionada = "";
-            cbEstadoDespesas.SelectedIndex = -1;
-            txtNome.Text = "";
-            cbCategoriaDespesas.SelectedIndex = -1;
-            txtEmpresa.Text = "";
-            txtValorDespesas.Text = "";
-            dpDespesa.Text = "";
+            mensagemErro(Mensagem.mensagemErro);
+            mensagemSucesso(Mensagem.mensagemSucesso);
+
+            atualizarGridDespesasAnoAtual();            
         }
-
         private void btnAlterarDespesas_Click(object sender, RoutedEventArgs e)
         {
             Despesas despesa = new Despesas();
@@ -445,34 +446,31 @@ namespace tcc_windows_version
 
             bo.Editar(despesa);
 
+            if (Mensagem.mensagemErro == "") limparDespesas();
+
+            mensagemErro(Mensagem.mensagemErro);
+            mensagemSucesso(Mensagem.mensagemSucesso);
+
             atualizarGridDespesasAnoAtual();
-
-            idDespesaSelecionada = "";
-            cbEstadoDespesas.SelectedIndex = -1;
-            txtNome.Text = "";
-            cbCategoriaDespesas.SelectedIndex = -1;
-            txtEmpresa.Text = "";
-            txtValorDespesas.Text = "";
-            dpDespesa.Text = "";
         }
-
         private void btnDeletarDespesas_Click(object sender, RoutedEventArgs e)
         {
             DespesasBO despesa = new DespesasBO();
             despesa.Deletar(Convert.ToInt32(idDespesaSelecionada));
 
+            if (Mensagem.mensagemErro == "") limparDespesas();
+
+            mensagemErro(Mensagem.mensagemErro);
+            mensagemSucesso(Mensagem.mensagemSucesso);
+
             atualizarGridDespesasAnoAtual();
-
-            idDespesaSelecionada = "";
-            cbEstadoDespesas.SelectedIndex = -1;
-            txtNome.Text = "";
-            cbCategoriaDespesas.SelectedIndex = -1;
-            txtEmpresa.Text = "";
-            txtValorDespesas.Text = "";
-            dpDespesa.Text = "";
         }
-
         private void btnLimparDespesas_Click(object sender, RoutedEventArgs e)
+        {
+            limparDespesas();
+            dgDespesas.UnselectAll();
+        }
+        public void limparDespesas()
         {
             idDespesaSelecionada = "";
             cbEstadoDespesas.SelectedIndex = -1;
@@ -481,7 +479,6 @@ namespace tcc_windows_version
             txtEmpresa.Text = "";
             txtValorDespesas.Text = "";
             dpDespesa.Text = "";
-            dgDespesas.UnselectAll();
         }
         #endregion
 
@@ -498,13 +495,12 @@ namespace tcc_windows_version
 
             bo.Cadastrar(receita);
 
+            if (Mensagem.mensagemErro == "") limparReceita();
+
+            mensagemErro(Mensagem.mensagemErro);
+            mensagemSucesso(Mensagem.mensagemSucesso);
+
             atualizarGridReceitasAnoAtual();
-
-            idReceitaSelecionada = "";
-            txtDescricaoReceita.Text = "";
-            cbCategoriaReceita.SelectedIndex = -1;
-            txtValorReceita.Text = "";
-
         }
         private void btnAlterarReceita_Click(object sender, RoutedEventArgs e)
         {
@@ -519,32 +515,38 @@ namespace tcc_windows_version
 
             bo.Editar(receita);
 
+            if (Mensagem.mensagemErro == "") limparReceita();
+
+            mensagemErro(Mensagem.mensagemErro);
+            mensagemSucesso(Mensagem.mensagemSucesso);
+
             atualizarGridReceitasAnoAtual();
 
-            idReceitaSelecionada = "";
-            txtDescricaoReceita.Text = "";
-            cbCategoriaReceita.SelectedIndex = -1;
-            txtValorReceita.Text = "";
+            limparReceita();
         }
         private void btnDeletarReceita_Click(object sender, RoutedEventArgs e)
         {
             ReceitasBO receita = new ReceitasBO();
             receita.Deletar(Convert.ToInt32(idReceitaSelecionada));
 
-            atualizarGridReceitasAnoAtual();
+            if (Mensagem.mensagemErro == "") limparReceita();
 
-            idReceitaSelecionada = "";
-            txtDescricaoReceita.Text = "";
-            cbCategoriaReceita.SelectedIndex = -1;
-            txtValorReceita.Text = "";
+            mensagemErro(Mensagem.mensagemErro);
+            mensagemSucesso(Mensagem.mensagemSucesso);
+
+            atualizarGridReceitasAnoAtual();
         }
         private void btnLimparReceita_Click(object sender, RoutedEventArgs e)
+        {
+            limparReceita();
+            dgReceitas.UnselectAll();
+        }
+        public void limparReceita()
         {
             idReceitaSelecionada = "";
             txtDescricaoReceita.Text = "";
             cbCategoriaReceita.SelectedIndex = -1;
             txtValorReceita.Text = "";
-            dgReceitas.UnselectAll();
         }
         #endregion
 
@@ -554,6 +556,9 @@ namespace tcc_windows_version
             DespesasBO bo = new DespesasBO();
 
             DataView resultado = bo.Filtrar(txtNomeDespesaFiltrar.Text, txtEmpresaDespesaFiltrar.Text, cbCategoriaDespesaFiltrar.Text, cbMesDespesaFiltrar.Text, cbAnoDespesaFiltrar.Text, cbEstadoDespesaFiltrar.Text, idUsuario);
+
+            mensagemErro(Mensagem.mensagemErro);
+            mensagemSucesso(Mensagem.mensagemSucesso);
 
             if (resultado != null)
             {
@@ -600,18 +605,31 @@ namespace tcc_windows_version
 
             objetivo.imagem_bytes = imagem;
 
-            if (Convert.ToDecimal(objetivo.valor_guardado) > Convert.ToDecimal(objetivo.preco))
+            if (objetivo.preco == "" || objetivo.preco == "0") 
             {
-                MessageBox.Show("O preço está menor do que está sendo guardado.");
+                Mensagem.mensagemErro = "Não deixe o preço vazio ou com o valor zero!";
+                txtPrecoObjetivo.Text = "";
             }
             else
             {
-                ObjetivosBO oBO = new ObjetivosBO();
-                oBO.Cadastrar(objetivo);
-            }            
+                if (Convert.ToDecimal(objetivo.valor_guardado) > Convert.ToDecimal(objetivo.preco))
+                {
+                    Mensagem.mensagemErro = "O preço está menor do que está sendo guardado.";                    
+                }
+                else
+                {
+                    ObjetivosBO oBO = new ObjetivosBO();
+                    oBO.Cadastrar(objetivo);
+                }
+            }
 
-            atualizarGridObjetivos();
-            limparObjetivo();
+            if (Mensagem.mensagemErro == "") limparObjetivo();
+
+            mensagemErro(Mensagem.mensagemErro);
+            mensagemSucesso(Mensagem.mensagemSucesso);
+
+            atualizarGridObjetivos();            
+            
             caminho_imagem = "";
         }
         private void btnImageObjetivo_Click(object sender, RoutedEventArgs e)
@@ -652,8 +670,12 @@ namespace tcc_windows_version
             ObjetivosBO objetivo = new ObjetivosBO();
             objetivo.Deletar(Convert.ToInt32(idObjetivoSelecionado));
 
+            if (Mensagem.mensagemErro == "") limparObjetivo();
+
+            mensagemErro(Mensagem.mensagemErro);
+            mensagemSucesso(Mensagem.mensagemSucesso);
+
             atualizarGridObjetivos();
-            limparObjetivo();
         }
         private void btnAlterarObjetivo_Click(object sender, RoutedEventArgs e)
         {
@@ -678,8 +700,12 @@ namespace tcc_windows_version
            
             oBO.Editar(objetivo);
 
+            if (Mensagem.mensagemErro == "") limparObjetivo();
+
+            mensagemErro(Mensagem.mensagemErro);
+            mensagemSucesso(Mensagem.mensagemSucesso);
+
             atualizarGridObjetivos();
-            limparObjetivo();
         }
         public BitmapImage ToImage(byte[] array)
         {
@@ -693,19 +719,21 @@ namespace tcc_windows_version
                 return image;
             }
         }
-        public void limparObjetivo()
+        private void btnCompradoObjetivo_Click(object sender, RoutedEventArgs e)
         {
-            idDespesaSelecionada = "";
-            txtNomeObjetivo.Text = "";
-            txtPrecoObjetivo.Text = "";
-            btnImageObjetivo.Background = new ImageBrush { ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/imageIcon.png", UriKind.RelativeOrAbsolute)) };
-            txtValorInicialObjetivo.Text = "";
-            txtValorInicialObjetivo.IsEnabled = true;
-            gdDetalhes.Visibility = Visibility.Hidden;
-        }
-        #endregion
+            int id = Convert.ToInt32(row_selected["id"]);
 
-        DataRowView row_selected;
+            ObjetivosBO oBO = new ObjetivosBO();
+            oBO.AtualizarEstado(id, idUsuario, "Comprado");
+
+            if (Mensagem.mensagemErro == "") limparObjetivo();
+
+            mensagemErro(Mensagem.mensagemErro);
+            mensagemSucesso(Mensagem.mensagemSucesso);
+
+            atualizarGridObjetivos();
+        }
+
         private void btnDetalhesObjetivo_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
@@ -717,7 +745,7 @@ namespace tcc_windows_version
                 tbValorGuardadoObjetivo.Text = row_selected["valor_guardado"].ToString();
                 tbValorRestanteObjetivo.Text = row_selected["valor_restante"].ToString();
                 tbTempoTotalObjetivo.Text = "0";
-                tbDataInsercaoObjetivo.Text = row_selected["data_insercao"].ToString().Substring(0, 10);                
+                tbDataInsercaoObjetivo.Text = row_selected["data_insercao"].ToString().Substring(0, 10);
                 if (row_selected["data_finalizacao"].ToString() != "")
                 {
                     tbDataFinalizacaoObjetivo.Text = row_selected["data_finalizacao"].ToString().Substring(0, 10);
@@ -741,7 +769,6 @@ namespace tcc_windows_version
                 }
             }
         }
-        
         private void btnAdicionarValorObjetivo_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
@@ -749,7 +776,7 @@ namespace tcc_windows_version
 
             if (idRow == Convert.ToInt32(row_selected["id"]))
             {
-                if(row_selected["valor_guardado"].ToString() != row_selected["preco"].ToString())
+                if (row_selected["valor_guardado"].ToString() != row_selected["preco"].ToString())
                 {
                     double novoValorGuardado = Convert.ToDouble(row_selected["valor_guardado"]) + Convert.ToDouble(txtAnterior.Text);
                     double preco = Convert.ToDouble(row_selected["preco"]);
@@ -769,11 +796,11 @@ namespace tcc_windows_version
                 else
                 {
                     MessageBox.Show("O objetivo já foi completo!");
-                }              
+                }
             }
             else
             {
-                MessageBox.Show("Insira o valor na linha correta.");                
+                MessageBox.Show("Insira o valor na linha correta.");
             }
         }
         private void btnRemoverValorObjetivo_Click(object sender, RoutedEventArgs e)
@@ -805,8 +832,19 @@ namespace tcc_windows_version
             }
         }
 
-        
+        public void limparObjetivo()
+        {
+            idDespesaSelecionada = "";
+            txtNomeObjetivo.Text = "";
+            txtPrecoObjetivo.Text = "";
+            btnImageObjetivo.Background = new ImageBrush { ImageSource = new BitmapImage(new Uri("pack://application:,,,/Resources/imageIcon.png", UriKind.RelativeOrAbsolute)) };
+            txtValorInicialObjetivo.Text = "";
+            txtValorInicialObjetivo.IsEnabled = true;
+            gdDetalhes.Visibility = Visibility.Hidden;
+        }
+        #endregion
 
+        
         public void txtValorObjetivoAddRemove_TextChanged(object sender, TextChangedEventArgs e)
         {
             TextBox txt = sender as TextBox;
@@ -819,7 +857,6 @@ namespace tcc_windows_version
                 idRow = Convert.ToInt32(row_selected["id"]);                
             }
         }
-
         
 
         private void txtValorObjetivoAddRemove_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
@@ -848,14 +885,6 @@ namespace tcc_windows_version
             }
         }
 
-        private void btnCompradoObjetivo_Click(object sender, RoutedEventArgs e)
-        {
-            int id = Convert.ToInt32(row_selected["id"]);
-            
-            ObjetivosBO oBO = new ObjetivosBO();
-            oBO.AtualizarEstado(id, idUsuario, "Comprado");
-
-            atualizarGridObjetivos();
-        }
+        
     }
 }

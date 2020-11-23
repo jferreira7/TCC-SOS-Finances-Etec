@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using tcc_windows_version.Database;
 using tcc_windows_version.Model;
+using tcc_windows_version.View;
 
 namespace tcc_windows_version.Business
 {
@@ -36,7 +37,7 @@ namespace tcc_windows_version.Business
             }
             else
             {
-                MessageBox.Show("Preencha corretamente as lacunas!");
+                Mensagem.mensagemErro = "Preencha corretamente as lacunas!";
             }
         }
         public void Editar(Objetivos objetivo)
@@ -81,15 +82,15 @@ namespace tcc_windows_version.Business
             }
             else
             {
-                MessageBox.Show("Preencha corretamente as lacunas!");
+                Mensagem.mensagemErro = "Preencha corretamente as lacunas!";
             }
         }
-        public DataView BuscarTodos (int idUsuario)
+        public DataView Buscar (int id_usuario)
         {
-            if (idUsuario > 0)
+            if (id_usuario > 0)
             {
                 ObjetivosCRUD crud = new ObjetivosCRUD();
-                return crud.Read(idUsuario);
+                return crud.Read(id_usuario);
             }
             else
             {                
@@ -113,7 +114,7 @@ namespace tcc_windows_version.Business
             }
             else
             {
-                MessageBox.Show("Selecione uma linha e preencha corretamente a lacuna do valor a ser guardado.");
+                Mensagem.mensagemErro = "Selecione uma linha e preencha corretamente as lacunas!";
             }
         }
         public DataView SelecionarUm(int id)
@@ -137,21 +138,8 @@ namespace tcc_windows_version.Business
             }
             else
             {
-                MessageBox.Show("Erro ao debitar o objetivo.");
+                Mensagem.mensagemErro = "Erro ao debitar/comprar o objetivo.";
             }
-        }
-        /*
-        public void AtualizarValorInicial(int id, int id_usuario, double valor_inicial)
-        {
-            if (id > 0 && id_usuario > 0 && valor_inicial >= 0)
-            {
-                ObjetivosCRUD crud = new ObjetivosCRUD();
-                crud.UpdateValorInicial(id, id_usuario, valor_inicial);
-            }
-            else
-            {
-                MessageBox.Show("Selecione uma linha e preencha corretamente a lacuna do valor a ser guardado.");
-            }
-        }*/
+        }        
     }
 }

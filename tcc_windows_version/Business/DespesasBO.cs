@@ -8,45 +8,60 @@ using System.Threading.Tasks;
 using System.Windows;
 using tcc_windows_version.Database;
 using tcc_windows_version.Model;
+using tcc_windows_version.View;
 
 namespace tcc_windows_version.Business
 {
     class DespesasBO
     {
+        DespesasCRUD crud;
         public void Cadastrar(Despesas despesa)
         {
             
             if ((despesa.nome != "") && 
-                (despesa.categoria != "") && 
+                (despesa.categoria != "") &&
+                (despesa.data_vencimento != "") &&
                 (despesa.estado != "") && 
                 (despesa.valor != "") && 
                 (despesa.id_usuario > 0))
             {
-                DespesasCRUD crud = new DespesasCRUD();
+                crud = new DespesasCRUD();
                 crud.Create(despesa);                
             }
             else
             {
-                MessageBox.Show("Preencha corretamente as lacunas!");
+                Mensagem.mensagemErro = "Preencha corretamente as lacunas!";
             }
         }        
         public void Editar(Despesas despesa)
         {
             if ((despesa.id != "") && (despesa.nome != "") && (despesa.categoria != "") && (despesa.estado != "") && (despesa.valor != "") && (despesa.id_usuario > 0))
             {
-                DespesasCRUD crud = new DespesasCRUD();
+                crud = new DespesasCRUD();
                 crud.Update(despesa);                
             }
             else
             {
-                MessageBox.Show("Preencha corretamente as lacunas!");
+                Mensagem.mensagemErro = "Selecione uma linha e preencha corretamente as lacunas!";
+            }
+        }
+        public DataView Buscar(int id_usuario)
+        {
+            if (id_usuario > 0)
+            {
+                crud = new DespesasCRUD();
+                return crud.Read(id_usuario);
+            }
+            else
+            {
+                return null;
             }
         }
         public void Deletar(int id)
         {
             if (id > 0)
             {
-                DespesasCRUD crud = new DespesasCRUD();
+                crud = new DespesasCRUD();
                 crud.Delete(id);
             }
         }
@@ -54,10 +69,10 @@ namespace tcc_windows_version.Business
         {
             if ((nome != "" || empresa != "" || categoria != "" || mes != "" || ano != "" || estado != "") && id_usuario > 0)
             {
-                DespesasCRUD crud = new DespesasCRUD();
+                crud = new DespesasCRUD();
                 return crud.Search(nome, empresa, categoria, mes, ano, estado, id_usuario);
             } else {
-                MessageBox.Show("Preencha um dos campos!");
+                Mensagem.mensagemErro = "Preencha pelo menos um dos campos!";
                 return null;
             }
         }

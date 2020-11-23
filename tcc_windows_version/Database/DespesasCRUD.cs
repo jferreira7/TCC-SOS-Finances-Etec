@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using tcc_windows_version.Model;
+using tcc_windows_version.View;
 
 namespace tcc_windows_version.Database
 {
@@ -14,6 +15,8 @@ namespace tcc_windows_version.Database
     {
         Connection objConexao = new Connection();
         MySqlCommand objComando = new MySqlCommand();
+        MySqlDataAdapter adpt;
+        DataTable data;
         public void Create(Despesas despesa)
         {
             objComando.CommandType = CommandType.Text;
@@ -33,16 +36,29 @@ namespace tcc_windows_version.Database
                 objComando.Connection = objConexao.Conectar();
                 objComando.ExecuteNonQuery();
                 objConexao.Desconectar();
-                MessageBox.Show("Despesa cadastrada!");
+                Mensagem.mensagemSucesso = "Despesa adicionada com sucesso!";
             }
-            catch (Exception erro)
+            catch //(Exception erro)
             {
-                MessageBox.Show("Erro conexão com o servidor: " + erro);
+                Mensagem.mensagemErro = "Erro de conexão com o servidor! Tente mais tarde.";
             }        
         }
-        public void Read()
+        public DataView Read(int id_usuario)
         {
-
+            try
+            {
+                data = new DataTable("despesas");
+                string anoAtual = DateTime.Now.Year.ToString();
+                adpt = new MySqlDataAdapter("select * from despesas where id_usuario = '" + id_usuario + "' and YEAR(data_vencimento) = " + anoAtual + ";", objConexao.Conexao());
+                adpt.Fill(data);
+                objConexao.Desconectar();
+                return data.DefaultView;
+            }
+            catch //(Exception erro)
+            {                
+                Mensagem.mensagemErro = "Erro de conexão com o servidor! Tente mais tarde.";
+                return null;
+            }
         }
         public void Update(Despesas despesa)
         {
@@ -63,11 +79,11 @@ namespace tcc_windows_version.Database
                 objComando.Connection = objConexao.Conectar();
                 objComando.ExecuteNonQuery();
                 objConexao.Desconectar();
-                MessageBox.Show("Despesa atualizada!");
+                Mensagem.mensagemSucesso = "Despesa atualizada com sucesso!";
             }
-            catch (Exception erro)
+            catch //(Exception erro)
             {
-                MessageBox.Show("Erro conexão com o servidor: " + erro);
+                Mensagem.mensagemErro = "Erro de conexão com o servidor! Tente mais tarde.";
             }
         }
         public void Delete(int id)
@@ -81,21 +97,16 @@ namespace tcc_windows_version.Database
                 objComando.Connection = objConexao.Conectar();
                 objComando.ExecuteNonQuery();
                 objConexao.Desconectar();
-                MessageBox.Show("Despesa deletada!");
+                Mensagem.mensagemSucesso = "Despesa deletada com sucesso!";
             }
-            catch (Exception erro)
+            catch //(Exception erro)
             {
-                MessageBox.Show("Erro de conexão com o servidor: " + erro);
+                Mensagem.mensagemErro = "Erro de conexão com o servidor! Tente mais tarde.";
             }
         }
         public DataView Search(string nome, string empresa, string categoria, string mes, string ano, string estado, int id_usuario)
         {
-            string query = "select * from despesas where ";
-            /*string nome = "Conta";
-            string empresa = "DA";
-            string categoria = "NA";
-            string mes = "1";
-            string ano = "2020";*/
+            string query = "select * from despesas where ";            
             
             /*"select* from despesas where nome like '%nada%' and empresa like '%DAAE%' and categoria like '%men%' and MONTH(data_vencimento) = '10' and YEAR(data_vencimento) = '2020' and estado = 'Pendente';"*/
             if (nome != "") { query += "nome like '%" + nome + "%' and "; }
@@ -107,17 +118,22 @@ namespace tcc_windows_version.Database
             if (id_usuario > 0) { query += "id_usuario = '" + id_usuario.ToString() + "' and "; }
 
             query = query.TrimEnd(' ', 'a', 'n', 'd', ' ');
-            query += ";";
+            query += ";";            
+            
+            data = new DataTable("despesas");
 
-            Connection objConexao = new Connection();
-            MySqlDataAdapter adpt;
-            DataTable data = new DataTable("despesas");
-
-            adpt = new MySqlDataAdapter(query, objConexao.Conexao());
-            adpt.Fill(data);
-            objConexao.Desconectar();
-
-            return data.DefaultView;
+            try
+            {
+                adpt = new MySqlDataAdapter(query, objConexao.Conexao());
+                adpt.Fill(data);
+                objConexao.Desconectar();
+                return data.DefaultView;
+            }
+            catch //(Exception erro)
+            {
+                Mensagem.mensagemErro = "Erro de conexão com o servidor! Tente mais tarde.";
+                return null;
+            }
         }
     }
 }

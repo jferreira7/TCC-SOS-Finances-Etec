@@ -101,6 +101,7 @@
     <Compile Include="View\Login.xaml.cs">
       <DependentUpon>Login.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Model\Mensagem.cs" />
     <Page Include="Principal.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

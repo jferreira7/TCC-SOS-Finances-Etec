@@ -108,5 +108,29 @@ namespace tcc_windows_version.Properties {
                 return ((string)(this["imgObjetivo"]));
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string msgErro {
+            get {
+                return ((string)(this["msgErro"]));
+            }
+            set {
+                this["msgErro"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("")]
+        public string msgSucesso {
+            get {
+                return ((string)(this["msgSucesso"]));
+            }
+            set {
+                this["msgSucesso"] = value;
+            }
+        }
     }
 }
