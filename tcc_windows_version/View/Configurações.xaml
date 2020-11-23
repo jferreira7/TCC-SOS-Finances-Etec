@@ -86,6 +86,12 @@
                 <Label Content="Senha: " HorizontalAlignment="Left" Margin="5,69,0,0" VerticalAlignment="Top" FontWeight="Bold"/>
             </Grid>
         </GroupBox>
+        <GroupBox Header="GroupBox" HorizontalAlignment="Left" Height="156" Margin="10,165,0,0" VerticalAlignment="Top" Width="334" Grid.ColumnSpan="2" Visibility="Hidden">
+            <Grid Margin="0,0,-2,-1">
+                <TextBox x:Name="txtHash" HorizontalAlignment="Left" Height="111" Margin="90,13,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="224" UndoLimit="300"/>
+                <Button x:Name="btnGerarHash" Content="Hash" HorizontalAlignment="Left" Margin="10,13,0,0" VerticalAlignment="Top" Width="75" Click="btnGerarHash_Click"/>
+            </Grid>
+        </GroupBox>
     </Grid>
 </Window>
 

@@ -30,6 +30,7 @@ namespace tcc_windows_version.View
             InitializeComponent();
             exibirDadosUsuario();
         }  
+
         public void exibirDadosUsuario()
         {
             Usuario usuario = new Usuario();
@@ -46,7 +47,6 @@ namespace tcc_windows_version.View
                 tbVencimentoPlanoUsuario.Text = user.Rows[0]["vencimento_plano"].ToString().Substring(0, 10);
             }
         }
-
         private void tbAlterarUsuario_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             MessageBoxResult Result = MessageBox.Show("Deseja realmente trocar de usuário?","Trocar usuário", MessageBoxButton.YesNo);
@@ -65,10 +65,27 @@ namespace tcc_windows_version.View
             }
             
         }
-
         private void btnFechar_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        private void btnGerarHash_Click(object sender, RoutedEventArgs e)
+        {
+            string hash = "";
+            hash = sha256(txtHash.Text);
+            txtHash.Text = hash;
+        }
+        static string sha256(string randomString)
+        {
+            var crypt = new System.Security.Cryptography.SHA256Managed();
+            var hash = new System.Text.StringBuilder();
+            byte[] crypto = crypt.ComputeHash(Encoding.UTF8.GetBytes(randomString));
+            foreach (byte theByte in crypto)
+            {
+                hash.Append(theByte.ToString("x2"));
+            }
+            return hash.ToString();
         }
     }
 }

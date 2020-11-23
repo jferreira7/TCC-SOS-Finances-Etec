@@ -169,7 +169,7 @@ namespace tcc_windows_version.View
         {
             Usuario usuario = new Usuario();
             usuario.email = txtEmail.Text;
-            usuario.senha = txtSenha.Password;
+            usuario.senha = sha256(txtSenha.Password);
 
             UsuarioBO bo = new UsuarioBO();
             int id = bo.Logar(usuario);
@@ -199,6 +199,18 @@ namespace tcc_windows_version.View
         private void btnFechar_Click(object sender, RoutedEventArgs e)
         {
             Close();
+        }
+
+        static string sha256(string randomString)
+        {
+            var crypt = new System.Security.Cryptography.SHA256Managed();
+            var hash = new System.Text.StringBuilder();
+            byte[] crypto = crypt.ComputeHash(Encoding.UTF8.GetBytes(randomString));
+            foreach (byte theByte in crypto)
+            {
+                hash.Append(theByte.ToString("x2"));
+            }
+            return hash.ToString();
         }
     }
 }

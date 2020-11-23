@@ -363,6 +363,13 @@ namespace tcc_windows_version
 
         private void btnObjetivos_Click(object sender, RoutedEventArgs e)
         {
+            gdDespesas.Visibility = Visibility.Hidden;
+            gdFiltrar.Visibility = Visibility.Hidden;
+            gdReceitas.Visibility = Visibility.Hidden;
+            gdObjetivos.Visibility = Visibility.Hidden;
+            dgReceitas.Visibility = Visibility.Hidden;
+            dgDespesas.Visibility = Visibility.Hidden;
+
             gdLateralBotoes.Margin = new Thickness(-1, 320, 0, 0);
             gdObjetivos.Visibility = Visibility.Visible;
 
