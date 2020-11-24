@@ -164,7 +164,16 @@ namespace tcc_windows_version.View
         {
 
         }
-
+        public void mensagemErro(string mensagem)
+        {
+            if (mensagem != "")
+            {
+                tbMensagem.Visibility = Visibility.Visible;
+                tbMensagem.Foreground = new SolidColorBrush(Colors.Red);
+                tbMensagem.Text = mensagem;
+                Mensagem.mensagemErro = "";
+            }
+        }
         private void btnLogar_Click(object sender, RoutedEventArgs e)
         {
             Usuario usuario = new Usuario();
@@ -186,9 +195,11 @@ namespace tcc_windows_version.View
                 mw.Show();
                 Close();
             }
-            if (id == -1) { MessageBox.Show("Preencha todos os campos!"); }
-            if (id == -2) { MessageBox.Show("Senha e email não correspondem!"); }
-            if (id == -3) { MessageBox.Show("Sem conexão com o banco de dados!"); }
+            if (id == -1) { Mensagem.mensagemErro = "Preencha todos os campos!"; }
+            if (id == -2) { Mensagem.mensagemErro = "Senha e email não batem!"; }
+            if (id == -3) { Mensagem.mensagemErro = "Sem conexão com o servidor!"; }
+
+            mensagemErro(Mensagem.mensagemErro);
         }
 
         private void btnFecharLogin_Click_1(object sender, RoutedEventArgs e)

@@ -135,7 +135,7 @@ select * from receitas;
 select * from valores;
 select * from usuarios;
 
-insert into usuarios (nome, email, senha, vencimento_plano) values ("jean", "jean", "4ff17bc8ee5f240c792b8a41bfa2c58af726d83b925cf696af0c811627714c85", "2020-01-01 10:10:10-08:00");
+insert into usuarios (nome, email, senha, vencimento_plano) values ("Jean", "jean", "4ff17bc8ee5f240c792b8a41bfa2c58af726d83b925cf696af0c811627714c85", "2020-01-01 10:10:10-08:00");
 
 
 

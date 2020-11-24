@@ -104,6 +104,7 @@
                     </Button>
                 </StackPanel>
             </Grid>
+            <TextBlock x:Name="tbMensagem" Grid.ColumnSpan="3" HorizontalAlignment="Left" Margin="82,151,0,249" TextWrapping="Wrap" Text="TextBlock" VerticalAlignment="Center" Width="226" Foreground="Red" FontFamily="Yu Gothic" FontWeight="Bold" TextDecorations="Underline" FontSize="13" Visibility="Hidden"/>            
         </Grid>
     </Border>
 </Window>
