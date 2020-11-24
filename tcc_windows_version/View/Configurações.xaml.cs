@@ -40,12 +40,20 @@ namespace tcc_windows_version.View
             UsuarioBO bo = new UsuarioBO();
             DataTable user = bo.UsuarioData(usuario);
 
-            if (Convert.ToInt32(user.Rows[0]["id"]) > 0)
+            if(user != null)
             {
-                tbNomeUsuario.Text = user.Rows[0]["nome"].ToString();
-                tbEmailUsuario.Text = usuario.email;
-                tbVencimentoPlanoUsuario.Text = user.Rows[0]["vencimento_plano"].ToString().Substring(0, 10);
+                if (Convert.ToInt32(user.Rows[0]["id"]) > 0)
+                {
+                    tbNomeUsuario.Text = user.Rows[0]["nome"].ToString();
+                    tbEmailUsuario.Text = usuario.email;
+                    tbVencimentoPlanoUsuario.Text = user.Rows[0]["vencimento_plano"].ToString().Substring(0, 10);
+                }
             }
+            else
+            {
+                Mensagem.mensagemErro = "Sem conexão com o servidor!";
+            }
+            
         }
         private void tbAlterarUsuario_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
