@@ -17,7 +17,7 @@ namespace tcc_windows_version.Business
         {
 
             if ((objetivo.nome != "") && 
-                (objetivo.preco != "" || Convert.ToDecimal(objetivo.preco) > 0) && 
+                (objetivo.preco != "" && Convert.ToDecimal(objetivo.preco) > 0) && 
                 (objetivo.imagem_bytes != null) &&                 
                 (objetivo.valor_guardado != "" || Convert.ToDecimal(objetivo.valor_guardado) >= 0) &&
                 (objetivo.id_usuario > 0))

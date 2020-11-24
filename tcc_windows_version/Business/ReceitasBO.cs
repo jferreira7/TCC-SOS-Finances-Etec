@@ -58,5 +58,19 @@ namespace tcc_windows_version.Business
                 crud.Delete(id);
             }
         }
+        public DataView Filtrar(string descricao, string categoria, string mes, string ano, int id_usuario)
+        {
+            if ((descricao != "" || categoria != "" || mes != "" || ano != "" ) && id_usuario > 0)
+            {
+                ReceitasCRUD crud = new ReceitasCRUD();
+                crud = new ReceitasCRUD();
+                return crud.Search(descricao, categoria, mes, ano, id_usuario);
+            }
+            else
+            {
+                Mensagem.mensagemErro = "Preencha pelo menos um dos campos!";
+                return null;
+            }
+        }
     }
 }

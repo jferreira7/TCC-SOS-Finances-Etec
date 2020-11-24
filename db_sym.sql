@@ -131,6 +131,7 @@ DELIMITER ;
 
 select * from objetivos;
 select * from despesas;
+select * from receitas;
 select * from valores;
 select * from usuarios;
 

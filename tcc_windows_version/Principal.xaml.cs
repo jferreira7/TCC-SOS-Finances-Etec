@@ -13,6 +13,7 @@ using System.Linq;
 using System.Runtime.InteropServices;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
@@ -184,6 +185,8 @@ namespace tcc_windows_version
                 HwndSource.FromHwnd(handle).AddHook(new HwndSourceHook(WindowProc));
             };*/
 
+            cbFiltrar.SelectedIndex = 0;
+
             gdDespesas.Visibility = Visibility.Visible;
             gdFiltrar.Visibility = Visibility.Hidden;
             gdReceitas.Visibility = Visibility.Hidden;
@@ -347,15 +350,33 @@ namespace tcc_windows_version
         private void btnFiltrar_Click(object sender, RoutedEventArgs e)
         {
             gdFiltrar.Visibility = Visibility.Visible;
+            if(cbFiltrar.SelectedIndex == 0)
+            {                    
+                spReceitas.Visibility = Visibility.Hidden;
+                spDespesas.Visibility = Visibility.Visible;
+                dgReceitas.Visibility = Visibility.Hidden;
+                dgDespesas.Visibility = Visibility.Visible;
+
+                limparFiltrar(0);
+
+                atualizarGridDespesasAnoAtual();
+            }
+            if (cbFiltrar.SelectedIndex == 1)
+            {
+                spDespesas.Visibility = Visibility.Hidden;
+                spReceitas.Visibility = Visibility.Visible;
+                dgDespesas.Visibility = Visibility.Hidden;
+                dgReceitas.Visibility = Visibility.Visible;
+
+                limparFiltrar(1);
+
+                atualizarGridReceitasAnoAtual();
+            }
             gdReceitas.Visibility = Visibility.Hidden;
             gdDespesas.Visibility = Visibility.Hidden;
             gdObjetivos.Visibility = Visibility.Hidden;
             gdLateralBotoes.Margin = new Thickness(-1, 255, 0, 0);
-            tbMensagem.Visibility = Visibility.Hidden;
-            dgReceitas.Visibility = Visibility.Hidden;
-            dgDespesas.Visibility = Visibility.Visible;
-
-            atualizarGridDespesasAnoAtual();
+            tbMensagem.Visibility = Visibility.Hidden;            
         }
         private void btnConfig_Click(object sender, RoutedEventArgs e)
         {
@@ -421,7 +442,15 @@ namespace tcc_windows_version
 
             despesa.id_usuario = idUsuario;
 
-            bo.Cadastrar(despesa);
+            if (VerificarTextBox(despesa.valor))
+            {
+                bo.Cadastrar(despesa);
+            }
+            else
+            {
+                Mensagem.mensagemErro = "O valor só pode ser número inteiro ou decimal!";
+                txtValorDespesas.Text = "";
+            }
 
             if (Mensagem.mensagemErro == "") limparDespesas();
 
@@ -444,7 +473,15 @@ namespace tcc_windows_version
             despesa.data_vencimento = DateTime.Parse(dpDespesa.Text).ToString("yyyy-MM-dd");
             despesa.id_usuario = idUsuario;
 
-            bo.Editar(despesa);
+            if (VerificarTextBox(despesa.valor))
+            {
+                bo.Editar(despesa);
+            }
+            else
+            {
+                Mensagem.mensagemErro = "O valor só pode ser número inteiro ou decimal!";
+                txtValorDespesas.Text = "";
+            }
 
             if (Mensagem.mensagemErro == "") limparDespesas();
 
@@ -493,7 +530,15 @@ namespace tcc_windows_version
             receita.valor = txtValorReceita.Text;
             receita.id_usuario = idUsuario;
 
-            bo.Cadastrar(receita);
+            if (VerificarTextBox(receita.valor))
+            {
+                bo.Cadastrar(receita);
+            }
+            else
+            {
+                Mensagem.mensagemErro = "O valor só pode ser número inteiro ou decimal!";
+                txtValorReceita.Text = "";
+            }
 
             if (Mensagem.mensagemErro == "") limparReceita();
 
@@ -513,7 +558,15 @@ namespace tcc_windows_version
             receita.valor = txtValorReceita.Text;
             receita.id_usuario = idUsuario;
 
-            bo.Editar(receita);
+            if (VerificarTextBox(receita.valor))
+            {
+                bo.Editar(receita);
+            }
+            else
+            {
+                Mensagem.mensagemErro = "O valor só pode ser número inteiro ou decimal!";
+                txtValorReceita.Text = "";
+            }
 
             if (Mensagem.mensagemErro == "") limparReceita();
 
@@ -553,31 +606,75 @@ namespace tcc_windows_version
         #region Botões filtrar
         private void btnBuscar_Click(object sender, RoutedEventArgs e)
         {
-            DespesasBO bo = new DespesasBO();
-
-            DataView resultado = bo.Filtrar(txtNomeDespesaFiltrar.Text, txtEmpresaDespesaFiltrar.Text, cbCategoriaDespesaFiltrar.Text, cbMesDespesaFiltrar.Text, cbAnoDespesaFiltrar.Text, cbEstadoDespesaFiltrar.Text, idUsuario);
-
-            mensagemErro(Mensagem.mensagemErro);
-            mensagemSucesso(Mensagem.mensagemSucesso);
-
-            if (resultado != null)
+            if (cbFiltrar.SelectedIndex == 0)
             {
-                dgDespesas.ItemsSource = resultado;
+                DespesasBO bo = new DespesasBO();
+
+                DataView resultado = bo.Filtrar(txtNomeDespesaFiltrar.Text, txtEmpresaDespesaFiltrar.Text, cbCategoriaDespesaFiltrar.Text, cbMesDespesaFiltrar.Text, cbAnoDespesaFiltrar.Text, cbEstadoDespesaFiltrar.Text, idUsuario);
+
+                mensagemErro(Mensagem.mensagemErro);
+                mensagemSucesso(Mensagem.mensagemSucesso);
+
+                if (resultado != null)
+                {
+                    dgDespesas.ItemsSource = resultado;
+                }
+                else
+                {
+                    atualizarGridDespesasAnoAtual();
+                }
             }
-            else
+            if (cbFiltrar.SelectedIndex == 1)
             {
-                atualizarGridDespesasAnoAtual();
+                ReceitasBO bo = new ReceitasBO();
+
+                DataView resultado = bo.Filtrar(txtDescricaoReceitaFiltrar.Text, cbCategoriaReceitaFiltrar.Text, cbMesReceitaFiltrar.Text, cbAnoReceitaFiltrar.Text, idUsuario);
+
+                mensagemErro(Mensagem.mensagemErro);
+                mensagemSucesso(Mensagem.mensagemSucesso);
+
+                if (resultado != null)
+                {
+                    dgReceitas.ItemsSource = resultado;
+                }
+                else
+                {
+                    atualizarGridDespesasAnoAtual();
+                }
             }
+            
         }
         private void btnLimparFiltrar_Click(object sender, RoutedEventArgs e)
         {
-            txtNomeDespesaFiltrar.Text = "";
-            txtEmpresaDespesaFiltrar.Text = "";
-            cbCategoriaDespesaFiltrar.SelectedIndex = -1;
-            cbMesDespesaFiltrar.SelectedIndex = -1;
-            cbAnoDespesaFiltrar.SelectedIndex = -1;
-            cbEstadoDespesaFiltrar.SelectedIndex = -1;
-            dgDespesas.UnselectAll();
+            if(cbFiltrar.SelectedIndex == 0)
+            {
+                limparFiltrar(0);
+            }
+            if (cbFiltrar.SelectedIndex == 1)
+            {
+                limparFiltrar(1);
+            }
+        }
+        public void limparFiltrar(int index)
+        {
+            if (index == 0)
+            {
+                txtNomeDespesaFiltrar.Text = "";
+                txtEmpresaDespesaFiltrar.Text = "";
+                cbCategoriaDespesaFiltrar.SelectedIndex = -1;
+                cbMesDespesaFiltrar.SelectedIndex = -1;
+                cbAnoDespesaFiltrar.SelectedIndex = -1;
+                cbEstadoDespesaFiltrar.SelectedIndex = -1;
+                dgDespesas.UnselectAll();
+            }
+            if (index == 1)
+            {
+                txtDescricaoReceitaFiltrar.Text = "";
+                cbCategoriaReceitaFiltrar.SelectedIndex = -1;
+                cbMesReceitaFiltrar.SelectedIndex = -1;
+                cbAnoReceitaFiltrar.SelectedIndex = -1;
+                dgReceitas.UnselectAll();
+            }
         }
         #endregion
 
@@ -612,15 +709,32 @@ namespace tcc_windows_version
             }
             else
             {
-                if (Convert.ToDecimal(objetivo.valor_guardado) > Convert.ToDecimal(objetivo.preco))
+                if (VerificarTextBox(objetivo.preco))
                 {
-                    Mensagem.mensagemErro = "O preço está menor do que está sendo guardado.";                    
+                    if (VerificarTextBox(objetivo.valor_guardado))
+                    {
+                        if (Convert.ToDecimal(objetivo.valor_guardado) > Convert.ToDecimal(objetivo.preco))
+                        {
+                            Mensagem.mensagemErro = "O preço está menor do que está sendo guardado.";                    
+                        }
+                        else
+                        {
+                            ObjetivosBO oBO = new ObjetivosBO();
+                            oBO.Cadastrar(objetivo);
+                        }
+                    }
+                    else
+                    {
+                        Mensagem.mensagemErro = "O valor inicial só pode ser número inteiro ou decimal!";
+                        txtValorInicialObjetivo.Text = "";
+                    }
+                    
                 }
                 else
                 {
-                    ObjetivosBO oBO = new ObjetivosBO();
-                    oBO.Cadastrar(objetivo);
-                }
+                    Mensagem.mensagemErro = "O preço só pode ser número inteiro ou decimal!";
+                    txtPrecoObjetivo.Text = "";
+                }                
             }
 
             if (Mensagem.mensagemErro == "") limparObjetivo();
@@ -688,17 +802,24 @@ namespace tcc_windows_version
             objetivo.imagem_bytes = imagem;
             objetivo.id_usuario = idUsuario;
 
-            
-            DataView dv = oBO.SelecionarUm(objetivo.id);
-            DataTable dt = dv.ToTable();
-
-            if (dt != null)
+            if (VerificarTextBox(objetivo.preco))
             {
-                objetivo.valor_guardado = dt.Rows[0]["valor_guardado"].ToString();
-                objetivo.estado = dt.Rows[0]["estado"].ToString();
+                DataView dv = oBO.SelecionarUm(objetivo.id);
+                DataTable dt = dv.ToTable();
+
+                if (dt != null)
+                {
+                    objetivo.valor_guardado = dt.Rows[0]["valor_guardado"].ToString();
+                    objetivo.estado = dt.Rows[0]["estado"].ToString();
+                }
+
+                oBO.Editar(objetivo);
             }
-           
-            oBO.Editar(objetivo);
+            else
+            {
+                Mensagem.mensagemErro = "O preço só pode ser número inteiro ou decimal!";
+                txtPrecoObjetivo.Text = "";
+            }            
 
             if (Mensagem.mensagemErro == "") limparObjetivo();
 
@@ -776,60 +897,113 @@ namespace tcc_windows_version
 
             if (idRow == Convert.ToInt32(row_selected["id"]))
             {
-                if (row_selected["valor_guardado"].ToString() != row_selected["preco"].ToString())
+                if (Convert.ToDecimal(row_selected["valor_guardado"]) < Convert.ToDecimal(row_selected["preco"]))
                 {
-                    double novoValorGuardado = Convert.ToDouble(row_selected["valor_guardado"]) + Convert.ToDouble(txtAnterior.Text);
-                    double preco = Convert.ToDouble(row_selected["preco"]);
-                    ObjetivosBO oBO = new ObjetivosBO();
-
-                    if (novoValorGuardado <= preco)
+                    if (VerificarTextBox(txtAnterior.Text))
                     {
-                        oBO.AtualizarValorGuardado(idRow, idUsuario, novoValorGuardado);
+                        if (Convert.ToDouble(txtAnterior.Text) != 0 && txtAnterior.Text != "")
+                        {
+                            double novoValorGuardado = Convert.ToDouble(row_selected["valor_guardado"]) + Convert.ToDouble(txtAnterior.Text);
+                            double preco = Convert.ToDouble(row_selected["preco"]);
+                            ObjetivosBO oBO = new ObjetivosBO();
+
+                            if (novoValorGuardado <= preco)
+                            {
+                                oBO.AtualizarValorGuardado(idRow, idUsuario, novoValorGuardado);
+                            }
+                            else
+                            {
+                                novoValorGuardado = preco;
+                                oBO.AtualizarValorGuardado(idRow, idUsuario, novoValorGuardado);
+                            }
+                            atualizarGridObjetivos();
+                        }
+                        else
+                        {
+                            Mensagem.mensagemErro = "O campo do valor na tabela não pode ficar vazio ou ser zero!";
+                            txtAnterior.Text = "";
+                        }
                     }
                     else
                     {
-                        novoValorGuardado = preco;
-                        oBO.AtualizarValorGuardado(idRow, idUsuario, novoValorGuardado);
-                    }
-                    atualizarGridObjetivos();
+                        Mensagem.mensagemErro = "O valor inserido na tabela só pode ser número inteiro ou decimal!";
+                        txtAnterior.Text = "";
+                    }                    
                 }
-                else
-                {
-                    MessageBox.Show("O objetivo já foi completo!");
+                else                {
+                    
+                    Mensagem.mensagemErro = "O objetivo já foi completo!";
                 }
             }
             else
             {
-                MessageBox.Show("Insira o valor na linha correta.");
+                if (idRow == 0)
+                {
+                    Mensagem.mensagemErro = "O campo do valor na tabela não pode ficar vazio!";
+                }
+                else
+                {
+                    //MessageBox.Show("idRow: " + idRow.ToString() + " ||| row_selected['id']: " + row_selected["id"].ToString());
+                    Mensagem.mensagemErro = "Insira o valor na linha correta.";
+                }                
             }
+
+            mensagemErro(Mensagem.mensagemErro);
+            mensagemSucesso(Mensagem.mensagemSucesso);
+            
         }
         private void btnRemoverValorObjetivo_Click(object sender, RoutedEventArgs e)
         {
             Button button = sender as Button;
             DataRowView row_selected = button.DataContext as DataRowView;
 
-            if (idRow == Convert.ToInt32(row_selected["id"]) && Convert.ToDouble(txtAnterior.Text) != 0)
+            if (idRow == Convert.ToInt32(row_selected["id"]))
             {
-                double novoValorGuardado = Convert.ToDouble(row_selected["valor_guardado"]) - Convert.ToDouble(txtAnterior.Text);
-                double preco = Convert.ToDouble(row_selected["preco"]);
-                ObjetivosBO oBO = new ObjetivosBO();
-
-                if (novoValorGuardado >= 0)
+                if (VerificarTextBox(txtAnterior.Text))
                 {
-                    oBO.AtualizarValorGuardado(idRow, idUsuario, novoValorGuardado);
+                    if(Convert.ToDouble(txtAnterior.Text) != 0 && txtAnterior.Text != "")
+                    {
+                        double novoValorGuardado = Convert.ToDouble(row_selected["valor_guardado"]) - Convert.ToDouble(txtAnterior.Text);
+                        double preco = Convert.ToDouble(row_selected["preco"]);
+                        ObjetivosBO oBO = new ObjetivosBO();
+
+                        if (novoValorGuardado >= 0)
+                        {
+                            oBO.AtualizarValorGuardado(idRow, idUsuario, novoValorGuardado);
+                        }
+                        else
+                        {
+                            novoValorGuardado = 0;
+                            oBO.AtualizarValorGuardado(idRow, idUsuario, novoValorGuardado);
+                        }
+                        atualizarGridObjetivos();
+                    }
+                    else
+                    {
+                        Mensagem.mensagemErro = "O campo do valor na tabela não pode ficar vazio ou ser zero!";
+                        txtAnterior.Text = "";
+                    }
                 }
                 else
                 {
-                    novoValorGuardado = 0;
-                    oBO.AtualizarValorGuardado(idRow, idUsuario, novoValorGuardado);
+                    Mensagem.mensagemErro = "O valor inserido na tabela só pode ser número inteiro ou decimal!";
+                    txtAnterior.Text = "";
                 }
-
-                atualizarGridObjetivos();
             }
             else
             {
-                MessageBox.Show("Insira o valor na linha correta.");
+                if (idRow == 0)
+                {
+                    Mensagem.mensagemErro = "O campo do valor na tabela não pode ficar vazio!";
+                }
+                else
+                {
+                    Mensagem.mensagemErro = "Insira o valor na linha correta.";
+                }
             }
+
+            mensagemErro(Mensagem.mensagemErro);
+            mensagemSucesso(Mensagem.mensagemSucesso);
         }
 
         public void limparObjetivo()
@@ -885,6 +1059,51 @@ namespace tcc_windows_version
             }
         }
 
-        
+        private void cbFiltrar_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if(cbFiltrar.SelectedIndex == 0)
+            {
+                spDespesas.Visibility = Visibility.Visible;
+                spReceitas.Visibility = Visibility.Hidden;
+
+                dgReceitas.Visibility = Visibility.Hidden;
+                dgDespesas.Visibility = Visibility.Visible;
+
+                limparFiltrar(1);
+
+                atualizarGridDespesasAnoAtual();
+            }
+            if (cbFiltrar.SelectedIndex == 1)
+            {
+                spDespesas.Visibility = Visibility.Hidden;
+                spReceitas.Visibility = Visibility.Visible;
+
+                dgDespesas.Visibility = Visibility.Hidden;
+                dgReceitas.Visibility = Visibility.Visible;
+
+                limparFiltrar(0);
+
+                atualizarGridReceitasAnoAtual();
+            }
+        }
+
+        private void NumberValidationTextBox(object sender, TextCompositionEventArgs e)
+        {
+            Regex regex = new Regex(@"^[0-9]*[,]{0,1}[0-9]{0,2}$");
+            e.Handled = !regex.IsMatch((sender as TextBox).Text.Insert((sender as TextBox).SelectionStart, e.Text));
+
+        }
+        public bool VerificarTextBox(string txt)
+        {
+            Regex regex = new Regex("^[0-9]*[,]{0,1}[0-9]{0,2}$");
+            if (regex.IsMatch(txt))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
     }
 }

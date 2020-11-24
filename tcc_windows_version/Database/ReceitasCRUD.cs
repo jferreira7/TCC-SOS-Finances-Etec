@@ -101,5 +101,34 @@ namespace tcc_windows_version.Database
                 Mensagem.mensagemErro = "Erro de conexão com o servidor! Tente mais tarde.";
             }
         }
+        public DataView Search(string descricao, string categoria, string mes, string ano, int id_usuario)
+        {
+            string query = "select * from receitas where ";
+
+            /*"select* from receitas where descricao like '%nada%' and categoria like '%men%' and MONTH(data_vencimento) = '10' and YEAR(data_vencimento) = '2020' and id_usuario = 1;"*/
+            if (descricao != "") { query += "descricao like '%" + descricao + "%' and "; }            
+            if (categoria != "") { query += "categoria like '%" + categoria + "%' and "; }
+            if (mes != "") { query += "MONTH(data_insercao) = '" + mes + "' and "; }
+            if (ano != "") { query += "YEAR(data_insercao) = '" + ano + "' and "; }            
+            if (id_usuario > 0) { query += "id_usuario = '" + id_usuario.ToString() + "' and "; }
+
+            query = query.TrimEnd(' ', 'a', 'n', 'd', ' ');
+            query += ";";
+
+            data = new DataTable("receitas");
+
+            try
+            {
+                adpt = new MySqlDataAdapter(query, objConexao.Conexao());
+                adpt.Fill(data);
+                objConexao.Desconectar();
+                return data.DefaultView;
+            }
+            catch //(Exception erro)
+            {
+                Mensagem.mensagemErro = "Erro de conexão com o servidor! Tente mais tarde.";
+                return null;
+            }
+        }
     }
 }
