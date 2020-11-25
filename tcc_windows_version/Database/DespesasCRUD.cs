@@ -135,5 +135,23 @@ namespace tcc_windows_version.Database
                 return null;
             }
         }
+        public void UpdateStatus(int id)
+        {
+            objComando.CommandText = "UPDATE despesas SET estado = 'Atrasado' WHERE data_vencimento < current_date() AND id_usuario = @id";
+            objComando.Parameters.Add("@id", MySqlDbType.Int32, 11).Value = id;
+
+            try
+            {
+                objConexao.Conexao();
+                objComando.Connection = objConexao.Conectar();
+                objComando.ExecuteNonQuery();
+                objConexao.Desconectar();
+                Mensagem.mensagemSucesso = "Despesa deletada com sucesso!";
+            }
+            catch //(Exception erro)
+            {
+                Mensagem.mensagemErro = "Erro de conexão com o servidor! Tente mais tarde.";
+            }
+        }
     }
 }

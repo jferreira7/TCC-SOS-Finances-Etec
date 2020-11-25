@@ -204,7 +204,10 @@ namespace tcc_windows_version
 
             lblNomeUsuario.Content = "Olá, " + nome_usuario;
 
-            atualizarGridDespesasAnoAtual();           
+            DespesasBO dBO = new DespesasBO();
+            dBO.AtualizarEstado(idUsuario);
+
+            atualizarGridDespesasAnoAtual();            
 
             Mensagem.mensagemErro = "";
             Mensagem.mensagemSucesso = "";
@@ -380,7 +383,7 @@ namespace tcc_windows_version
         }
         private void btnConfig_Click(object sender, RoutedEventArgs e)
         {
-            gdLateralBotoes.Margin = new Thickness(-1, 488, 0, 0);
+            //gdLateralBotoes.Margin = new Thickness(-1, 488, 0, 0);
             Configurações config = new Configurações();
             config.Show();
         }
@@ -439,6 +442,8 @@ namespace tcc_windows_version
 
             if (dpDespesa.Text != "")
                 despesa.data_vencimento = DateTime.Parse(dpDespesa.Text).ToString("yyyy-MM-dd");
+            else
+                despesa.data_vencimento = "";
 
             despesa.id_usuario = idUsuario;
 
@@ -452,7 +457,7 @@ namespace tcc_windows_version
                 txtValorDespesas.Text = "";
             }
 
-            if (Mensagem.mensagemErro == "") limparDespesas();
+            if (Mensagem.mensagemErro == "") limparDespesas();            
 
             mensagemErro(Mensagem.mensagemErro);
             mensagemSucesso(Mensagem.mensagemSucesso);

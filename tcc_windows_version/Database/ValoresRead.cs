@@ -33,7 +33,6 @@ namespace tcc_windows_version.Database
                 return "";
             }
         }
-
         public string GetSaldo (int id, string coluna) {
             return GetGeneric(id, coluna);
         }

@@ -18,13 +18,12 @@ namespace tcc_windows_version.Database
         string database = "sym";
         
         /*
-        string server = "localhost";
+        string server = "server-sym.mysql.database.azure.com";
         string port = "3306";
-        string user_id = "root";
-        string password = "";
+        string user_id = "usuario@server-sym";
+        string password = "Databasetcc1";
         string database = "sym";
         */
-
         public string Conexao()
         {
             objSqlConnnection.ConnectionString = "server=" + server + ";port=" + port + ";User Id=" + user_id + ";password=" + password + ";database=" + database + ";";

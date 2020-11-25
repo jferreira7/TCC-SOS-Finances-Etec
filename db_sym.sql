@@ -1,3 +1,4 @@
+-- DROP database sym;
 create database sym;
 use sym;
 
@@ -53,6 +54,17 @@ create table valores (
     FOREIGN KEY (id_usuario) REFERENCES usuarios(id)
 );
 DELIMITER //
+
+	-- OBJETIVOS
+    CREATE TRIGGER objetivos_AFTER_INSERT AFTER INSERT ON objetivos FOR EACH ROW
+	BEGIN
+		UPDATE valores set valor_saldo = valor_saldo - new.valor_guardado, valor_reserva = valor_reserva + new.valor_guardado where id_usuario = new.id_usuario;
+	END;//
+
+	CREATE TRIGGER objetivos_BEFORE_DELETE BEFORE DELETE ON objetivos FOR EACH ROW
+	BEGIN
+		UPDATE valores set valor_saldo = valor_saldo + OLD.valor_guardado, valor_reserva = valor_reserva - OLD.valor_guardado where id_usuario = OLD.id_usuario;
+	END;//
 	CREATE TRIGGER objetivos_BEFORE_UPDATE BEFORE UPDATE ON objetivos FOR EACH ROW
 	BEGIN	
 		IF ((NEW.valor_guardado >= 0) AND (NEW.estado not like "Comprado")) THEN
@@ -78,65 +90,77 @@ DELIMITER //
 			INSERT INTO despesas (estado, nome, categoria, valor, data_vencimento, id_usuario) VALUES ("Pago", OLD.nome, "Objetivos", OLD.preco , OLD.data_finalizacao, OLD.id_usuario); 
 			UPDATE valores SET valor_reserva = (valor_reserva - OLD.preco) WHERE id_usuario = OLD.id_usuario;
 		END IF;
-	END;//
-
-	CREATE TRIGGER usuarios_AFTER_INSERT AFTER INSERT ON usuarios FOR EACH ROW
-	BEGIN
-		INSERT INTO valores (valor_saldo, valor_reserva, valor_poupanca, id_usuario) VALUES ("0", "0", "0", NEW.id);
-	END;//
-
-	CREATE TRIGGER despesas_AFTER_INSERT AFTER INSERT ON despesas FOR EACH ROW
-	BEGIN		
-		IF (NEW.categoria not like "Objetivos") THEN
-			UPDATE valores set valor_saldo = valor_saldo - new.valor where id_usuario = new.id_usuario;
-		END IF;
-	END;//
-
-	CREATE TRIGGER receitas_AFTER_INSERT AFTER INSERT ON receitas FOR EACH ROW
-	BEGIN
-		UPDATE valores set valor_saldo = valor_saldo + new.valor where id_usuario = new.id_usuario;
-	END;//
-
-	CREATE TRIGGER objetivos_AFTER_INSERT AFTER INSERT ON objetivos FOR EACH ROW
-	BEGIN
-		UPDATE valores set valor_saldo = valor_saldo - new.valor_guardado, valor_reserva = valor_reserva + new.valor_guardado where id_usuario = new.id_usuario;
-	END;//
-
-	CREATE TRIGGER objetivos_BEFORE_DELETE BEFORE DELETE ON objetivos FOR EACH ROW
-	BEGIN
-		UPDATE valores set valor_saldo = valor_saldo + OLD.valor_guardado, valor_reserva = valor_reserva - OLD.valor_guardado where id_usuario = OLD.id_usuario;
-	END;//
+	END;//   
     
-    CREATE TRIGGER despesas_BEFORE_DELETE BEFORE DELETE ON despesas FOR EACH ROW
+
+	-- DESPESAS
+    CREATE TRIGGER despesas_AFTER_INSERT AFTER INSERT ON despesas FOR EACH ROW
+	BEGIN		
+		IF ((NEW.categoria like "Objetivos") OR (NEW.estado like "Pago")) THEN
+			UPDATE valores set valor_saldo = valor_saldo - new.valor where id_usuario = new.id_usuario;
+		END IF;        
+	END;//
+    CREATE TRIGGER despesas_BEFORE_INSERT BEFORE INSERT ON despesas FOR EACH ROW
+	BEGIN			
+        IF ((NEW.estado like "Pendente") AND (NEW.data_vencimento < CURRENT_DATE())) THEN
+			SET NEW.estado = "Atrasado";
+        END IF;
+	END;//
+	CREATE TRIGGER despesas_BEFORE_DELETE BEFORE DELETE ON despesas FOR EACH ROW
 	BEGIN
 		UPDATE valores set valor_saldo = valor_saldo + OLD.valor where id_usuario = OLD.id_usuario;
-	END;//
-    
+	END;//    
 	CREATE TRIGGER despesas_BEFORE_UPDATE BEFORE UPDATE ON despesas FOR EACH ROW
 	BEGIN
-		UPDATE valores set valor_saldo = valor_saldo - (NEW.valor - OLD.valor) where id_usuario = OLD.id_usuario;
+		IF ((NEW.estado like "Pago") AND (OLD.estado not like "Pago")) THEN			
+			UPDATE valores set valor_saldo = valor_saldo - NEW.valor where id_usuario = OLD.id_usuario;
+		END IF;		
+		IF ((NEW.valor <> OLD.valor) AND (NEW.estado like "Pago") AND (OLD.estado like "Pago")) THEN
+			UPDATE valores set valor_saldo = valor_saldo - (NEW.valor - OLD.valor) where id_usuario = OLD.id_usuario;			
+		END IF;           
+        IF ((OLD.estado like "Pago") AND ((NEW.estado like "Pendente") OR (NEW.estado like "Atrasado"))) THEN			
+				UPDATE valores set valor_saldo = valor_saldo + OLD.valor where id_usuario = OLD.id_usuario;
+		END IF;
+        IF ((NEW.estado like "Pendente") AND (NEW.data_vencimento < CURRENT_DATE())) THEN
+			SET NEW.estado = "Atrasado";
+        END IF;
 	END;//
     
-    CREATE TRIGGER receitas_BEFORE_DELETE BEFORE DELETE ON receitas FOR EACH ROW
+    
+    
+    
+    -- RECEITAS
+    CREATE TRIGGER receitas_AFTER_INSERT AFTER INSERT ON receitas FOR EACH ROW
 	BEGIN
-		UPDATE valores set valor_saldo = valor_saldo - OLD.valor where id_usuario = OLD.id_usuario;
-	END;//
-    
+		UPDATE valores set valor_saldo = valor_saldo + new.valor where id_usuario = new.id_usuario;
+	END;//      
 	CREATE TRIGGER receitas_BEFORE_UPDATE BEFORE UPDATE ON receitas FOR EACH ROW
 	BEGIN
 		UPDATE valores set valor_saldo = valor_saldo + (NEW.valor - OLD.valor) where id_usuario = OLD.id_usuario;
 	END;//
+    CREATE TRIGGER receitas_BEFORE_DELETE BEFORE DELETE ON receitas FOR EACH ROW
+	BEGIN
+		UPDATE valores set valor_saldo = valor_saldo - OLD.valor where id_usuario = OLD.id_usuario;
+	END;//   
+    
+    
+    
+    -- USUÁRIOS
+	CREATE TRIGGER usuarios_AFTER_INSERT AFTER INSERT ON usuarios FOR EACH ROW
+	BEGIN
+		INSERT INTO valores (valor_saldo, valor_reserva, valor_poupanca, id_usuario) VALUES ("0", "0", "0", NEW.id);
+	END;//
     
 DELIMITER ;
 
-select * from objetivos;
-select * from despesas;
-select * from receitas;
-select * from valores;
-select * from usuarios;
+-- SELECTS
+-- select * from objetivos;
+-- select * from despesas;
+-- select * from receitas;
+-- select * from valores;
+-- select * from usuarios;
 
-insert into usuarios (nome, email, senha, vencimento_plano) values ("Jean", "jean", "4ff17bc8ee5f240c792b8a41bfa2c58af726d83b925cf696af0c811627714c85", "2020-01-01 10:10:10-08:00");
-
+insert into usuarios (nome, email, senha, vencimento_plano) values ("Jean", "jean", "4ff17bc8ee5f240c792b8a41bfa2c58af726d83b925cf696af0c811627714c85", "2020-01-01 10:10:10");
 
 
 

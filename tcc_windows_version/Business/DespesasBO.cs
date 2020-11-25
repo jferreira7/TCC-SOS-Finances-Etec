@@ -76,5 +76,13 @@ namespace tcc_windows_version.Business
                 return null;
             }
         }
+        public void AtualizarEstado(int id)
+        {
+            if (id > 0)
+            {
+                crud = new DespesasCRUD();
+                crud.UpdateStatus(id);
+            }
+        }
     }
 }
