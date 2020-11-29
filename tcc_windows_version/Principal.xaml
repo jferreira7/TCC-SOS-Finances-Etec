@@ -31,7 +31,8 @@
             <TextBox x:Name="txtDescricaoReceita" HorizontalAlignment="Left" Height="23" Margin="79,51,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="241" Background="{x:Null}" Grid.ColumnSpan="2"/>
             <Label Content="Valor:" HorizontalAlignment="Left" Margin="201,97,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Grid.ColumnSpan="2"/>
             <TextBox x:Name="txtValorReceita" HorizontalAlignment="Left" Height="23" Margin="10,97,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="71" Background="{x:Null}" Grid.Column="1" PreviewTextInput="NumberValidationTextBox"/>
-            <Button x:Name="btnAdicionarReceita" Content="Adicionar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="100,168,0,0" VerticalAlignment="Top" Width="133" Height="58" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnAdicionarReceitas_Click">
+            <Button x:Name="btnAdicionarReceita" 
+                    Content="Adicionar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="100,168,0,0" VerticalAlignment="Top" Width="133" Height="58" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnAdicionarReceitas_Click">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}" >
                         <ContentControl x:Name="btnPersonalizado">
@@ -47,7 +48,8 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button x:Name="btnDeletarReceita" Content="Deletar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="2,168,0,0" VerticalAlignment="Top" Width="81" Height="58" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnDeletarReceita_Click" Grid.Column="1">
+            <Button x:Name="btnDeletarReceita" 
+                    Content="Deletar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="2,168,0,0" VerticalAlignment="Top" Width="81" Height="58" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnDeletarReceita_Click" Grid.Column="1">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}" >
                         <ContentControl x:Name="btnPersonalizado">
@@ -64,12 +66,14 @@
                 </Button.Template>
             </Button>
             <Label Content="Categoria:" HorizontalAlignment="Left" Margin="6,97,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold"/>
-            <ComboBox x:Name="cbCategoriaReceita" HorizontalAlignment="Left" Margin="79,98,0,0" VerticalAlignment="Top" Width="117" RenderTransformOrigin="0.021,1.455">
+            <ComboBox x:Name="cbCategoriaReceita" 
+                      HorizontalAlignment="Left" Margin="79,98,0,0" VerticalAlignment="Top" Width="117" RenderTransformOrigin="0.021,1.455">
                 <ListBoxItem Content="Salário"/>
                 <ListBoxItem Content="Renda extra"/>
                 <ListBoxItem Content="Outros"/>
             </ComboBox>
-            <Button x:Name="btnAlterarReceita" Content="Alterar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="10,168,0,0" VerticalAlignment="Top" Width="81" Height="58" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnAlterarReceita_Click">
+            <Button x:Name="btnAlterarReceita" 
+                    Content="Alterar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="10,168,0,0" VerticalAlignment="Top" Width="81" Height="58" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnAlterarReceita_Click">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}" >
                         <ContentControl x:Name="btnPersonalizado">
@@ -85,7 +89,8 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button x:Name="btnLimparReceita" Content="Limpar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="10,243,0,0" VerticalAlignment="Top" Width="310" Height="39" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnLimparReceita_Click" Grid.ColumnSpan="2">
+            <Button x:Name="btnLimparReceita" 
+                    Content="Limpar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="10,243,0,0" VerticalAlignment="Top" Width="310" Height="39" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnLimparReceita_Click" Grid.ColumnSpan="2">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}" >
                         <ContentControl x:Name="btnPersonalizado">
@@ -149,7 +154,6 @@
                 <DataGrid.Columns>
 
                     <DataGridTextColumn Binding="{Binding id}" ClipboardContentBinding="{x:Null}" Header="ID" Visibility="Hidden"/>
-
                     <DataGridTemplateColumn Header="" IsReadOnly="False" Width="2*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -167,7 +171,6 @@
                             </Style>
                         </DataGridTemplateColumn.HeaderStyle>
                     </DataGridTemplateColumn>
-
                     <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="Nome" Width="3.5*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -183,8 +186,6 @@
                             </Style>
                         </DataGridTemplateColumn.HeaderStyle>
                     </DataGridTemplateColumn>
-
-
                     <DataGridTemplateColumn Header="Progresso" Width="3.5*" Visibility="Visible">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -200,7 +201,6 @@
                             </Style>
                         </DataGridTemplateColumn.HeaderStyle>
                     </DataGridTemplateColumn>
-
                     <DataGridTemplateColumn ClipboardContentBinding="{x:Null}" Header="Preço" Width="1.7*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -217,7 +217,6 @@
                             </Style>
                         </DataGridTemplateColumn.HeaderStyle>
                     </DataGridTemplateColumn>
-
                     <DataGridTemplateColumn Header="" Visibility="Visible" Width="3*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -275,7 +274,6 @@
                             </DataTemplate>
                         </DataGridTemplateColumn.CellTemplate>
                     </DataGridTemplateColumn>
-
                     <DataGridTemplateColumn Header="" Visibility="Visible" Width="1.5*">
                         <DataGridTemplateColumn.CellTemplate>
                             <DataTemplate>
@@ -336,9 +334,8 @@
             <Label Content="Adicione uma imagem:" HorizontalAlignment="Left" Margin="6,126,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Width="139"/>
             <TextBox x:Name="txtValorInicialObjetivo" HorizontalAlignment="Left" Height="23" Margin="146,187,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="68" Background="{x:Null}" RenderTransformOrigin="0.515,0.261" PreviewTextInput="NumberValidationTextBox"/>
             <Label Content="Valor inicial à guardar:" HorizontalAlignment="Left" Margin="6,187,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Width="139"/>
-
-
-            <Button x:Name="btnAdicionarObjetivo" Content="Adicionar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="98,246,0,0" VerticalAlignment="Top" Width="133" Height="58" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnAdicionarObjetivo_Click" Grid.ColumnSpan="2">
+            <Button x:Name="btnAdicionarObjetivo" 
+                    Content="Adicionar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="98,246,0,0" VerticalAlignment="Top" Width="133" Height="58" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnAdicionarObjetivo_Click" Grid.ColumnSpan="2">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}" >
                         <ContentControl x:Name="btnPersonalizado">
@@ -354,7 +351,8 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button x:Name="btnDeletarObjetivo" Content="Deletar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="15,246,0,0" VerticalAlignment="Top" Width="81" Height="58" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnDeletarObjetivo_Click" RenderTransformOrigin="1.506,1.828" Grid.Column="1">
+            <Button x:Name="btnDeletarObjetivo" 
+                    Content="Deletar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="15,246,0,0" VerticalAlignment="Top" Width="81" Height="58" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnDeletarObjetivo_Click" RenderTransformOrigin="1.506,1.828" Grid.Column="1">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}" >
                         <ContentControl x:Name="btnPersonalizado">
@@ -370,8 +368,8 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-
-            <Button x:Name="btnAlterarObjetivo" Content="Alterar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="10,246,0,0" VerticalAlignment="Top" Width="81" Height="58" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnAlterarObjetivo_Click">
+            <Button x:Name="btnAlterarObjetivo" 
+                    Content="Alterar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="10,246,0,0" VerticalAlignment="Top" Width="81" Height="58" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnAlterarObjetivo_Click">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}" >
                         <ContentControl x:Name="btnPersonalizado">
@@ -387,7 +385,8 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button x:Name="btnLimparObjetivo" Content="Limpar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="10,318,0,0" VerticalAlignment="Top" Width="309" Height="39" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnLimparObjetivo_Click" Grid.ColumnSpan="2">
+            <Button x:Name="btnLimparObjetivo" 
+                    Content="Limpar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="10,318,0,0" VerticalAlignment="Top" Width="309" Height="39" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnLimparObjetivo_Click" Grid.ColumnSpan="2">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}" >
                         <ContentControl x:Name="btnPersonalizado">
@@ -403,7 +402,8 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button x:Name="btnImageObjetivo" Content="" HorizontalAlignment="Left" Margin="145,112,0,0" VerticalAlignment="Top" Width="55" Height="55" Click="btnImageObjetivo_Click">
+            <Button x:Name="btnImageObjetivo" 
+                    Content="" HorizontalAlignment="Left" Margin="145,112,0,0" VerticalAlignment="Top" Width="55" Height="55" Click="btnImageObjetivo_Click">
                 <Button.BorderBrush>
                     <LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
                         <GradientStop Color="Black" Offset="0"/>
@@ -426,7 +426,8 @@
 
 
 
-            <Border x:Name="gdDetalhes" BorderBrush="Black" BorderThickness="1" Margin="230,0,0,24" Visibility="Hidden" HorizontalAlignment="Left" Width="407" Height="136" VerticalAlignment="Bottom" Grid.Column="1">
+            <Border x:Name="gdDetalhes" 
+                    BorderBrush="Black" BorderThickness="1" Margin="230,0,0,24" Visibility="Hidden" HorizontalAlignment="Left" Width="407" Height="136" VerticalAlignment="Bottom" Grid.Column="1">
                 <Grid Margin="0,-1,0,0">
                     <Label Content="Porcentagem: " HorizontalAlignment="Left" Margin="11,21,0,0" VerticalAlignment="Top"/>
                     <TextBlock x:Name="tbPorcentagemObjetivo" HorizontalAlignment="Left" Margin="102,26,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
@@ -441,7 +442,8 @@
                     <Label Content="Detalhes:" HorizontalAlignment="Left" Margin="10,-14,0,0" VerticalAlignment="Top" Background="#FFF1EFF1" FontWeight="Bold"/>
                     <Label Content="Tempo transcorrido: " HorizontalAlignment="Left" Margin="201,20,0,0" VerticalAlignment="Top"/>
                     <TextBlock x:Name="tbTempoTotalObjetivo" HorizontalAlignment="Left" Margin="322,25,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top"/>
-                    <Button x:Name="btnCompradoObjetivo" Content="Comprar" HorizontalAlignment="Left" Margin="144,115,0,-17" VerticalAlignment="Top" Width="110" Height="37" BorderBrush="Black" FontFamily="Century Gothic" FontSize="18" Foreground="Black" RenderTransformOrigin="1.506,1.828" BorderThickness="2" Click="btnCompradoObjetivo_Click">
+                    <Button x:Name="btnCompradoObjetivo" 
+                            Content="Comprar" HorizontalAlignment="Left" Margin="144,115,0,-17" VerticalAlignment="Top" Width="110" Height="37" BorderBrush="Black" FontFamily="Century Gothic" FontSize="18" Foreground="Black" RenderTransformOrigin="1.506,1.828" BorderThickness="2" Click="btnCompradoObjetivo_Click">
                         <Button.Effect>
                             <DropShadowEffect ShadowDepth="2"/>
                         </Button.Effect>
@@ -479,7 +481,8 @@
 
         </Grid>
 
-        <Grid x:Name="gdDespesas" HorizontalAlignment="Left" Height="348" Margin="173,48,0,0" VerticalAlignment="Top" Width="332" Background="#FFF1EFF1" Grid.ColumnSpan="2">
+        <Grid x:Name="gdDespesas" 
+              HorizontalAlignment="Left" Height="348" Margin="173,48,0,0" VerticalAlignment="Top" Width="332" Background="#FFF1EFF1" Grid.ColumnSpan="2">
             <Label Content="Status:" HorizontalAlignment="Left" Margin="8,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold"/>
             <Label Content="Nome:" HorizontalAlignment="Left" Margin="100,10,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Width="55"/>
             <TextBox x:Name="txtNome" HorizontalAlignment="Left" Height="23" Margin="105,34,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="217" Background="{x:Null}"/>
@@ -490,7 +493,8 @@
             <Label Content="Categoria:" HorizontalAlignment="Left" Margin="8,137,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Height="29"/>
             <DatePicker x:Name="dpDespesa" HorizontalAlignment="Left" Margin="183,161,0,0" VerticalAlignment="Top" RenderTransformOrigin="0.529,1.958" Focusable="False"/>
             <Label Content="Data vencimento:" HorizontalAlignment="Left" Margin="178,137,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Height="24"/>
-            <Button x:Name="btnAlterarDespesas" Content="Alterar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="11,204,0,0" VerticalAlignment="Top" Width="81" Height="58" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnAlterarDespesas_Click">
+            <Button x:Name="btnAlterarDespesas" 
+                    Content="Alterar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="11,204,0,0" VerticalAlignment="Top" Width="81" Height="58" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnAlterarDespesas_Click">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}" >
                         <ContentControl x:Name="btnPersonalizado">
@@ -506,7 +510,8 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button x:Name="btnDeletarDespesas" Content="Deletar" HorizontalAlignment="Left" Margin="239,204,0,0" VerticalAlignment="Top" Width="81" Height="58" BorderBrush="{x:Null}" Background="#FF1275B6" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnDeletarDespesas_Click">
+            <Button x:Name="btnDeletarDespesas" 
+                    Content="Deletar" HorizontalAlignment="Left" Margin="239,204,0,0" VerticalAlignment="Top" Width="81" Height="58" BorderBrush="{x:Null}" Background="#FF1275B6" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnDeletarDespesas_Click">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}" >
                         <ContentControl x:Name="btnPersonalizado">
@@ -522,7 +527,8 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button x:Name="btnCadastrarDespesas" Content="Adicionar" HorizontalAlignment="Left" Margin="100,204,0,0" VerticalAlignment="Top" Width="133" Height="58" BorderBrush="{x:Null}" Background="#FF1275B6" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnCadastrarDespesas_Click">
+            <Button x:Name="btnCadastrarDespesas" 
+                    Content="Adicionar" HorizontalAlignment="Left" Margin="100,204,0,0" VerticalAlignment="Top" Width="133" Height="58" BorderBrush="{x:Null}" Background="#FF1275B6" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnCadastrarDespesas_Click">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}" >
                         <ContentControl x:Name="btnPersonalizado">
@@ -538,7 +544,8 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button x:Name="btnLimparDespesas" Content="Limpar" HorizontalAlignment="Left" Margin="11,281,0,0" VerticalAlignment="Top" Width="309" Height="39" BorderBrush="{x:Null}" Background="#FF1275B6" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnLimparDespesas_Click">
+            <Button x:Name="btnLimparDespesas" 
+                    Content="Limpar" HorizontalAlignment="Left" Margin="11,281,0,0" VerticalAlignment="Top" Width="309" Height="39" BorderBrush="{x:Null}" Background="#FF1275B6" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnLimparDespesas_Click">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}" >
                         <ContentControl x:Name="btnPersonalizado">
@@ -554,11 +561,13 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <ComboBox x:Name="cbEstadoDespesas" HorizontalAlignment="Left" Margin="13,34,0,0" VerticalAlignment="Top" Width="79">
+            <ComboBox x:Name="cbEstadoDespesas" 
+                      HorizontalAlignment="Left" Margin="13,34,0,0" VerticalAlignment="Top" Width="79">
                 <ComboBoxItem Content="Pago"/>
                 <ComboBoxItem Content="Pendente"/>
             </ComboBox>
-            <ComboBox x:Name="cbCategoriaDespesas" HorizontalAlignment="Left" Margin="13,161,0,0" VerticalAlignment="Top" Width="160">
+            <ComboBox x:Name="cbCategoriaDespesas" 
+                      HorizontalAlignment="Left" Margin="13,161,0,0" VerticalAlignment="Top" Width="160">
                 <ComboBoxItem Content="Alimentação"/>
                 <ComboBoxItem Content="Animais"/>
                 <ComboBoxItem Content="Fixos"/>
@@ -571,7 +580,8 @@
         </Grid>
 
         <Grid x:Name="gdFiltrar" HorizontalAlignment="Left" Height="335" Margin="175,61,0,0" VerticalAlignment="Top" Width="327" Background="#FFF1EFF1" Grid.ColumnSpan="2">
-            <ComboBox x:Name="cbFiltrar" HorizontalAlignment="Left" Margin="11,7,0,0" VerticalAlignment="Top" Width="148" SelectionChanged="cbFiltrar_SelectionChanged">
+            <ComboBox x:Name="cbFiltrar" 
+                      HorizontalAlignment="Left" Margin="11,7,0,0" VerticalAlignment="Top" Width="148" SelectionChanged="cbFiltrar_SelectionChanged">
                 <ComboBoxItem Content="Despesas"/>
                 <ComboBoxItem Content="Receitas" />
             </ComboBox>
@@ -667,7 +677,8 @@
                     </ComboBox>
                 </Grid>
             </StackPanel>
-            <Button x:Name="btnDespesaBuscar" Content="Buscar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="40,243,0,0" VerticalAlignment="Top" Width="132" Height="66" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnBuscar_Click">
+            <Button x:Name="btnDespesaBuscar" 
+                    Content="Buscar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="40,243,0,0" VerticalAlignment="Top" Width="132" Height="66" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnBuscar_Click">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}" >
                         <ContentControl x:Name="btnPersonalizado">
@@ -683,7 +694,8 @@
                     </ControlTemplate>
                 </Button.Template>
             </Button>
-            <Button x:Name="btnLimparFiltrar" Content="Limpar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="194,243,0,0" VerticalAlignment="Top" Width="76" Height="66" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnLimparFiltrar_Click">
+            <Button x:Name="btnLimparFiltrar" 
+                    Content="Limpar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="194,243,0,0" VerticalAlignment="Top" Width="76" Height="66" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnLimparFiltrar_Click">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}" >
                         <ContentControl x:Name="btnPersonalizado">
@@ -702,7 +714,8 @@
 
         </Grid>
 
-        <DataGrid x:Name="dgReceitas" HeadersVisibility="Column" Margin="5,60.333,3,10.667" RenderTransformOrigin="0.5,0.5" ScrollViewer.CanContentScroll="True" UseLayoutRounding="False" AutoGenerateColumns="False" CanUserResizeColumns="False" GridLinesVisibility="None" CanUserResizeRows="False" Grid.ColumnSpan="2" SelectionChanged="dgReceitas_SelectionChanged" Background="#FFF1EFF1" BorderThickness="0" CanUserAddRows="false" Grid.Column="1">
+        <DataGrid x:Name="dgReceitas" 
+                  HeadersVisibility="Column" Margin="5,60.333,3,10.667" RenderTransformOrigin="0.5,0.5" ScrollViewer.CanContentScroll="True" UseLayoutRounding="False" AutoGenerateColumns="False" CanUserResizeColumns="False" GridLinesVisibility="None" CanUserResizeRows="False" Grid.ColumnSpan="2" SelectionChanged="dgReceitas_SelectionChanged" Background="#FFF1EFF1" BorderThickness="0" CanUserAddRows="false" Grid.Column="1">
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="Background" Value="#292C33" />
@@ -730,7 +743,6 @@
                 </Style>
             </DataGrid.RowStyle>
             <DataGrid.Columns>
-
                 <DataGridTextColumn Binding="{Binding id}" Header="Código" Visibility="Hidden">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="{x:Type DataGridCell}">
@@ -747,11 +759,9 @@
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
                 </DataGridTextColumn>
-
                 <DataGridTextColumn Binding="{Binding data_insercao, StringFormat=\{0:dd/MM/yyyy\}}" Header="Data Inser." Width="1*">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="{x:Type DataGridCell}">
-                            <Setter Property="Margin" Value="3,0,0,0"/>
                             <Setter Property="VerticalAlignment" Value="Center" />
                         </Style>
                     </DataGridTextColumn.CellStyle>
@@ -763,12 +773,16 @@
                             <Setter Property="FontSize" Value="14" />
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.Padding" Value="6,0,0,0" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-
                 <DataGridTextColumn Binding="{Binding descricao}" Header="Descrição" Width="3*">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="{x:Type DataGridCell}">
-                            <Setter Property="Margin" Value="3,0,0,0"/>
                             <Setter Property="VerticalAlignment" Value="Center" />
                         </Style>
                     </DataGridTextColumn.CellStyle>
@@ -780,12 +794,16 @@
                             <Setter Property="FontSize" Value="14" />
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.Padding" Value="6,0,0,0" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-
                 <DataGridTextColumn Binding="{Binding categoria}" Header="Categoria" Width="1*">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="{x:Type DataGridCell}">
-                            <Setter Property="Margin" Value="3,0,0,0"/>
                             <Setter Property="VerticalAlignment" Value="Center" />
                         </Style>
                     </DataGridTextColumn.CellStyle>
@@ -795,14 +813,18 @@
                             <Setter Property="Background" Value="#292C33" />
                             <Setter Property="Foreground" Value="#FFDAD7DA" />
                             <Setter Property="FontSize" Value="14" />
-                        </Style>
+                        </Style>                        
                     </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.Padding" Value="6,0,0,0" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-
                 <DataGridTextColumn Binding="{Binding valor, StringFormat='#,##0.00', ConverterCulture='pt-BR'}" Header="Valor" Width="1*">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="{x:Type DataGridCell}">
-                            <Setter Property="Margin" Value="3,0,0,0"/>
                             <Setter Property="VerticalAlignment" Value="Center" />
                         </Style>
                     </DataGridTextColumn.CellStyle>
@@ -814,11 +836,17 @@
                             <Setter Property="FontSize" Value="14" />
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.Padding" Value="6,0,0,0" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
-
             </DataGrid.Columns>
         </DataGrid>
-        <DataGrid x:Name="dgDespesas" HeadersVisibility="Column" Margin="5,60,3,10" RenderTransformOrigin="0.5,0.5" ScrollViewer.CanContentScroll="True" UseLayoutRounding="False" AutoGenerateColumns="False" CanUserResizeColumns="False" GridLinesVisibility="None" CanUserResizeRows="False" Grid.ColumnSpan="2" SelectionChanged="dgDespesas_SelectionChanged" Background="#FFF1EFF1" BorderThickness="0" CanUserAddRows="false" Grid.Column="1">
+        <DataGrid x:Name="dgDespesas"
+                  HeadersVisibility="Column" Margin="5,60,3,10" RenderTransformOrigin="0.5,0.5" ScrollViewer.CanContentScroll="True" UseLayoutRounding="False" AutoGenerateColumns="False" CanUserResizeColumns="False" GridLinesVisibility="None" CanUserResizeRows="False" Grid.ColumnSpan="2" SelectionChanged="dgDespesas_SelectionChanged" Background="#FFF1EFF1" BorderThickness="0" CanUserAddRows="false" Grid.Column="1">
             <DataGrid.Resources>
                 <Style TargetType="{x:Type DataGridColumnHeader}">
                     <Setter Property="Background" Value="#292C33" />
@@ -826,7 +854,7 @@
                     <Setter Property="Height" Value="25" />
                     <Setter Property="FontSize" Value="14" />
                 </Style>
-                <Style TargetType="{x:Type DataGridCell}">
+                <Style TargetType="{x:Type DataGridCell}">                    
                     <Setter Property="Template">
                         <Setter.Value>
                             <ControlTemplate TargetType="{x:Type DataGridCell}">
@@ -866,7 +894,6 @@
                 <DataGridTextColumn Binding="{Binding data_vencimento, StringFormat=\{0:dd/MM/yyyy\}}" Header="Data Venc." Width="1.6*">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="{x:Type DataGridCell}">
-                            <Setter Property="Margin" Value="3,0,0,0"/>
                             <Setter Property="VerticalAlignment" Value="Center" />
                         </Style>
                     </DataGridTextColumn.CellStyle>
@@ -878,11 +905,16 @@
                             <Setter Property="FontSize" Value="14" />
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.Padding" Value="6,0,0,0" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding estado}" Header="Status" Width="1.3*" SortMemberPath="estado">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="{x:Type DataGridCell}">
-                            <Setter Property="Margin" Value="3,0,0,0"/>
                             <Setter Property="VerticalAlignment" Value="Center" />
                         </Style>
                     </DataGridTextColumn.CellStyle>
@@ -894,12 +926,16 @@
                             <Setter Property="FontSize" Value="14" />
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.Padding" Value="6,0,0,0" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding nome}" Header="Nome" Width="4*">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="{x:Type DataGridCell}">
-                            <Setter Property="Margin" Value="3,0,0,0"/>
-                            <Setter Property="Padding" Value="7,0,0,0"/>
                             <Setter Property="VerticalAlignment" Value="Center" />
                         </Style>
                     </DataGridTextColumn.CellStyle>
@@ -911,11 +947,16 @@
                             <Setter Property="FontSize" Value="14" />
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.Padding" Value="6,0,0,0" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding empresa}"  Header="Empresa" Width="2*">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="{x:Type DataGridCell}">
-                            <Setter Property="Margin" Value="3,0,0,0"/>
                             <Setter Property="VerticalAlignment" Value="Center" />
                         </Style>
                     </DataGridTextColumn.CellStyle>
@@ -927,11 +968,16 @@
                             <Setter Property="FontSize" Value="14" />
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.Padding" Value="6,0,0,0" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding categoria}" Header="Categoria" Width="2*">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="{x:Type DataGridCell}">
-                            <Setter Property="Margin" Value="3,0,0,0"/>
                             <Setter Property="VerticalAlignment" Value="Center" />
                         </Style>
                     </DataGridTextColumn.CellStyle>
@@ -943,11 +989,16 @@
                             <Setter Property="FontSize" Value="14" />
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.Padding" Value="6,0,0,0" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
                 <DataGridTextColumn Binding="{Binding valor, StringFormat='#,##0.00', ConverterCulture='pt-BR'}" Header="Valor" Width="1.25*">
                     <DataGridTextColumn.CellStyle>
                         <Style TargetType="{x:Type DataGridCell}">
-                            <Setter Property="Margin" Value="3,0,0,0"/>
                             <Setter Property="VerticalAlignment" Value="Center" />
                         </Style>
                     </DataGridTextColumn.CellStyle>
@@ -959,6 +1010,12 @@
                             <Setter Property="FontSize" Value="14" />
                         </Style>
                     </DataGridTextColumn.HeaderStyle>
+                    <DataGridTextColumn.ElementStyle>
+                        <Style>
+                            <Setter Property="TextBlock.TextWrapping" Value="Wrap" />
+                            <Setter Property="TextBlock.Padding" Value="6,0,0,0" />
+                        </Style>
+                    </DataGridTextColumn.ElementStyle>
                 </DataGridTextColumn>
             </DataGrid.Columns>
         </DataGrid>
@@ -1042,7 +1099,8 @@
         </Grid>
 
         <Grid x:Name="gdPainelLateral" Background="#FF083A5B" HorizontalAlignment="Left" Grid.IsSharedSizeScope="True" Width="172" Margin="-1,0,0,0" >
-            <Button x:Name="btnObjetivos" Content="Objetivos" HorizontalAlignment="Left" Margin="0,321,0,0" VerticalAlignment="Top" Width="172" Height="64" BorderBrush="{x:Null}" Background="#FF083A5B" FontFamily="Century Gothic" FontSize="18" Foreground="#FFDAD7DA" Click="btnObjetivos_Click">
+            <Button x:Name="btnObjetivos" 
+                    Content="Objetivos" HorizontalAlignment="Left" Margin="0,321,0,0" VerticalAlignment="Top" Width="172" Height="64" BorderBrush="{x:Null}" Background="#FF083A5B" FontFamily="Century Gothic" FontSize="18" Foreground="#FFDAD7DA" Click="btnObjetivos_Click">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}">
                         <ContentControl x:Name="btnPersonalizado">
@@ -1059,7 +1117,8 @@
                 </Button.Template>
             </Button>
         </Grid>
-        <Button x:Name="btnDespesas" Background="#FF083A5B" Content="Despesas" Margin="-1,125,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="172" Height="65" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFDAD7DA" Click="btnDespesas_Click">
+        <Button x:Name="btnDespesas" 
+                Background="#FF083A5B" Content="Despesas" Margin="-1,125,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" Width="172" Height="65" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFDAD7DA" Click="btnDespesas_Click">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}" >
                     <ContentControl x:Name="btnPersonalizado">
@@ -1075,7 +1134,8 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button x:Name="btnReceitas" Content="Receitas" HorizontalAlignment="Left" Margin="-1,190,0,0" VerticalAlignment="Top" Width="172" Height="65" BorderBrush="{x:Null}" Background="#FF083A5B" FontFamily="Century Gothic" FontSize="18" Foreground="#FFDAD7DA" Click="btnReceitas_Click">
+        <Button x:Name="btnReceitas" 
+                Content="Receitas" HorizontalAlignment="Left" Margin="-1,190,0,0" VerticalAlignment="Top" Width="172" Height="65" BorderBrush="{x:Null}" Background="#FF083A5B" FontFamily="Century Gothic" FontSize="18" Foreground="#FFDAD7DA" Click="btnReceitas_Click">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <ContentControl x:Name="btnPersonalizado">
@@ -1091,7 +1151,8 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button x:Name="btnFiltrar" Content="Filtrar" HorizontalAlignment="Left" Margin="-1,255,0,0" VerticalAlignment="Top" Width="172" Height="65" BorderBrush="{x:Null}" Background="#FF083A5B" FontFamily="Century Gothic" FontSize="18" Foreground="#FFDAD7DA" Click="btnFiltrar_Click">
+        <Button x:Name="btnFiltrar" 
+                Content="Filtrar" HorizontalAlignment="Left" Margin="-1,255,0,0" VerticalAlignment="Top" Width="172" Height="65" BorderBrush="{x:Null}" Background="#FF083A5B" FontFamily="Century Gothic" FontSize="18" Foreground="#FFDAD7DA" Click="btnFiltrar_Click">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <ContentControl x:Name="btnPersonalizado">
@@ -1107,7 +1168,8 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Button x:Name="btnConfig" Content="Configurações" HorizontalAlignment="Left" Margin="-1,488,0,0" VerticalAlignment="Top" Width="172" Height="65" BorderBrush="{x:Null}" Background="#FF083A5B" FontFamily="Century Gothic" FontSize="18" Foreground="#FFDAD7DA" Click="btnConfig_Click">
+        <Button x:Name="btnConfig" 
+                Content="Configurações" HorizontalAlignment="Left" Margin="-1,488,0,0" VerticalAlignment="Top" Width="172" Height="65" BorderBrush="{x:Null}" Background="#FF083A5B" FontFamily="Century Gothic" FontSize="18" Foreground="#FFDAD7DA" Click="btnConfig_Click">
             <Button.Template>
                 <ControlTemplate TargetType="{x:Type Button}">
                     <ContentControl x:Name="btnPersonalizado">
@@ -1123,7 +1185,8 @@
                 </ControlTemplate>
             </Button.Template>
         </Button>
-        <Grid x:Name="gdDuplicar" HorizontalAlignment="Left" Height="123" Margin="173,472,0,0" VerticalAlignment="Top" Width="332" Visibility="Hidden" Grid.ColumnSpan="2">
+        <Grid x:Name="gdDuplicar" 
+              HorizontalAlignment="Left" Height="123" Margin="173,472,0,0" VerticalAlignment="Top" Width="332" Visibility="Hidden" Grid.ColumnSpan="2">
             <Button x:Name="btnDuplicar" Content="Duplicar" Background="#FF1275B6" HorizontalAlignment="Left" Margin="10,26,0,0" VerticalAlignment="Top" Width="103" Height="88" BorderBrush="{x:Null}" FontFamily="Century Gothic" FontSize="18" Foreground="#FFE2D8E2" Click="btnDespesas_Click">
                 <Button.Template>
                     <ControlTemplate TargetType="{x:Type Button}" >
@@ -1149,6 +1212,7 @@
             <ComboBox x:Name="cbManterDias" HorizontalAlignment="Left" Margin="229,57,0,0" VerticalAlignment="Top" Width="46"/>
             <ComboBox x:Name="cbManterValores" HorizontalAlignment="Left" Margin="229,84,0,0" VerticalAlignment="Top" Width="46"/>
         </Grid>
+        
         <Label Content="Saldo Atual:" HorizontalAlignment="Left" Margin="0,25,0,0" VerticalAlignment="Top" RenderTransformOrigin="-0.676,-0.385" FontWeight="Bold" Height="24" Width="79" Grid.Column="1"/>
         <TextBlock x:Name="tbSaldoAtual" Height="23" Margin="79,28,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Background="{x:Null}" FontSize="14" HorizontalAlignment="Left" Width="77" Grid.Column="1"/>
 
