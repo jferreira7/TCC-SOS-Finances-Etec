@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Navigation;
+using tcc_windows_version.View;
 
 namespace tcc_windows_version.Business
 {
@@ -61,6 +62,31 @@ namespace tcc_windows_version.Business
             {
                 return null;
             }
+        }
+        public void Registrar(Usuario usuario)
+        {
+            if (usuario.nome != "" && usuario.email != "" && usuario.senha != "")
+            {
+                UsuarioValida uv = new UsuarioValida();
+                uv.Register(usuario);
+            }
+            else
+            {
+                Mensagem.mensagemErro = "Preencha todos os campos!";
+            }
+        }
+        public int ChecarEmail(string email)
+        {
+            if (email != "")
+            {
+                UsuarioValida uv = new UsuarioValida();
+                return uv.CheckEmail(email);
+            }
+            else
+            {
+                
+                return 3;
+            }  
         }
     }
 }

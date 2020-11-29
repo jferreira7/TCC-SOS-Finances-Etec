@@ -62,6 +62,9 @@
   <PropertyGroup>
     <SignManifests>true</SignManifests>
   </PropertyGroup>
+  <PropertyGroup>
+    <ApplicationIcon>Resources\logoIcon.ico</ApplicationIcon>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="MySql.Data">
       <HintPath>..\..\Despesas\Despesas\connection\MySql.Data.dll</HintPath>
@@ -95,6 +98,9 @@
     <Compile Include="Database\UsuarioValida.cs" />
     <Compile Include="Model\Objetivos.cs" />
     <Compile Include="Model\Usuario.cs" />
+    <Compile Include="View\Cadastro.xaml.cs">
+      <DependentUpon>Cadastro.xaml</DependentUpon>
+    </Compile>
     <Compile Include="View\Configurações.xaml.cs">
       <DependentUpon>Configurações.xaml</DependentUpon>
     </Compile>
@@ -119,6 +125,10 @@
       <DependentUpon>Principal.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="View\Cadastro.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="View\Configurações.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -202,6 +212,9 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Resources\iconeAdicionar.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Resource Include="Resources\logoIcon.ico" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

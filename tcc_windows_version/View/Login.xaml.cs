@@ -162,7 +162,8 @@ namespace tcc_windows_version.View
 
         private void btnCadastrar_Click(object sender, RoutedEventArgs e)
         {
-
+            Cadastro c = new Cadastro();
+            c.ShowDialog();
         }
         public void mensagemErro(string mensagem)
         {
