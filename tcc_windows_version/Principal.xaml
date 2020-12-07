@@ -869,7 +869,7 @@
             <DataGrid.RowStyle>
                 <Style TargetType="{x:Type DataGridRow}">
                     <Setter Property="Background" Value="#FFF1EFF1" />
-                    <Setter Property="Height" Value="30" />
+                    <Setter Property="MinHeight" Value="30" />
                     <Setter Property="VerticalAlignment" Value="Center" />
                     <Setter Property="FontSize" Value="14" />
                 </Style>

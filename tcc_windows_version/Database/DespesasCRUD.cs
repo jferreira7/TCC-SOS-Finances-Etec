@@ -49,7 +49,7 @@ namespace tcc_windows_version.Database
             {
                 data = new DataTable("despesas");
                 string anoAtual = DateTime.Now.Year.ToString();
-                adpt = new MySqlDataAdapter("select * from despesas where id_usuario = '" + id_usuario + "' and YEAR(data_vencimento) = " + anoAtual + ";", objConexao.Conexao());
+                adpt = new MySqlDataAdapter("select * from despesas where id_usuario = '" + id_usuario + "' and YEAR(data_vencimento) = " + anoAtual + " order by data_vencimento desc;", objConexao.Conexao());
                 adpt.Fill(data);
                 objConexao.Desconectar();
                 return data.DefaultView;
@@ -137,7 +137,7 @@ namespace tcc_windows_version.Database
         }
         public void UpdateStatus(int id)
         {
-            objComando.CommandText = "UPDATE despesas SET estado = 'Atrasado' WHERE data_vencimento < current_date() AND id_usuario = @id";
+            objComando.CommandText = "UPDATE despesas SET estado = 'Atrasado' WHERE data_vencimento < current_date() AND estado = 'Pendente' AND id_usuario = @id";
             objComando.Parameters.Add("@id", MySqlDbType.Int32, 11).Value = id;
 
             try
